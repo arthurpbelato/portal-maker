@@ -1,0 +1,7 @@
+version: '2'
+services:
+  tcc-postgresql:
+    extends:
+      file: postgresql.yml
+      service: tcc-postgresql
+    container_name: tcc-postgres
