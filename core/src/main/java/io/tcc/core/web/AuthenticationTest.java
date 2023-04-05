@@ -4,6 +4,8 @@ import io.tcc.core.models.Mensagem;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,17 +20,28 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationTest {
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String helloWorld() {
         return "Hello World";
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> putString(@RequestBody Mensagem message) {
         log.info(message.getMessage());
         return new ResponseEntity<>(message.getMessage(), HttpStatus.CREATED);
     }
 
+    @PostMapping("/encode")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> encode(@RequestBody Mensagem message) {
+        var encoded = new BCryptPasswordEncoder().encode(message.getMessage());
+        log.info("Encoded message: {}", encoded);
+        return new ResponseEntity<>(encoded, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(@PathVariable("id") Long id) {
         log.info("Deleted o ID: [{}]", id);
         System.out.println();
