@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -18,20 +19,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
-
     @Bean
     @SneakyThrows
     public SecurityFilterChain configure(HttpSecurity httpSecurity) {
         return httpSecurity
                 .httpBasic()
                 .and()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated().and()
-                .userDetailsService(userDetailsService)
-                .httpBasic(Customizer.withDefaults())
-                .csrf().disable()
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("api/**").permitAll()
+                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/internal/**").authenticated()
+                )
+                .httpBasic(Customizer.withDefaults()).csrf().disable()
                 .build();
     }
 

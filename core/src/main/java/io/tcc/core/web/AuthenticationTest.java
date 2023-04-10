@@ -16,23 +16,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
-@RequestMapping("api/oauth")
+@RequestMapping("api")
 public class AuthenticationTest {
 
-    @GetMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/public/hello")
     public String helloWorld() {
         return "Hello World";
     }
 
-    @PostMapping
+    @GetMapping("/internal/oauth")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String helloUser() {
+        return "Olá usuário!!";
+    }
+
+    @PostMapping("/internal/oauth")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> putString(@RequestBody Mensagem message) {
         log.info(message.getMessage());
         return new ResponseEntity<>(message.getMessage(), HttpStatus.CREATED);
     }
 
-    @PostMapping("/encode")
+    @PostMapping("/internal/oauth/encode")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> encode(@RequestBody Mensagem message) {
         var encoded = new BCryptPasswordEncoder().encode(message.getMessage());
@@ -40,7 +45,7 @@ public class AuthenticationTest {
         return new ResponseEntity<>(encoded, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/internal/oauth/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(@PathVariable("id") Long id) {
         log.info("Deleted o ID: [{}]", id);
