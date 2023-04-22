@@ -5,3 +5,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
+server:
+  port: 10000

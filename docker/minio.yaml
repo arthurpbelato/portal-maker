@@ -1,0 +1,10 @@
+version: '2'
+services:
+  tcc-document-minio:
+    image: minio/minio
+    environment:
+      - 'MINIO_ACCESS_KEY=tcc'
+      - 'MINIO_SECRET_KEY=tccsecretkey'
+    ports:
+      - 9000:9000
+    command: server /data
