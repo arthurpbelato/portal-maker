@@ -1,4 +1,4 @@
-package com.tcc.documentserver.config;
+package io.tcc.documentserver.config;
 
 import lombok.Getter;
 import lombok.Setter;

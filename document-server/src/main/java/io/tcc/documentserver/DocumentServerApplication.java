@@ -1,4 +1,4 @@
-package com.tcc.documentserver;
+package io.tcc.documentserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

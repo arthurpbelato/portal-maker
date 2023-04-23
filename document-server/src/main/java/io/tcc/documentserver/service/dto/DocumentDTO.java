@@ -1,5 +1,6 @@
-package com.tcc.documentserver.service.dto;
+package io.tcc.documentserver.service.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentDTO {
+
     private String uuid;
 
+    @NotBlank
     private String base64;
+
 }
