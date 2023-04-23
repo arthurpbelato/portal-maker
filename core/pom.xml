@@ -52,11 +52,6 @@
 			<artifactId>document-server</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!--		<dependency>-->
-<!--			<groupId>io.tcc</groupId>-->
-<!--			<artifactId>document-server</artifactId>-->
-<!--			<version>${project.version}</version>-->
-<!--		</dependency>-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
