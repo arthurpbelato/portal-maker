@@ -49,8 +49,8 @@
 		</dependency>
 		<dependency>
 			<groupId>io.tcc</groupId>
-			<artifactId>document-server</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>document-commons</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

@@ -1,6 +1,6 @@
 package io.tcc.core.service;
 
-import io.tcc.documentserver.service.dto.DocumentDTO;
+import io.tcc.documentcommons.model.DocumentDTO;
 import io.tcc.core.client.DocumentClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

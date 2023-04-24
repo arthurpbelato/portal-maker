@@ -1,7 +1,7 @@
 package io.tcc.documentserver.service;
 
+import io.tcc.documentcommons.model.DocumentDTO;
 import io.tcc.documentserver.config.ApplicationProperties;
-import io.tcc.documentserver.service.dto.DocumentDTO;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.MinioClient;

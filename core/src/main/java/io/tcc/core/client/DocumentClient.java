@@ -1,6 +1,6 @@
 package io.tcc.core.client;
 
-import io.tcc.documentserver.service.dto.DocumentDTO;
+import io.tcc.documentcommons.model.DocumentDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package io.tcc.documentserver.service.dto;
+package io.tcc.documentcommons.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -24,6 +24,7 @@
     </properties>
     <modules>
         <module>document-server</module>
+        <module>document-commons</module>
         <module>core</module>
     </modules>
     <dependencies>

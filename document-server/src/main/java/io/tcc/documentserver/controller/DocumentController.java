@@ -1,7 +1,7 @@
 package io.tcc.documentserver.controller;
 
+import io.tcc.documentcommons.model.DocumentDTO;
 import io.tcc.documentserver.service.DocumentService;
-import io.tcc.documentserver.service.dto.DocumentDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
