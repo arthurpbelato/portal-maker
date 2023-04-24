@@ -5,4 +5,73 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
 
+        <changeSet id="202304042056-01" author="alisson.vighini">
+                <createTable tableName="user" remarks="Tabela que contem informações de usuários">
+                <column name="id" type="uuid" remarks="identificador do usuário">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+                <column name="name" type="varchar(100)" remarks="Nome do usuário">
+                    <constraints nullable="false" unique="true"/>
+                </column>
+                <column name="email" type="varchar(50)" remarks="Email do usuário">
+                    <constraints nullable="false" unique="true"/>
+                </column>
+                <column name="password" type="varchar(100)" remarks="Senha do usuário">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="cpf" type="varchar(11)" remarks="CPF do usuário">
+                    <constraints nullable="false" unique="true"/>
+                </column>
+            </createTable>
+        </changeSet>
+
+    <changeSet id="202304042110-02" author="alisson.vighini">
+        <createTable tableName="role" remarks="Tabela que contem as roles">
+            <column name="id" type="int" remarks="identificador da role">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)" remarks="Nome da role">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202304042113-03" author="alisson.vighini">
+        <insert tableName="role">
+            <column name="id">1</column>
+            <column name="name">ROLE_ADMIN</column>
+        </insert>
+        <insert tableName="role">
+            <column name="id">2</column>
+            <column name="name">ROLE_USER</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="202304042115-04" author="alisson.vighini">
+        <createTable tableName="user_role" remarks="Tabela de relação entre usuario de role">
+            <column name="user_uuid" type="uuid" remarks="identificador do user">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="role_id" type="int" remarks="identificador da role">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202304042117-05" author="alisson.vighini">
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="user_uuid"
+                                 constraintName="fk_u_r_user_uuid"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="202304042118-06" author="alisson.vighini">
+        <addForeignKeyConstraint baseTableName="user_role"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_u_r_role_id"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
 </databaseChangeLog>
