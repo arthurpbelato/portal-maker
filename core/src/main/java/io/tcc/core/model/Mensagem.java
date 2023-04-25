@@ -1,4 +1,4 @@
-package io.tcc.core.models;
+package io.tcc.core.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

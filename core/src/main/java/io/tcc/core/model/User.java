@@ -1,6 +1,5 @@
-package io.tcc.core.models;
+package io.tcc.core.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,13 +41,13 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = { @JoinColumn(name = "user_uuid") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
 
 }

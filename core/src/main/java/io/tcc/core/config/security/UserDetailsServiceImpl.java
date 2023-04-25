@@ -1,6 +1,6 @@
 package io.tcc.core.config.security;
 
-import io.tcc.core.models.SecurityUser;
+import io.tcc.core.model.SecurityUser;
 import io.tcc.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

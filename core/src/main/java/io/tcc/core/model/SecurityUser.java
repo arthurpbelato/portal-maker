@@ -1,4 +1,4 @@
-package io.tcc.core.models;
+package io.tcc.core.model;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,10 @@ public class SecurityUser implements UserDetails {
                 .map(Role::getName)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
+    }
+
+    public String getUserId() {
+        return user.getId().toString();
     }
 
     @Override
