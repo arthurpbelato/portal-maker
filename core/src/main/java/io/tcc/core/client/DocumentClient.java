@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "document", url = "http://localhost:10001/api/document")
+@FeignClient(value = "document", url = "http://localhost:8081/api/document")
 public interface DocumentClient {
 
     /**
