@@ -5,3 +5,9 @@ services:
       file: postgresql.yml
       service: tcc-postgresql
     container_name: tcc-postgres
+
+  tcc-document-minio:
+    extends:
+      file: minio.yml
+      service: tcc-document-minio
+    container_name: tcc-document-minio

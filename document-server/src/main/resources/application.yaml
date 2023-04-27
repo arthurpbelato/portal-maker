@@ -1,0 +1,15 @@
+server:
+  port: 10001
+
+properties:
+  minio:
+    url: http://localhost:9000
+    user: tcc
+    bucket: document
+    password: tccsecretkey
+
+#only for dev purposes
+logging:
+  level:
+    io:
+      tcc: DEBUG
