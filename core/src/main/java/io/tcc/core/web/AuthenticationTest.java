@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
-@RequestMapping("api2")
+@RequestMapping("api")
 public class AuthenticationTest {
 
     @GetMapping("/public/hello")
