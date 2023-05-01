@@ -1,6 +1,6 @@
 package io.tcc.core.web;
 
-import io.tcc.core.models.Mensagem;
+import io.tcc.core.model.Mensagem;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

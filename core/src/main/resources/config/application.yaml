@@ -6,5 +6,5 @@ spring:
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
 server:
-  port: 10000
+  port: 8080
 #    drop-first: true
