@@ -1,12 +1,15 @@
 server:
   port: 8081
 
-properties:
-  minio:
-    url: http://localhost:9000
-    user: tcc
-    bucket: document
-    password: tccsecretkey
+cloud:
+  aws:
+    s3:
+      bucket-name: document
+      path-style-enabled: true
+      url: http://localhost:9000
+    credential:
+      access-key: tcc
+      secret-key: tccsecretkey
 
 #only for dev purposes
 logging:

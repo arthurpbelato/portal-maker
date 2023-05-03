@@ -1,4 +1,4 @@
-package io.tcc.core.service;
+package io.tcc.core.service.interfaces;
 
 import io.tcc.documentcommons.model.DocumentDTO;
 import org.springframework.web.bind.annotation.PathVariable;

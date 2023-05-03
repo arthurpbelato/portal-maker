@@ -1,4 +1,4 @@
-package io.tcc.core.service;
+package io.tcc.core.service.interfaces;
 
 import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;

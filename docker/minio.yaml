@@ -1,10 +1,13 @@
 version: '2'
 services:
   tcc-document-minio:
-    image: minio/minio
+    image: quay.io/minio/minio:latest
     environment:
-      - 'MINIO_ACCESS_KEY=tcc'
-      - 'MINIO_SECRET_KEY=tccsecretkey'
+      - 'MINIO_ROOT_USER=tcc'
+      - 'MINIO_ROOT_PASSWORD=tccsecretkey'
     ports:
-      - 9000:9000
-    command: server /data
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    expose:
+      - "9000"

@@ -29,7 +29,7 @@ public class DocumentController {
     public ResponseEntity<String> save(@RequestBody @Valid DocumentDTO documentDTO){
         log.debug("document-server - DocumentController#save - start");
         documentService.save(documentDTO);
-        return ResponseEntity.ok(documentDTO.getUuid());
+        return ResponseEntity.ok(documentDTO.getUuid().toString());
     }
 
     @GetMapping("/{uuid}")

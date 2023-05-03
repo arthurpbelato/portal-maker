@@ -6,19 +6,22 @@ import io.tcc.core.repository.UserRepository;
 import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
 import io.tcc.core.service.dto.UserRegisterDTO;
+import io.tcc.core.service.interfaces.UserService;
 import io.tcc.core.service.mapper.BasicUserMapper;
 import io.tcc.core.service.mapper.UserProfileMapper;
 import io.tcc.core.service.mapper.UserRegisterMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final BasicUserMapper basicUserMapper;

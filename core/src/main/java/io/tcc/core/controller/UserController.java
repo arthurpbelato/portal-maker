@@ -1,9 +1,9 @@
 package io.tcc.core.controller;
 
-import io.tcc.core.service.UserService;
 import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
 import io.tcc.core.service.dto.UserRegisterDTO;
+import io.tcc.core.service.interfaces.UserService;
 import io.tcc.core.util.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
