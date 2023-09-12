@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.UUID;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthenticationUtil {
 
@@ -18,6 +20,10 @@ public class AuthenticationUtil {
 
     public static String getId() {
         return getLoggedUser().getUserId();
+    }
+
+    public static UUID getUuid() {
+        return UUID.fromString(getLoggedUser().getUserId());
     }
 
 }

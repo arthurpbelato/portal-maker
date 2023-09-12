@@ -11,12 +11,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
+//TODO: fix logs
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentMapper mapper;
@@ -26,8 +28,12 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String save(DocumentDTO documentDTO) {
         DocumentDTO savedDocument = saveDto(documentDTO);
-        String response = client.save(savedDocument);
-        return response;
+        try{
+            client.save(savedDocument);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return savedDocument.getId();
     }
 
     @Override
@@ -36,15 +42,38 @@ public class DocumentServiceImpl implements DocumentService {
         try {
             response = client.getDocument(uuid);
         } catch (Exception e){
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
             response = mapper.toDto(repository.findById(UUID.fromString(uuid)).orElseGet(Document::new));
         }
         return response;
     }
 
     @Override
+    //TODO: review
     public void delete(String uuid) {
         client.delete(uuid);
+    }
+
+    @Override
+    public List<String> saveAll(List<DocumentDTO> dtoList) {
+        return dtoList.stream().map(this::save).toList();
+    }
+
+    @Override
+    public List<DocumentDTO> getByIds(List<String> ids) {
+        return null;
+    }
+
+    public List<DocumentDTO> getById(String postId) {
+//        List<DocumentDTO> response;
+//        try {
+//            response = client.getDocument()
+//        } catch (Exception e){
+//            log.error(e.getMessage());
+//            response = mapper.toDto(repository.findById(UUID.fromString(uuid)).orElseGet(Document::new));
+//        }
+//        return response;
+        return null;
     }
 
     private DocumentDTO saveDto(DocumentDTO documentDTO) {

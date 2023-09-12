@@ -1,13 +1,17 @@
 package io.tcc.core.service.interfaces;
 
 import io.tcc.documentcommons.model.DocumentDTO;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 public interface DocumentService {
-    String save(@RequestBody DocumentDTO documentDTO);
+    String save(DocumentDTO documentDTO);
 
-    DocumentDTO getDocument(@PathVariable("uuid") String uuid);
+    DocumentDTO getDocument(String uuid);
 
-    void delete(@PathVariable("uuid") String uuid);
+    void delete(String uuid);
+
+    List<String> saveAll(List<DocumentDTO> dtoList);
+
+    List<DocumentDTO> getByIds(List<String> ids);
 }

@@ -21,6 +21,7 @@ import java.util.UUID;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
+//TODO: LOGS
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;

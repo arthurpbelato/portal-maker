@@ -17,7 +17,7 @@ public class S3ObjectToDocumentDtoConverter implements Converter<S3Object, Docum
     @SneakyThrows
     public DocumentDTO convert(S3Object source) {
         return DocumentDTO.builder()
-                .uuid(UUID.fromString(source.getKey()))
+                .id(source.getKey())
                 .base64(IOUtils.toString(source.getObjectContent(), StandardCharsets.UTF_8))
                 .extension(source.getObjectMetadata().getUserMetaDataOf("extension"))
                 .title(source.getObjectMetadata().getUserMetaDataOf("filename"))

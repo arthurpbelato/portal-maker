@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -32,7 +33,7 @@ public class DocumentService {
         var metadata = dtoToObjectMetadataConverter.convert(document);
 
         var putObjectRequest = new PutObjectRequest(applicationProperties.getS3().getBucketName(),
-                document.getUuid().toString(), file, metadata);
+                document.getId().toString(), file, metadata);
         client.putObject(putObjectRequest);
     }
 
@@ -42,6 +43,12 @@ public class DocumentService {
 
         final var s3Object = client.getObject(applicationProperties.getS3().getBucketName(), uuid);
         return s3ObjectToDocumentDtoConverter.convert(s3Object);
+    }
+
+    //TODO review
+    public List<DocumentDTO> getDocumentsByIds(List<String> ids){
+        log.debug("document-server - DocumentService#getDocumentsByIds - start");
+        return ids.stream().map(this::getDocument).toList();
     }
 
     @SneakyThrows

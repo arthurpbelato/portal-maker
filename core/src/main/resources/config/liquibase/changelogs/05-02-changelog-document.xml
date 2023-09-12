@@ -6,9 +6,9 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
 
 
-    <changeSet id="1683082272491-1" author="arthur.belato">
+    <changeSet id="1684026906701-1" author="arthur.belato">
         <createTable tableName="document">
-            <column name="uuid" type="UUID">
+            <column name="id" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_document"/>
             </column>
             <column name="base64" type="oid"/>
