@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationTest {
 
     @GetMapping("/public/hello")
-    public String helloWorld() {
-        return "Hello World";
+    public ResponseEntity<String> helloWorld() {
+        return new ResponseEntity<>("Hello World", HttpStatus.OK);
     }
 
     @GetMapping("/internal/oauth")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String helloUser() {
-        return "Olá usuário!!";
+    public ResponseEntity<String> helloUser() {
+        return new ResponseEntity<>("Olá usuário!!", HttpStatus.OK);
     }
 
     @PostMapping("/internal/oauth")

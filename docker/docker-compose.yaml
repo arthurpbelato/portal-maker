@@ -2,12 +2,12 @@ version: '2'
 services:
   tcc-postgresql:
     extends:
-      file: postgresql.yml
+      file: postgresql.yaml
       service: tcc-postgresql
     container_name: tcc-postgres
 
   tcc-document-minio:
     extends:
-      file: minio.yml
+      file: minio.yaml
       service: tcc-document-minio
     container_name: tcc-document-minio

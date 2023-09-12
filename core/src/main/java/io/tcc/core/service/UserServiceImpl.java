@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -35,5 +36,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserProfileDTO getProfile(String id) throws Exception{
         return repository.findById(UUID.fromString(id)).map(userProfileMapper::toDto).orElseThrow(Exception::new);
+    }
+
+    @Override
+    public List<UserProfileDTO> getProfiles() {
+        return repository.findAll().stream().map(userProfileMapper::toDto).toList();
     }
 }
