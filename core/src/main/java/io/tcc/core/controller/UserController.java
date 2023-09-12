@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("api/user")
@@ -35,4 +37,12 @@ public class UserController {
         UserProfileDTO userProfileDTO = service.getProfile(AuthenticationUtil.getId());
         return ResponseEntity.ok(userProfileDTO);
     }
+
+    @GetMapping("/internal/list")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<UserProfileDTO>> getProfiles() {
+        List<UserProfileDTO> userProfileDTO = service.getProfiles();
+        return ResponseEntity.ok(userProfileDTO);
+    }
+
 }
