@@ -1,5 +1,7 @@
 package io.tcc.documentserver.config;
 
+import io.tcc.documentserver.config.properties.CredentialsProperties;
+import io.tcc.documentserver.config.properties.S3Properties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,16 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "properties")
+@ConfigurationProperties(prefix = "cloud.aws")
 public class ApplicationProperties {
-    MinioProperties minio = new MinioProperties();
-
-    @Getter
-    @Setter
-    public static class MinioProperties{
-        private String url;
-        private String user;
-        private String password;
-        private String bucket;
-    }
+    private CredentialsProperties credential = new CredentialsProperties();
+    private S3Properties s3 = new S3Properties();
 }
+
+
+
+
