@@ -12,7 +12,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -63,6 +62,5 @@ public class Post implements Serializable {
     @Column
     private String subject;
 
-    @Transient
-    private List<String> tags;
+//    private List<String> tags;
 }
