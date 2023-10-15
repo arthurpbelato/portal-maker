@@ -12,6 +12,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -55,12 +57,16 @@ public class Post implements Serializable {
     private List<Document> model3d = new ArrayList<>();
 
     @ManyToOne(optional = false)
-    
+
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column
     private String subject;
 
-//    private List<String> tags;
+    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<String> tags;
+
+
 }
