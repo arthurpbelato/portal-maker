@@ -28,6 +28,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity httpSecurity) {
         return httpSecurity
                 .httpBasic()
+                .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
                 .and()
                 .authorizeHttpRequests(
                         requests -> requests

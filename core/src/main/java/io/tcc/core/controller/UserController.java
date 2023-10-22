@@ -1,5 +1,7 @@
 package io.tcc.core.controller;
 
+import io.tcc.core.config.security.TokenService;
+import io.tcc.core.model.SecurityUser;
 import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
 import io.tcc.core.service.dto.UserRegisterDTO;
@@ -10,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +29,21 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final TokenService tokenService;
+
+    @PostMapping("/public/login")
+    public ResponseEntity<String> login(@RequestBody BasicUserDTO basicUserDTO) {
+        try {
+            var user = new UsernamePasswordAuthenticationToken(basicUserDTO.getName(), basicUserDTO.getPassword());
+            var auth = authenticationManager.authenticate(user);
+            return new ResponseEntity<>(tokenService.generateToken((SecurityUser) auth.getPrincipal()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("", HttpStatus.UNAUTHORIZED);
+        }
+    }
 
     @PostMapping("/public/register")
     public ResponseEntity<BasicUserDTO> register(@RequestBody UserRegisterDTO userProfileDTO) {
