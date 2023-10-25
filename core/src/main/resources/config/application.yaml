@@ -2,7 +2,7 @@ spring:
   datasource:
     username: tcc
     password: tcc
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
 server:
