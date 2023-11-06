@@ -1,10 +1,16 @@
 package io.tcc.core.web;
 
+import io.tcc.core.config.security.TokenService;
 import io.tcc.core.model.Mensagem;
+import io.tcc.core.model.SecurityUser;
+import io.tcc.core.service.dto.BasicUserDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RestController
 @RequestMapping("api")
+@RequiredArgsConstructor
 public class AuthenticationTest {
+
+    private final AuthenticationManager authenticationManager;
+
+    private final TokenService tokenService;
 
     @GetMapping("/public/hello")
     public ResponseEntity<String> helloWorld() {
@@ -50,6 +61,17 @@ public class AuthenticationTest {
     public void delete(@PathVariable("id") Long id) {
         log.info("Deleted o ID: [{}]", id);
         System.out.println();
+    }
+
+    @PostMapping("/public/login")
+    public ResponseEntity<String> login(@RequestBody BasicUserDTO basicUserDTO) {
+        try {
+            var user = new UsernamePasswordAuthenticationToken(basicUserDTO.getName(), basicUserDTO.getPassword());
+            var auth = authenticationManager.authenticate(user);
+            return new ResponseEntity<>(tokenService.generateToken((SecurityUser) auth.getPrincipal()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Usuário Não reconhecido", HttpStatus.OK);
+        }
     }
 
 }
