@@ -1,6 +1,7 @@
 package io.tcc.core.web;
 
 import io.tcc.core.model.Mensagem;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RestController
 @RequestMapping("api")
+@RequiredArgsConstructor
 public class AuthenticationTest {
 
     @GetMapping("/public/hello")
