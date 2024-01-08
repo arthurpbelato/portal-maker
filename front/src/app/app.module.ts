@@ -18,6 +18,7 @@ import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import {AuthInterceptor} from "./components/Interceptors/auth.interceptor";
 import { MessagesModule } from 'primeng/messages';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MessagesModule } from 'primeng/messages';
     HomeComponent,
     TopbarComponent,
     LoginComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
