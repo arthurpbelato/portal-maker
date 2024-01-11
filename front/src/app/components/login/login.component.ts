@@ -40,7 +40,8 @@ export class LoginComponent implements OnInit {
     this.user = this.form.value as BasicUserDTO;
     this.userService.login(this.user).subscribe(
       resp => {
-        localStorage.setItem('token', resp.toString());
+        localStorage.setItem('token', <string>resp.token);
+        localStorage.setItem('userName', <string>resp.name);
         this.router.navigate(['/home']);
       },
       error => {
@@ -52,5 +53,12 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+
+    this.router.navigate(['/home']);
   }
 }

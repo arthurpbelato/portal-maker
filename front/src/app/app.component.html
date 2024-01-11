@@ -1,5 +1,8 @@
 <div class="grid grid-nogutter">
   <div class="col-12">
+    <div *ngIf="router.url !== '/login'">
+      <app-topbar></app-topbar>
+    </div>
     <router-outlet></router-outlet>
   </div>
 </div>

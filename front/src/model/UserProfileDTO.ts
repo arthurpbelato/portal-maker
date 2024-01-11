@@ -1,12 +1,11 @@
+import {RoleDTO} from "./RoleDTO";
 
 export class UserProfileDTO {
+  name?: String
 
-  // @ts-ignore
-  name: String
+  email?: String
 
-  // @ts-ignore
-  email: String
+  cpf?: String
 
-  // @ts-ignore
-  cpf: String
+  roles?: RoleDTO[];
 }

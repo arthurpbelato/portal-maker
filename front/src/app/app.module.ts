@@ -19,6 +19,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import {AuthInterceptor} from "./components/Interceptors/auth.interceptor";
 import { MessagesModule } from 'primeng/messages';
 import { UserComponent } from './components/user/user.component';
+import { TableModule } from 'primeng/table';
+import { EditorModule } from 'primeng/editor';
+import { TagModule } from 'primeng/tag';
+import { UserFormComponent } from './components/user/form/user-form.component';
+import { InputMaskModule } from 'primeng/inputmask';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -27,6 +33,7 @@ import { UserComponent } from './components/user/user.component';
     TopbarComponent,
     LoginComponent,
     UserComponent,
+    UserFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,12 @@ import { UserComponent } from './components/user/user.component';
     InputTextModule,
     CheckboxModule,
     StyleClassModule,
-    MessagesModule
+    MessagesModule,
+    TableModule,
+    EditorModule,
+    TagModule,
+    InputMaskModule,
+    MultiSelectModule
   ],
   providers: [
     UserService,
