@@ -1,8 +1,6 @@
 export class BasicUserDTO {
 
-  // @ts-ignore
-  name: string
+  name?: string
 
-  // @ts-ignore
-  password: string
+  password?: string
 }

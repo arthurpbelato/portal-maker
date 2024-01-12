@@ -1,16 +1,37 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
+  providers: [LoginComponent],
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent implements OnInit {
+
+  @Output() logoutEvent = new EventEmitter();
+
   items: MenuItem[] | undefined;
+  wasLogged: boolean = false;
+  userName: string | null = "";
+
+  constructor(private loginComponent: LoginComponent) {}
 
   ngOnInit(): void {
+    this.loadUserName();
+
     this.items = [
+      {
+        label: 'Home',
+        routerLink: '/home',
+        icon: 'pi pi-fw pi-home'
+      },
+      {
+        label: 'Usuários',
+        routerLink: '/user',
+        icon: 'pi pi-fw pi-users'
+      },
       {
         label: 'Events',
         icon: 'pi pi-fw pi-calendar',
@@ -42,10 +63,22 @@ export class TopbarComponent implements OnInit {
         ]
       },
       {
-        label: 'Quit',
-        icon: 'pi pi-fw pi-power-off'
+        label: 'Logout',
+        icon: 'pi pi-fw pi-power-off',
+        command: () => this.logout()
       }
     ];
+  }
+
+  loadUserName() {
+    this.wasLogged = localStorage.getItem('token') !== null;
+    var name = localStorage.getItem('userName');
+    this.userName = name ? name : "Visitante";
+  }
+
+  logout() {
+    this.loginComponent.logout();
+    this.ngOnInit();
   }
 
 }

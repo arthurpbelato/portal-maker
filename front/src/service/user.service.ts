@@ -3,8 +3,10 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {UserProfileDTO} from "../model/UserProfileDTO";
+import {BasicUserDTO} from "../model/BasicUserDTO";
+import {LoggedUserDTO} from "../model/LoggedUserDTO";
 
-const responseType = 'text' as 'json';
+const responseType = 'json';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +23,12 @@ export class UserService {
     return this.httpClient.get<String>(`api/internal/oauth`, {responseType: responseType});
   }
 
-  // @ts-ignore
-  login(user): Observable<String> {
-    return this.httpClient.post<String>(`api/user/public/login`, user, {responseType: responseType});
+  login(user: BasicUserDTO): Observable<LoggedUserDTO> {
+    return this.httpClient.post<LoggedUserDTO>(`api/user/public/login`, user, {responseType: responseType});
+  }
+
+  validateToken(): Observable<String> {
+    return this.httpClient.get<String>(`api/user/internal/validate/token`, {responseType: responseType, headers: {SkipInterceptor: ''}});
   }
 
   listUsers(): Observable<UserProfileDTO[]> {
