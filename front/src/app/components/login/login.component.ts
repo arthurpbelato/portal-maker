@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  message: String = "aaaa";
+  message: String = "";
 
   user: BasicUserDTO = new BasicUserDTO();
 

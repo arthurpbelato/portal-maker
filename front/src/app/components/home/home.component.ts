@@ -29,7 +29,9 @@ export class HomeComponent {
     this.userService.helloAuth().subscribe(
       resp => {
         this.message2 = resp
-    });
+    },error => {
+        console.log("User not found")
+      });
   }
 
 }
