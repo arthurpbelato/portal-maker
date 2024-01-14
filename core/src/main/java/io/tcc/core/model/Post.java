@@ -54,7 +54,7 @@ public class Post implements Serializable {
     private List<Document> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
-    private List<Document> model3d = new ArrayList<>();
+    private List<Document> models = new ArrayList<>();
 
     @ManyToOne(optional = false)
 

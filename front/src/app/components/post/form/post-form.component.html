@@ -1,0 +1,70 @@
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<div class="mt-8">
+  <div class="grid col-12">
+    <div class="col-10 col-offset-1">
+      <div class="surface-card p-4 shadow-2 border-round">
+        <div class="col-12 flex">
+          <div class="col-6 text-3xl font-medium mb-6">Nova Postagem</div>
+        </div>
+        <div class="col-12">
+          <form [formGroup]="form">
+            <div class="col-12 inline-block">
+              <label for="title" class="block font-medium mb-2">Título</label>
+              <input id="title" formControlName="title" class="w-full mb-3" type="text" pInputText/>
+            </div>
+            <div class="inline-flex col-12" style="padding: 0 !important;">
+              <div class="col-8 inline-flex">
+                <div class="col-12 inline-block" style="padding: 0 !important;">
+                  <label for="description" class="block font-medium mb-2">Descrição</label>
+                  <p-editor id="description" formControlName="description" [style]="{ height: '320px'}" class="mb-3">
+                  </p-editor>
+                </div>
+              </div>
+              <div class="col-4 inline-flex ">
+                <div class="col-12 inline-block">
+                  <div class="col-12 inline-block" style="padding: 0 !important;">
+                    <label for="status" class="block font-medium mb-2">Status</label>
+                    <input id="status" formControlName="status" class="w-full mb-3" type="text" pInputText/>
+                  </div>
+                  <div class="col-12 inline-block" style="padding: 0 !important;">
+                    <label for="externalReference" class="block font-medium mb-2">Referencia externa</label>
+                    <input id="externalReference" formControlName="externalReference" class="w-full mb-3" type="text"
+                           pInputText/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 linline-block" style="padding: 0 !important;">
+              <div class="col-6 inline-block">
+                <label for="modelUploader" class="block font-medium mb-2">Adicionar arquivos de modelo</label>
+                <p-fileUpload [auto]="true" id="modelUploader" [multiple]="true" chooseLabel="Carregar Modelo"
+                              (onSelect)="onSelectModels($event)" (onRemove)="onModelRemove($event)">
+                  <ng-template pTemplate="toolbar">
+                    <div class="py-3">Adicione seus modelos 3d ou arquivos de projeto aqui.</div>
+                  </ng-template>
+                </p-fileUpload>
+              </div>
+              <div class="col-6 inline-block">
+                <label for="modelUploader" class="block font-medium mb-2">Adicionar imagens</label>
+                <p-fileUpload [auto]="true" id="modelUploader" [multiple]="true" chooseLabel="Carregar Modelo"
+                              (onSelect)="onSelectImages($event)" (onRemove)="onImageRemove($event)">
+                  <ng-template pTemplate="toolbar">
+                    <div class="py-3">Adicione imagens para facilitiar a pré-visualização do seu projeto.</div>
+                  </ng-template>
+                </p-fileUpload>
+              </div>
+            </div>
+            <div class="col-6 col-offset-3 inline-block">
+              <button (click)="publish()" pButton label="Publicar" icon="pi pi-check" class="w-full"></button>
+            </div>
+            <div class="inline-block col-2"></div>
+            <div class="inline-block col-1">
+              <button pButton label="Cancelar" class="w-full p-button-danger"></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

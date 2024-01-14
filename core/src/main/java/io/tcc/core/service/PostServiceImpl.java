@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO save(PostDTO dto) {
         List<DocumentDTO> images = dto.getImages();
-        List<DocumentDTO> model3d = dto.getModel3d();
+        List<DocumentDTO> model3d = dto.getModels();
         dto.setPostDate(LocalDateTime.now());
         var savedDto = saveDto(dto);
 
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
         savedDto.setImages(DocumentDTO.getInstancesByIdList(documentService.saveAll(images)));
 
         setDocumentId(model3d, savedDto, TYPE_3D);
-        savedDto.setModel3d(DocumentDTO.getInstancesByIdList(documentService.saveAll(model3d)));
+        savedDto.setModels(DocumentDTO.getInstancesByIdList(documentService.saveAll(model3d)));
 
         return saveDto(savedDto);
     }
