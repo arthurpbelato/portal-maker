@@ -7,3 +7,8 @@ body {
   margin: 0;
   background-color: #3B82F6;
 }
+
+.p-menubar {
+  border: none;
+  border-radius: unset;
+}
