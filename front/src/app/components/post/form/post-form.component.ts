@@ -7,6 +7,8 @@ import {Message} from "primeng/api";
 import {FileRemoveEvent, FileSelectEvent, FileSendEvent} from "primeng/fileupload";
 import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
+import {SubjectEnum} from "../../../../enums/SubjectEnum";
+import {PostStatusEnum} from "../../../../enums/PostStatusEnum";
 
 @Component({
   selector: 'app-post',
@@ -27,13 +29,18 @@ export class PostFormComponent {
   post: PostDTO = new PostDTO();
   models: DocumentSaveDTO[] = [];
   images: DocumentSaveDTO[] = [];
+  subjects: SubjectEnum[] = SubjectEnum.values();
+  selectedSubject?: SubjectEnum;
+  //TODO: verificar comportamento para edicao de post
+  currentStatus: PostStatusEnum = PostStatusEnum.WAITING_REVIEW;
 
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       externalReference: [''],
-      status: [{value: 'Aguardando Revisão', disabled: true}]
+      subject: ['', Validators.required],
+      status: [{value: this.currentStatus.label, disabled: true}]
     });
   }
 
@@ -41,16 +48,19 @@ export class PostFormComponent {
     this.post = this.form.value as PostDTO
     this.post.models = this.models;
     this.post.images = this.images;
+    this.post.status = this.currentStatus.value; //necessario por conta do disabled: true
+    console.log(this.post);
+
     this.postService.savePost(this.post).subscribe(response => {
       // localStorage.setItem('token', response.toString());
       // this.router.navigate(['/home']);
     }),
       (error: any) => {
         if (error.status === 401) {
-          this.messages = [{severity: 'error', detail: "Nome de usuário ou senha inválidos"}];
-          this.form.setErrors({'incorrect': true});
-          this.form.controls['name'].setErrors({'incorrect': true});
-          this.form.controls['password'].setErrors({'incorrect': true});
+          // this.messages = [{severity: 'error', detail: "Nome de usuário ou senha inválidos"}];
+          // this.form.setErrors({'incorrect': true});
+          // this.form.controls['name'].setErrors({'incorrect': true});
+          // this.form.controls['password'].setErrors({'incorrect': true});
         }
       }
   }

@@ -27,6 +27,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PostFormComponent } from './components/post/form/post-form.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     TagModule,
     InputMaskModule,
     MultiSelectModule,
-    FileUploadModule
+    FileUploadModule,
+    DropdownModule
   ],
   providers: [
     UserService,

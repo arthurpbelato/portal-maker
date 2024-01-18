@@ -8,7 +8,9 @@ export class PostDTO {
 
   externalReference?: string;
 
-  uploadedFiles ?: any[];
+  status?: number;
+
+  subjec?: number;
 
   models?: DocumentSaveDTO[];
 

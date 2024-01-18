@@ -31,6 +31,12 @@
                     <input id="externalReference" formControlName="externalReference" class="w-full mb-3" type="text"
                            pInputText/>
                   </div>
+                  <div class="col-12 inline-block" style="padding: 0 !important;">
+                    <label for="subjects" class="block font-medium mb-2">Matéria</label>
+                    <p-dropdown id="subjects" [options]="subjects" formControlName="subject" optionLabel="name"
+                                [showClear]="true" optionLabel="label" optionValue="value"
+                                placeholder="Selecione uma matéria" autoWidth="false" [style]="{'width':'100%'}"/>
+                  </div>
                 </div>
               </div>
             </div>
