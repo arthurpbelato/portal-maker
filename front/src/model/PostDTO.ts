@@ -16,4 +16,6 @@ export class PostDTO {
 
   images?: DocumentSaveDTO[];
 
+  tags?:string[];
+
 }

@@ -43,7 +43,8 @@ export class PostFormComponent {
       description: ['', [Validators.required]],
       externalReference: [''],
       subject: ['', Validators.required],
-      status: [{value: this.currentStatus.label, disabled: true}]
+      status: [{value: this.currentStatus.label, disabled: true}],
+      tags: ['']
     });
   }
 
