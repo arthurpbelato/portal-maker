@@ -34,6 +34,9 @@ export class PostFormComponent {
   //TODO: verificar comportamento para edicao de post
   currentStatus: PostStatusEnum = PostStatusEnum.WAITING_REVIEW;
 
+// initialize Tagify on the above input node reference
+
+
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required]],

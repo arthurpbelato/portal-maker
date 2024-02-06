@@ -16,6 +16,6 @@ export class PostService {
 
   // @ts-ignore
   savePost(postDTO: PostDTO): Observable<String> {
-    return this.httpClient.post<String>(`api/post/interal/save`, postDTO, {responseType: ResponseType});
+    return this.httpClient.post<String>(`api/post/internal/save`, postDTO, {responseType: ResponseType});
   }
 }

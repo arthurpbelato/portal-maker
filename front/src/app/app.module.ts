@@ -28,6 +28,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { PostFormComponent } from './components/post/form/post-form.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
+import {TagifyModule} from "ngx-tagify";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { DropdownModule } from 'primeng/dropdown';
     InputMaskModule,
     MultiSelectModule,
     FileUploadModule,
-    DropdownModule
+    DropdownModule,
+    TagifyModule
   ],
   providers: [
     UserService,
