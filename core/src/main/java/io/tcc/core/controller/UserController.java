@@ -1,7 +1,7 @@
 package io.tcc.core.controller;
 
-import io.tcc.core.config.security.TokenService;
 import io.tcc.core.service.dto.BasicUserDTO;
+import io.tcc.core.service.dto.EnumDTO;
 import io.tcc.core.service.dto.LoggedUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
 import io.tcc.core.service.dto.UserRegisterDTO;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,9 +37,10 @@ public class UserController {
         }
     }
 
-    @PostMapping("/public/register")
-    public ResponseEntity<BasicUserDTO> register(@RequestBody UserRegisterDTO userProfileDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.register(userProfileDTO));
+    @PostMapping("/internal/register")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserProfileDTO> register(@RequestBody UserRegisterDTO userRegisterDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.register(userRegisterDTO));
     }
 
     @GetMapping("/internal/profile")
@@ -58,9 +58,21 @@ public class UserController {
     }
 
     @GetMapping("/internal/validate/token")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<String> validateToken() {
         return ResponseEntity.ok("Valid");
+    }
+
+    @GetMapping("/internal/logged/role")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<List<String>> getLoggedUserRoles() {
+        return ResponseEntity.ok(service.getLoggedUserRoles());
+    }
+
+    @GetMapping("/internal/role")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<EnumDTO>> listRoles() {
+        return ResponseEntity.ok(service.listRoles());
     }
 
 }

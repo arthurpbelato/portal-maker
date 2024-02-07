@@ -3,6 +3,7 @@ import {UserService} from "../../../../service/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SelectItem} from "primeng/api";
 import {RoleDTO} from "../../../../model/RoleDTO";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-from',
@@ -13,25 +14,53 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
-  // @ts-ignore
-  form : FormGroup;
+  form! : FormGroup;
 
-  roles : RoleDTO[] = [{name: "PUBLIC_USER", id: 3}, {name: "ROLE_USER", id: 2}, {name: "ROLE_ADMIN", id: 1}];
+  roles? : RoleDTO[];
 
   ngOnInit(): void {
+    this.getRoles();
+    this.buildForm();
+  }
+
+  buildForm() {
     this.form = this.fb.group({
       name: ['',[Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       cpf: ['', [Validators.required, Validators.minLength(11)]],
-      selectedRoles: ['', [Validators.required]]
+      roles: ['', [Validators.required]]
     });
   }
 
-  save() {
+  getRoles() {
+    this.userService.lisRoles().subscribe(
+      resp => {
+        this.roles = resp;
+      },
+      error => {
+        //TODO create error toggle alerts
+      }
+    )
+  }
 
+  save() {
+    if (this.form.valid) {
+      this.userService.save(this.form.value).subscribe(
+        resp => {
+          console.log("resp")
+          this.router.navigate(['/user']);
+        },
+        error => {
+          //TODO create error toggle alerts
+        }
+      );
+    } else {
+      //TODO create error toggle alerts
+    }
   }
 
   resetForm() {

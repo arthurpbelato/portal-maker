@@ -19,13 +19,14 @@
 
             <div class="col-6 inline-block">
               <label for="cpf" class="block font-medium mb-2">CPF</label>
-              <p-inputMask [style]="{'width':'100%'}" id="cpf" mask="999.999.999-99" formControlName="cpf" type="text" placeholder="999.999.999-99">
+              <p-inputMask [style]="{'width':'100%'}" id="cpf" mask="999.999.999-99" formControlName="cpf" type="text"
+                           [unmask]=true placeholder="999.999.999-99">
               </p-inputMask>
             </div>
 
             <div class="inline-block align-multiselect col-6">
               <label for="roles" class="block font-medium mb-2">Roles</label>
-              <p-multiSelect [style]="{'width':'100%'}" [panelStyle]="{'width':'100%'}" id="roles" [options]="roles" formControlName="selectedRoles" optionLabel="name">
+              <p-multiSelect [style]="{'width':'100%'}" [panelStyle]="{'width':'100%'}" id="roles" [options]="roles" formControlName="roles" optionLabel="name">
               </p-multiSelect>
             </div>
 

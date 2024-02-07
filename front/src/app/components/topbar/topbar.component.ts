@@ -19,8 +19,6 @@ export class TopbarComponent implements OnInit {
   constructor(private loginComponent: LoginComponent) {}
 
   ngOnInit(): void {
-    this.loadUserName();
-
     this.items = [
       {
         label: 'Home',
@@ -61,19 +59,23 @@ export class TopbarComponent implements OnInit {
             ]
           }
         ]
-      },
-      {
+      }
+    ];
+    this.loggedUserLoad();
+  }
+
+  loggedUserLoad() {
+    this.wasLogged = localStorage.getItem('token') !== null;
+    let name = localStorage.getItem('userName');
+    this.userName = name ? name : "Visitante";
+
+    if (this.wasLogged) {
+      this.items?.push({
         label: 'Logout',
         icon: 'pi pi-fw pi-power-off',
         command: () => this.logout()
-      }
-    ];
-  }
-
-  loadUserName() {
-    this.wasLogged = localStorage.getItem('token') !== null;
-    var name = localStorage.getItem('userName');
-    this.userName = name ? name : "Visitante";
+      })
+    }
   }
 
   logout() {
