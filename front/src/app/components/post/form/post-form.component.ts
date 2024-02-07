@@ -34,9 +34,6 @@ export class PostFormComponent {
   //TODO: verificar comportamento para edicao de post
   currentStatus: PostStatusEnum = PostStatusEnum.WAITING_REVIEW;
 
-// initialize Tagify on the above input node reference
-
-
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required]],
@@ -56,15 +53,11 @@ export class PostFormComponent {
     console.log(this.post);
 
     this.postService.savePost(this.post).subscribe(response => {
-      // localStorage.setItem('token', response.toString());
-      // this.router.navigate(['/home']);
+      //TODO redirect
     }),
       (error: any) => {
         if (error.status === 401) {
-          // this.messages = [{severity: 'error', detail: "Nome de usuário ou senha inválidos"}];
-          // this.form.setErrors({'incorrect': true});
-          // this.form.controls['name'].setErrors({'incorrect': true});
-          // this.form.controls['password'].setErrors({'incorrect': true});
+          //TODO erro
         }
       }
   }

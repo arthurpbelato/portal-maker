@@ -4,8 +4,8 @@ export class PostStatusEnum {
 
   static WAITING_REVIEW = new PostStatusEnum(0, "Aguardando revisão");
   static WAITING_EDIT = new PostStatusEnum(1, "Aguardando edição");
-  static APPROVED = new PostStatusEnum(0, "Aprovado");
-  static DENIED = new PostStatusEnum(0, "Negado");
+  static APPROVED = new PostStatusEnum(2, "Aprovado");
+  static DENIED = new PostStatusEnum(3, "Negado");
 
   constructor(
     public value: number,
