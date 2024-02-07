@@ -1,8 +1,6 @@
 import {RoleDTO} from "./RoleDTO";
 
-export class UserProfileDTO {
-  id?: String
-
+export class UserRegisterDTO {
   name?: String
 
   email?: String

@@ -16,7 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
-import {AuthInterceptor} from "./components/Interceptors/auth.interceptor";
+import {AuthInterceptor} from "./components/interceptors/auth.interceptor";
 import { MessagesModule } from 'primeng/messages';
 import { UserComponent } from './components/user/user.component';
 import { TableModule } from 'primeng/table';

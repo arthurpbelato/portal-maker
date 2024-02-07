@@ -19,11 +19,9 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
-  // @ts-ignore
-  messages: Message[];
+  messages!: Message[];
 
-  // @ts-ignore
-  form : FormGroup;
+  form! : FormGroup;
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -46,7 +44,7 @@ export class LoginComponent implements OnInit {
       },
       error => {
         if (error.status === 401) {
-          this.messages = [{ severity: 'error', detail: "Nome de usuário ou senha inválidos" }];
+          this.messages = [{ severity: 'error', detail: "Email ou senha inválidos" }];
           this.form.setErrors({'incorrect': true});
           this.form.controls['name'].setErrors({'incorrect': true});
           this.form.controls['password'].setErrors({'incorrect': true});
