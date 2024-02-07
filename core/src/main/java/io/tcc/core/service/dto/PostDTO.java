@@ -20,7 +20,7 @@ public class PostDTO {
     private String externalReference;
     private Long score;
     private List<DocumentDTO> images = new LinkedList<>();
-    private List<DocumentDTO> model3d = new ArrayList<>();
+    private List<DocumentDTO> models = new ArrayList<>();
     private PostUserDTO user;
     private String subject;
     private Integer status;

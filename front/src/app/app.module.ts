@@ -25,6 +25,10 @@ import { TagModule } from 'primeng/tag';
 import { UserFormComponent } from './components/user/form/user-form.component';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { PostFormComponent } from './components/post/form/post-form.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     LoginComponent,
     UserComponent,
     UserFormComponent,
+    PostFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,10 @@ import { MultiSelectModule } from 'primeng/multiselect';
     EditorModule,
     TagModule,
     InputMaskModule,
-    MultiSelectModule
+    MultiSelectModule,
+    FileUploadModule,
+    DropdownModule,
+    ChipsModule
   ],
   providers: [
     UserService,

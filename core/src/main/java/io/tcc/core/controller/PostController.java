@@ -2,7 +2,9 @@ package io.tcc.core.controller;
 
 import io.tcc.core.service.dto.PostDTO;
 import io.tcc.core.service.dto.PostListDTO;
+import io.tcc.core.service.dto.PostUserDTO;
 import io.tcc.core.service.interfaces.PostService;
+import io.tcc.core.util.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +31,9 @@ public class PostController {
     @PostMapping("/internal/save")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<PostDTO> save(@RequestBody PostDTO dto) {
-        var saved = service.save(dto);
+        final var user = new PostUserDTO().setId(AuthenticationUtil.getUuid());
+        dto.setUser(user);
+        final var saved = service.save(dto);
         return ResponseEntity.ok(saved);
     }
 

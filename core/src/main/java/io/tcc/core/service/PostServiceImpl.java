@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PostServiceImpl implements PostService {
 
     public static final String TYPE_IMAGE = "image";
-    public static final String TYPE_3D = "3d";
+    public static final String TYPE_MODEL = "model";
     private final DocumentService documentService;
     private final PostRepository repository;
     private final PostPageRepository pageRepository;
@@ -39,17 +39,17 @@ public class PostServiceImpl implements PostService {
     private final PostListMapper listMapper;
 
     @Override
-    public PostDTO save(PostDTO dto) {
+    public PostDTO save(final PostDTO dto) {
         List<DocumentDTO> images = dto.getImages();
-        List<DocumentDTO> model3d = dto.getModel3d();
+        List<DocumentDTO> model3d = dto.getModels();
         dto.setPostDate(LocalDateTime.now());
         var savedDto = saveDto(dto);
 
         setDocumentId(images, savedDto, TYPE_IMAGE);
         savedDto.setImages(DocumentDTO.getInstancesByIdList(documentService.saveAll(images)));
 
-        setDocumentId(model3d, savedDto, TYPE_3D);
-        savedDto.setModel3d(DocumentDTO.getInstancesByIdList(documentService.saveAll(model3d)));
+        setDocumentId(model3d, savedDto, TYPE_MODEL);
+        savedDto.setModels(DocumentDTO.getInstancesByIdList(documentService.saveAll(model3d)));
 
         return saveDto(savedDto);
     }

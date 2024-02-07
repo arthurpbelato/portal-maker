@@ -28,11 +28,12 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String save(DocumentDTO documentDTO) {
         DocumentDTO savedDocument = saveDto(documentDTO);
-        try{
-            client.save(savedDocument);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        //FIXME desabilitando o minio até segunda ordem
+//        try{
+//            client.save(savedDocument);
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
         return savedDocument.getId();
     }
 
