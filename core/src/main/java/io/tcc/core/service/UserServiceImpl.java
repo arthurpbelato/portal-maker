@@ -10,6 +10,8 @@ import io.tcc.core.service.dto.EnumDTO;
 import io.tcc.core.service.dto.LoggedUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
 import io.tcc.core.service.dto.UserRegisterDTO;
+import io.tcc.core.service.interfaces.EmailService;
+import io.tcc.core.service.interfaces.PasswordService;
 import io.tcc.core.service.interfaces.UserService;
 import io.tcc.core.service.mapper.RoleMapper;
 import io.tcc.core.service.mapper.UserProfileMapper;
@@ -41,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private final UserProfileMapper userProfileMapper;
     private final UserRegisterMapper userRegisterMapper;
     private final AuthenticationManager authenticationManager;
+    private final PasswordService passwordService;
+    private final EmailService emailService;
 
     @Override
     public LoggedUserDTO login(BasicUserDTO basicUserDTO) {
@@ -56,8 +60,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDTO register(UserRegisterDTO userRegisterDTO) {
         User user = userRegisterMapper.toEntity(userRegisterDTO);
-        //TODO generate random password and sand by email
-        user.setPassword(new BCryptPasswordEncoder().encode("123"));
+        final var password = passwordService.getPassword();
+        final var emailBody = """
+                Seu email foi registrado no Portal Maker do IFES Campus Colatina! Você pode acessar nosso portal com
+                 seu email e sua nova senha: ?
+                """;
+        emailService.send(userRegisterDTO.getEmail(), emailBody.formatted(password), "Portal Maker - Seu email foi registrado!");
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         return userProfileMapper.toDto(repository.save(user));
     }
 
