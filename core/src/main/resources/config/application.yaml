@@ -5,6 +5,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tccportalmaker@gmail.com
+    password: sgixornounszexke
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 server:
   port: 8080
 #    drop-first: true
@@ -14,3 +26,4 @@ logging:
   level:
     io:
       tcc: DEBUG
+
