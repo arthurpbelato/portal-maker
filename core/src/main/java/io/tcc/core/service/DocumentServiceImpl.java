@@ -65,6 +65,11 @@ public class DocumentServiceImpl implements DocumentService {
         return null;
     }
 
+    @Override
+    public List<DocumentDTO> getByPostId(UUID postId) {
+        return mapper.toDto(repository.findAllByPostId(postId));
+    }
+
     public List<DocumentDTO> getById(String postId) {
 //        List<DocumentDTO> response;
 //        try {

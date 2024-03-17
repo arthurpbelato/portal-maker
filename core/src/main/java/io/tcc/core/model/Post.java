@@ -3,6 +3,7 @@ package io.tcc.core.model;
 import io.tcc.core.model.enums.PostStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +39,7 @@ public class Post implements Serializable {
     @Column
     private String title;
 
-    @Column(length = 600)
+    @Column(length = 2000)
     private String description;
 
     @Column
@@ -50,7 +51,7 @@ public class Post implements Serializable {
     @Column
     private PostStatusEnum status;
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    @OneToMany(mappedBy = "post", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Document> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)

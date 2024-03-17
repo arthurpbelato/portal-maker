@@ -24,5 +24,5 @@ public class PostDTO {
     private PostUserDTO user;
     private String subject;
     private Integer status;
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 }
