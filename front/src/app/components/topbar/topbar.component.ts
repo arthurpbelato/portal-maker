@@ -59,6 +59,11 @@ export class TopbarComponent implements OnInit {
             ]
           }
         ]
+      },
+      {
+        label: 'Requisitar uso do Laboratório',
+        routerLink: '/requisitar-uso-laboratorio',
+        icon: 'pi pi-fw pi-pencil'
       }
     ];
     this.loggedUserLoad();

@@ -29,6 +29,7 @@ import { PostFormComponent } from './components/post/form/post-form.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipsModule } from 'primeng/chips';
+import { RequestLabComponent } from './components/request-lab/request-lab.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ChipsModule } from 'primeng/chips';
     UserComponent,
     UserFormComponent,
     PostFormComponent,
+    RequestLabComponent,
   ],
   imports: [
     BrowserModule,
