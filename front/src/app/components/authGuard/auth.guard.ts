@@ -14,10 +14,6 @@ export const authGuard: CanActivateFn =  async (route, state) => {
     }
   });
 
-  console.log("User roles: " + userRoles);
-  console.log("Acceptable roles: " + acceptedRoles);
-  console.log("Has role: " + hasRole);
-
-  return false;
+  return hasRole;
 };
 

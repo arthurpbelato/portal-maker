@@ -5,6 +5,7 @@ import io.tcc.core.service.dto.PostListDTO;
 import io.tcc.core.service.dto.PostUserDTO;
 import io.tcc.core.service.interfaces.PostService;
 import io.tcc.core.util.AuthenticationUtil;
+import io.tcc.documentcommons.model.DocumentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +29,18 @@ public class PostController {
 
     private final PostService service;
 
+    @GetMapping("/public/list")
+    public ResponseEntity<List<PostListDTO>> list() {
+        return ResponseEntity.ok(service.list());
+    }
+
+    @GetMapping("/public/images/{postId}")
+    public ResponseEntity<List<DocumentDTO>> loadImages(@PathVariable UUID postId) {
+        return ResponseEntity.ok(service.loadImages(postId));
+    }
+
     @PostMapping("/internal/save")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<PostDTO> save(@RequestBody PostDTO dto) {
         final var user = new PostUserDTO().setId(AuthenticationUtil.getUuid());
         dto.setUser(user);

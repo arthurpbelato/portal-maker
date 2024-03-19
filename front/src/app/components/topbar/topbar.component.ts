@@ -26,6 +26,11 @@ export class TopbarComponent implements OnInit {
         icon: 'pi pi-fw pi-home'
       },
       {
+        label: 'Nova Postagem',
+        routerLink: '/postagens/nova',
+        icon: 'pi pi-fw pi-plus'
+      },
+      {
         label: 'Usuários',
         routerLink: '/user',
         icon: 'pi pi-fw pi-users'

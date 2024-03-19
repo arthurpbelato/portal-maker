@@ -55,6 +55,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostListDTO> list() {
+        return listMapper.toDto(repository.findAll());
+    }
+
+    @Override
+    public List<DocumentDTO> loadImages(UUID postId) {
+        return documentService.getByPostId(postId);
+    }
+
+    @Override
     public List<PostListDTO> getByUserId(Integer page, Integer size) {
         return listMapper.toDto(pageRepository.findAllByUserId(AuthenticationUtil.getUuid(), PageRequest.of(page, size)));
     }

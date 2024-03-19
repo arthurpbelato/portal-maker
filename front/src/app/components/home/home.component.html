@@ -1,11 +1,4 @@
 <div> <br><br>
-<!--  <button (click)="helloAuth()"> Hello Auth </button>-->
-
-<!--  <p>{{message2}}</p>-->
-
-<!--  <button (click)="hello()"> Hello Public </button>-->
-
-<!--  <p>{{message}}</p>-->
 
   <div class="grid col-12">
     <div class="col-10 col-offset-1">
@@ -15,25 +8,32 @@
     </div>
   </div>
 
-<!-- TODO Update to list os posts-->
-  <div class="grid col-12">
-    <div class="col-10 col-offset-1">
-      <div class="surface-card p-4 shadow-2 border-round">
-        <div class="text-3xl font-medium text-900 mb-3">Post</div>
-        <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
-        <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
+  <span style="margin: 0 2px" *ngFor="let post of postList">
+    <div class="grid col-12">
+      <div class="col-10 col-offset-1">
+        <div class="surface-card p-4 shadow-2 border-round">
+          <div class="text-3xl font-medium text-900 mb-3">{{post.title}}</div>
+          <div class="font-medium text-500 mb-3" [innerHtml]="post.description"></div>
+           <div class="col-8 col-offset-2 mt-5 mb-5">
+             <div *ngIf="post.images === undefined">
+               <div class="col-2 col-offset-5" style=" margin: 150px 0;">
+                 <p-image src="assets/images/KSYA.gif" alt="Image" width="100%"></p-image>
+               </div>
+             </div>
+             <p-galleria [value]="post.images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="5">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="'data:image/png;base64,' + item.base64" style="width: 100%;" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="'data:image/png;base64,' + item.base64" style="width: 90px" />
+                    </div>
+                </ng-template>
+             </p-galleria>
+           </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="grid col-12">
-    <div class="col-10 col-offset-1">
-      <div class="surface-card p-4 shadow-2 border-round">
-        <div class="text-3xl font-medium text-900 mb-3">Post</div>
-        <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
-        <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
-      </div>
-    </div>
-  </div>
+  </span>
 
 </div>

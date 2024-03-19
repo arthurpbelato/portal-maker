@@ -3,8 +3,9 @@ import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {PostDTO} from "../model/PostDTO";
+import {PostListDTO} from "../model/PostListDTO";
 
-const ResponseType = 'text' as 'json';
+const ResponseType = 'json';
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,15 @@ export class PostService {
   savePost(postDTO: PostDTO): Observable<String> {
     return this.httpClient.post<String>(`api/post/internal/save`, postDTO, {responseType: ResponseType});
   }
+
+  // @ts-ignore
+  list(): Observable<PostListDTO[]> {
+    return this.httpClient.get<PostListDTO[]>(`api/post/public/list`, {responseType: ResponseType});
+  }
+
+  // @ts-ignore
+  loadImages(postId): Observable<PostListDTO[]> {
+    return this.httpClient.get<PostListDTO[]>(`api/post/public/images/${postId}`, {responseType: ResponseType});
+  }
+
 }

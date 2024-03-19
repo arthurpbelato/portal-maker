@@ -29,6 +29,10 @@ import { PostFormComponent } from './components/post/form/post-form.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipsModule } from 'primeng/chips';
+import { GalleriaModule } from 'primeng/galleria';
+import { ImageModule } from 'primeng/image';
+import { BlockUIModule } from 'primeng/blockui';
+import { PanelModule } from 'primeng/panel';
 import { RequestLabComponent } from './components/request-lab/request-lab.component';
 
 @NgModule({
@@ -63,7 +67,11 @@ import { RequestLabComponent } from './components/request-lab/request-lab.compon
     MultiSelectModule,
     FileUploadModule,
     DropdownModule,
-    ChipsModule
+    ChipsModule,
+    GalleriaModule,
+    ImageModule,
+    BlockUIModule,
+    PanelModule
   ],
   providers: [
     UserService,
