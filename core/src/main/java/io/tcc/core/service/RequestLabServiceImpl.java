@@ -38,7 +38,7 @@ public class RequestLabServiceImpl implements RequestLabService {
                 dto.getTitle(),
                 dto.getDescription(),
                 dto.getResources());
-        emailService.sendWithAttachment("arthurpbelato@gmail.com",
+        emailService.sendWithAttachment("tccportalmaker@gmail.com",
                 body,
                 "Requisição para uso do laboratório - %s".formatted(dto.getTitle()) ,
                 dto.getFiles());
