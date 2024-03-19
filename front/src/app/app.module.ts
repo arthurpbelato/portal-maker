@@ -34,6 +34,8 @@ import { ImageModule } from 'primeng/image';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
 import { RequestLabComponent } from './components/request-lab/request-lab.component';
+import {ToastModule} from "primeng/toast";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { RequestLabComponent } from './components/request-lab/request-lab.compon
     GalleriaModule,
     ImageModule,
     BlockUIModule,
-    PanelModule
+    PanelModule,
+    ToastModule,
+    ProgressSpinnerModule
   ],
   providers: [
     UserService,

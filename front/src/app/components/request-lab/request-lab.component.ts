@@ -8,21 +8,33 @@ import {Observable, ReplaySubject} from "rxjs";
 import {PostDTO} from "../../../model/PostDTO";
 import {RequestLabDTO} from "../../../model/RequestLabDTO";
 import {RequestLabService} from "../../../service/request-lab.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-request-lab',
   templateUrl: './request-lab.component.html',
-  styleUrls: ['./request-lab.component.css']
+  styleUrls: ['./request-lab.component.css'],
+  providers: [MessageService]
 })
 export class RequestLabComponent {
   form!: FormGroup;
   files: DocumentSaveDTO[] = [];
   requestLabData?: RequestLabDTO;
+  blockedDocument: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private service: RequestLabService
+    private service: RequestLabService,
+    private messageService: MessageService
   ) {
+  }
+
+  showSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Email enviado com sucesso' });
+  }
+
+  showFailure() {
+    this.messageService.add({ severity: 'error', summary: 'Algo deu errado', detail: 'Parece que seu formulário não foi enviado corretamente. Tente novamente' });
   }
 
   ngOnInit(): void {
@@ -73,16 +85,18 @@ export class RequestLabComponent {
   }
 
   publish(): void {
+    this.blockedDocument = true;
     this.requestLabData = this.form.value as RequestLabDTO;
     this.requestLabData.files = this.files;
 
     this.service.send(this.requestLabData).subscribe(response => {
       console.log(response)
+      this.showSuccess();
+      this.form.reset();
+      this.blockedDocument = false;
     }),
       (error: any) => {
-        if (error.status === 401) {
-          //TODO erro
-        }
+         this.showFailure()
       }
   }
 }

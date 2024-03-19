@@ -68,3 +68,8 @@
   </div>
 </div>
 
+<p-blockUI [blocked]="blockedDocument" ></p-blockUI>
+<div class="progress-spinner" *ngIf="blockedDocument" >
+  <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+</div>
+<p-toast></p-toast>
