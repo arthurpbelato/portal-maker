@@ -1,0 +1,75 @@
+<div class="grid col-12">
+  <div class="col-10 col-offset-1">
+    <div class="surface-card p-4 shadow-2 border-round" style="text-align: center">
+      <h2>Requisitar uso do laboratório maker</h2>
+    </div>
+  </div>
+  <div class="col-12">
+    <form [formGroup]="form">
+      <div class="col-10 col-offset-1">
+        <div class="surface-card p-4 shadow-2 border-round">
+          <h3>Informações pessoais</h3>
+          <div class="col-6 inline-block">
+            <label for="name" class="block font-medium mb-2">Nome:</label>
+            <input id="name" formControlName="name" class="w-full mb-3" type="text"
+                   pInputText/>
+          </div>
+          <div class="col-6 inline-block">
+            <label for="email" class="block font-medium mb-2">Email:</label>
+            <input id="email" formControlName="email" class="w-full mb-3" type="text"
+                   pInputText/>
+          </div>
+          <div class="col-6 inline-block">
+            <label for="cpf" class="block font-medium mb-2">CPF:</label>
+            <input id="cpf" formControlName="cpf" class="w-full mb-3" type="text"
+                   pInputText/>
+          </div>
+          <div class="col-6 inline-block">
+            <label for="phone" class="block font-medium mb-2">Telefone:</label>
+            <input id="phone" formControlName="phone" class="w-full mb-3" type="text"
+                   pInputText/>
+          </div>
+        </div>
+      </div>
+      <div class="col-10 col-offset-1">
+        <div class="surface-card p-4 shadow-2 border-round">
+          <h3>Informações do projeto</h3>
+          <div class="col-12 inline-block">
+            <label for="title" class="block font-medium mb-2">Título:</label>
+            <input id="title" formControlName="title" class="w-full mb-3" type="text"
+                   pInputText/>
+          </div>
+          <div class="col-12 inline-block">
+            <label for="description" class="block font-medium mb-2">Descrição:</label>
+            <p-editor id="description" formControlName="description" [style]="{ height: '320px'}" class="mb-3">
+            </p-editor>
+          </div>
+
+          <div class="col-12 inline-block">
+            <label for="resources" class="block font-medium mb-2">Recursos Necessários:</label>
+            <p-editor id="resources" formControlName="resources" [style]="{ height: '320px'}" class="mb-3">
+            </p-editor>
+          </div>
+          <div class="col-12 inline-block">
+            <label for="modelUploader" class="block font-medium mb-2">Adicionar arquivos de modelo</label>
+            <p-fileUpload [auto]="true" id="modelUploader" [multiple]="true" chooseLabel="Carregar Modelo"
+                          (onSelect)="onSelectModels($event)" (onRemove)="onModelRemove($event)">
+              <ng-template pTemplate="toolbar">
+                <div class="py-3">Adicione seus modelos 3d ou arquivos de projeto aqui.</div>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+          <div class="col-6 col-offset-3 inline-block">
+            <button (click)="publish()" pButton label="Enviar formulário" icon="pi pi-check" class="w-full"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-blockUI [blocked]="blockedDocument" ></p-blockUI>
+<div class="progress-spinner" *ngIf="blockedDocument" >
+  <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+</div>
+<p-toast></p-toast>

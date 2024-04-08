@@ -33,6 +33,9 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import { RequestLabComponent } from './components/request-lab/request-lab.component';
+import {ToastModule} from "primeng/toast";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 import { PostDetailComponent } from './components/post/detail/post-detail.component';
 import { TabViewModule } from 'primeng/tabview';
 
@@ -45,6 +48,7 @@ import { TabViewModule } from 'primeng/tabview';
     UserComponent,
     UserFormComponent,
     PostFormComponent,
+    RequestLabComponent,
     PostDetailComponent,
   ],
   imports: [
@@ -73,6 +77,8 @@ import { TabViewModule } from 'primeng/tabview';
     ImageModule,
     BlockUIModule,
     PanelModule,
+    ToastModule,
+    ProgressSpinnerModule,
     TabViewModule
   ],
   providers: [
