@@ -20,7 +20,8 @@
                  <p-image src="assets/images/KSYA.gif" alt="Image" width="100%"></p-image>
                </div>
              </div>
-             <p-galleria [value]="post.images" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="5">
+             <p-galleria [value]="post.images"  [showItemNavigators]="true" [circular]="true"
+                         [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }" [numVisible]="5">
                 <ng-template pTemplate="item" let-item>
                     <img [src]="'data:image/png;base64,' + item.base64" style="width: 100%;" />
                 </ng-template>
@@ -30,6 +31,13 @@
                     </div>
                 </ng-template>
              </p-galleria>
+           </div>
+           <div class="col-12">
+             <div class="col-2 col-offset-10">
+               <div style="margin-left: 50px">
+                <p-button [routerLink]="['/post/detail/', post.id]">Detalhes</p-button>
+               </div>
+             </div>
            </div>
         </div>
       </div>

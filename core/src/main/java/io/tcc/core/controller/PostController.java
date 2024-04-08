@@ -68,8 +68,7 @@ public class PostController {
         return ResponseEntity.ok(service.updatedStatus(UUID.fromString(id), status));
     }
 
-    @GetMapping("/internal/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/public/{id}")
     public ResponseEntity<PostDTO> getById(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.getById(UUID.fromString(id)));
     }

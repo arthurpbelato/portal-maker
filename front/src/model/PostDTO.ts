@@ -1,4 +1,5 @@
 import {DocumentSaveDTO} from "./DocumentSaveDTO";
+import {PostUserDTO} from "./PostUserDTO";
 
 export class PostDTO {
 
@@ -17,5 +18,10 @@ export class PostDTO {
   images?: DocumentSaveDTO[];
 
   tags?:string[];
+
+  user?: PostUserDTO;
+
+  // @ts-ignore
+  postDate: string;
 
 }

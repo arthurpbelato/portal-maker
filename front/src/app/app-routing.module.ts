@@ -6,6 +6,7 @@ import {UserComponent} from "./components/user/user.component";
 import {UserFormComponent} from "./components/user/form/user-form.component";
 import {PostFormComponent} from "./components/post/form/post-form.component";
 import {authGuard} from "./components/authGuard/auth.guard";
+import {PostDetailComponent} from "./components/post/detail/post-detail.component";
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'user', component: UserComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]}},
   { path: 'user/form', component: UserFormComponent },
   { path: 'postagens/nova', component: PostFormComponent, title: "Portal Maker - Nova Postagem" },
+  { path: 'post/detail/:id', component: PostDetailComponent },
   { path: '**', redirectTo: 'home' },
 ];
 

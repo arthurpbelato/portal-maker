@@ -1,0 +1,68 @@
+<div> <br><br>
+
+  <div class="grid col-12">
+    <div class="col-8 col-offset-2">
+      <div class="surface-card p-4 shadow-2 border-round" >
+        <div class="col-10 col-offset-1">
+          <h2>{{post.title}}</h2>
+          <p class="user-name">{{name}}, {{this.post.postDate}}</p>
+        </div>
+        <div class="col-10 col-offset-1 mt-1 mb-5">
+          <div *ngIf="post.images === undefined || post.images.length === 0">
+            <div class="col-2 col-offset-5" style=" margin: 150px 0;">
+              <p-image src="assets/images/KSYA.gif" alt="Image" width="100%"></p-image>
+            </div>
+          </div>
+          <p-galleria [value]="post.images" [showItemNavigators]="true" [circular]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%', 'background-color': '#1A1A1A' }">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="'data:image/png;base64,' + item.base64"  style="width: 720px; height: 480px"  />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item style="{ 'max-width': '720px';}">
+              <div class="grid grid-nogutter justify-content-center">
+                <img [src]="'data:image/png;base64,' + item.base64" style="width: 80px;" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid col-12">
+    <div class="col-8 col-offset-2">
+      <div class="surface-card p-4 shadow-2 border-round">
+        <p-tabView>
+          <p-tabPanel header="Descrição">
+            <div class="col-10 col-offset-1 text-600">
+              <div class="font-medium mb-3" [innerHtml]="post.description"></div>
+              <div class="text-600 mt-5">
+                <b>Matéria - </b> <div style="display: inline-flex"> {{post.subjec}} </div>
+              </div>
+              <div class="text-600 mt-5">
+                <b>Tags - </b><div *ngFor="let tag of post.tags" style="display: inline-flex"><p-tag class="mr-1" [value]=tag></p-tag></div>
+              </div>
+              <div class="text-600 mt-5">
+                <b>Referências - </b> <div style="display: inline-flex"> {{post.externalReference}} </div>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Arquivos">
+            <div class="col-10 col-offset-1">
+              <p>
+                Disponibilizar arquivos 3d pra download
+              </p>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Comentários">
+            <div class="col-10 col-offset-1">
+              <p>
+                Possível melhoria futura
+              </p>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -33,6 +33,8 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import { PostDetailComponent } from './components/post/detail/post-detail.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { PanelModule } from 'primeng/panel';
     UserComponent,
     UserFormComponent,
     PostFormComponent,
+    PostDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { PanelModule } from 'primeng/panel';
     GalleriaModule,
     ImageModule,
     BlockUIModule,
-    PanelModule
+    PanelModule,
+    TabViewModule
   ],
   providers: [
     UserService,

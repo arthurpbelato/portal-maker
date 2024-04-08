@@ -26,6 +26,11 @@ export class PostService {
   }
 
   // @ts-ignore
+  get(id: string): Observable<PostDTO> {
+    return this.httpClient.get<PostDTO>(`api/post/public/${id}`, {responseType: ResponseType});
+  }
+
+  // @ts-ignore
   loadImages(postId): Observable<PostListDTO[]> {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/images/${postId}`, {responseType: ResponseType});
   }

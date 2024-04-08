@@ -12,3 +12,8 @@ body {
   border: none;
   border-radius: unset;
 }
+
+
+.p-galleria-thumbnail-item {
+  flex: auto!important;
+}
