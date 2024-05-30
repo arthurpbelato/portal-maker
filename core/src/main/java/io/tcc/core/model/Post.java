@@ -54,7 +54,7 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Document> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true)
+    @OneToMany(mappedBy = "post", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Document> models = new ArrayList<>();
 
     @ManyToOne(optional = false)

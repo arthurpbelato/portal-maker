@@ -53,7 +53,8 @@ export class PostFormComponent {
     console.log(this.post);
 
     this.postService.savePost(this.post).subscribe(response => {
-      //TODO redirect
+      //TODO redirect to home?
+      this.router.navigate(['/home']);
     }),
       (error: any) => {
         if (error.status === 401) {

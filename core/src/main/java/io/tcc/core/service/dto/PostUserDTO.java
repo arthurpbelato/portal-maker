@@ -10,5 +10,8 @@ import java.util.UUID;
 @Setter
 @Accessors(chain = true)
 public class PostUserDTO {
+
     private UUID id;
+    private String name;
+
 }

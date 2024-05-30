@@ -36,6 +36,8 @@ import { PanelModule } from 'primeng/panel';
 import { RequestLabComponent } from './components/request-lab/request-lab.component';
 import {ToastModule} from "primeng/toast";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { PostDetailComponent } from './components/post/detail/post-detail.component';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     UserFormComponent,
     PostFormComponent,
     RequestLabComponent,
+    PostDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     BlockUIModule,
     PanelModule,
     ToastModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TabViewModule
   ],
   providers: [
     UserService,
