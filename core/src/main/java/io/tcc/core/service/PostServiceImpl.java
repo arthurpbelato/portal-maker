@@ -1,8 +1,10 @@
 package io.tcc.core.service;
 
+import io.tcc.core.model.Document;
 import io.tcc.core.model.Post;
 import io.tcc.core.model.PostReview;
 import io.tcc.core.model.enums.PostStatusEnum;
+import io.tcc.core.repository.DocumentRepository;
 import io.tcc.core.repository.PostPageRepository;
 import io.tcc.core.repository.PostRepository;
 import io.tcc.core.repository.PostReviewRepository;
@@ -47,6 +49,7 @@ public class PostServiceImpl implements PostService {
     private final PostListMapper listMapper;
     private final PostReviewMapper postReviewMapper;
     private final PostReviewRepository postReviewRepository;
+    private final DocumentRepository documentRepository;
 
     @Override
     public PostDTO save(final PostDTO dto) {
@@ -129,6 +132,11 @@ public class PostServiceImpl implements PostService {
         repository.save(post);
         postReviewRepository.save(postReview);
         return mapper.toDto(post);
+    }
+
+    @Override
+    public void deleteDocument(String id) {
+        documentRepository.delete(new Document().setId(id));
     }
 
     private static void setDocumentId(List<DocumentDTO> documentDTOList, PostDTO savedDto, String type) {

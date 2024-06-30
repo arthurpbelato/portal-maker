@@ -3,8 +3,8 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../../../service/post.service";
 import {PostDTO} from "../../../../model/PostDTO";
-import {Message} from "primeng/api";
-import {FileRemoveEvent, FileSelectEvent, FileSendEvent, FileUpload} from "primeng/fileupload";
+import {ConfirmationService, Message, MessageService} from "primeng/api";
+import {FileRemoveEvent, FileSelectEvent, FileUpload} from "primeng/fileupload";
 import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
@@ -13,7 +13,8 @@ import {PostStatusEnum} from "../../../../enums/PostStatusEnum";
 @Component({
   selector: 'app-post',
   templateUrl: './post-form.component.html',
-  styleUrls: ['./post-form.component.css']
+  styleUrls: ['./post-form.component.css'],
+  providers: [ConfirmationService, MessageService]
 })
 export class PostFormComponent {
 
@@ -21,10 +22,11 @@ export class PostFormComponent {
     private postService: PostService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
   }
-  @ViewChild('imageUploader') imageUploader?: FileUpload;
   isEdit?: boolean = false;
   postId?: string = "";
   messages?: Message[];
@@ -59,11 +61,10 @@ export class PostFormComponent {
           this.retrievedPost = value;
           this.form.controls['title'].setValue(value.title);
           this.form.controls['description'].setValue(value.description);
-          this.form.controls['status'].setValue(value.status);
+          this.form.controls['status'].setValue(PostStatusEnum.getByValue(value.status));
           this.form.controls['externalReference'].setValue(value.externalReference);
           this.form.patchValue({subject: SubjectEnum.getByValue(value.subject!)})
           this.form.controls['tags'].setValue(value.tags);
-          this.form.controls['externalReference'].setValue(value.externalReference);
           this.loadPostImages();
           let files = value.images?.map((image:DocumentSaveDTO) => {
             const blob = this.dataURItoBlob(image.base64!);
@@ -81,13 +82,17 @@ export class PostFormComponent {
     this.post.models = this.models;
     this.post.images = this.images;
     this.post.status = this.currentStatus.value; //necessario por conta do disabled: true
-    console.log(this.post);
-
+    this.post.subject = this.form.controls['subject'].value.value;
+    if(this.isEdit) {
+      this.post.id = this.postId;
+    }
+    console.log(this.post)
     this.postService.savePost(this.post).subscribe(response => {
       //TODO redirect to home?
       this.router.navigate(['/home']);
     }),
       (error: any) => {
+      console.log(error)
         if (error.status === 401) {
           //TODO erro
         }
@@ -160,8 +165,35 @@ export class PostFormComponent {
     for (let i = 0; i < byteString.length; i++) {
       int8Array[i] = byteString.charCodeAt(i);
     }
-    const blob = new Blob([int8Array], { type: 'image/png' });
-    return blob;
+    return new Blob([int8Array], {type: 'image/png'});
+  }
+
+  deleteImage(id: string | undefined) {
+    console.log("delete "+ id);
+    this.postService.deleteDocument(id).subscribe(value => {
+      window.location.reload();
+    })
+  }
+
+  confirmImageDeletion(event: any, id:string ) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Tem certeza que deseja apagar essa imagem?',
+      header: 'Apagar imagem',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon:"none",
+      rejectIcon:"none",
+      rejectButtonStyleClass:"p-button-text",
+      acceptLabel: "Sim",
+      rejectLabel: "Não",
+      accept: () => {
+        this.deleteImage(id);
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+      }
+    });
   }
 }
 

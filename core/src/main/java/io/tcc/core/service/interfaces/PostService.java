@@ -26,4 +26,6 @@ public interface PostService {
     PostDTO approve(final String id);
 
     PostDTO review(final String id, final PostReviewDTO postReviewDTO);
+
+    void deleteDocument(final String id);
 }

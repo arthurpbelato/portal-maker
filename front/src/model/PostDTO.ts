@@ -27,4 +27,5 @@ export class PostDTO {
 
   reviews?: PostReviewDTO[] ;
 
+  id?: string;
 }

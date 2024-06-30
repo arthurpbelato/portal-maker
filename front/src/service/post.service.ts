@@ -51,4 +51,8 @@ export class PostService {
   askReview(id: string, postReview: PostReviewDTO) {
     return this.httpClient.post(`api/post/internal/review/${id}`, postReview, {responseType: ResponseType});
   }
+
+  deleteDocument(id: string | undefined) {
+    return this.httpClient.delete(`api/post/internal/document/${id}`);
+  }
 }

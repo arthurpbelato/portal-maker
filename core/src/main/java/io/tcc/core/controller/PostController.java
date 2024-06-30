@@ -10,15 +10,7 @@ import io.tcc.documentcommons.model.DocumentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -88,6 +80,12 @@ public class PostController {
     public ResponseEntity<PostDTO> review(@PathVariable("id") final String id,
                                           @RequestBody final PostReviewDTO postReviewDTO) {
         return ResponseEntity.ok(service.review(id, postReviewDTO));
+    }
+
+    @DeleteMapping("/internal/document/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
+        service.deleteDocument(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

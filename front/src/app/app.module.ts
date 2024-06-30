@@ -41,6 +41,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { ReviewPageComponent } from './components/review-page/review-page.component';
 import {DialogModule} from "primeng/dialog";
 import {SpeedDialModule} from "primeng/speeddial";
+import {AccordionModule} from "primeng/accordion";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   declarations: [
@@ -85,7 +87,9 @@ import {SpeedDialModule} from "primeng/speeddial";
     ProgressSpinnerModule,
     TabViewModule,
     DialogModule,
-    SpeedDialModule
+    SpeedDialModule,
+    AccordionModule,
+    ConfirmDialogModule
   ],
   providers: [
     UserService,
