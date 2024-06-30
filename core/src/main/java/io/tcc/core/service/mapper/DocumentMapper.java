@@ -6,7 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {DocumentTypeEnumMapper.class})
 public interface DocumentMapper extends EntityMapper<DocumentDTO, Document> {
 
     @Override

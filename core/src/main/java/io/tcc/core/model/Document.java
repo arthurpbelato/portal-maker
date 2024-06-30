@@ -1,5 +1,6 @@
 package io.tcc.core.model;
 
+import io.tcc.core.model.enums.DocumentTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -40,5 +41,8 @@ public class Document implements Serializable {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @Column
+    private DocumentTypeEnum type;
 
 }
