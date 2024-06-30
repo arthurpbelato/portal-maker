@@ -28,4 +28,9 @@ export class SubjectEnum {
     ];
   }
 
+  public static getByValue(value: number): SubjectEnum  {
+    let result = SubjectEnum.values().filter(subject => subject.value == value);
+    return result.length > 0 ? result[0] : this.NONE;
+  }
+
 }

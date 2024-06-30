@@ -24,7 +24,7 @@ export class PostStatusEnum {
     ];
   }
 
-  public static getByValue(value: number): PostStatusEnum {
+  public static getByValue(value?: number): PostStatusEnum {
     let result = this.values().find((s: PostStatusEnum)=>s.value === value);
     if (result === undefined) {
       return this.NULL_STATUS;

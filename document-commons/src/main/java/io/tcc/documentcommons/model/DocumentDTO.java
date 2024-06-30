@@ -31,6 +31,7 @@ public class DocumentDTO implements Serializable {
 
     private UUID postId;
 
+    private Integer type;
 
     public DocumentDTO(String id) {
         this.id = id;

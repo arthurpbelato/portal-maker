@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, ViewChild} from '@angular/core';
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../../../service/post.service";
 import {PostDTO} from "../../../../model/PostDTO";
-import {Message} from "primeng/api";
-import {FileRemoveEvent, FileSelectEvent, FileSendEvent} from "primeng/fileupload";
+import {ConfirmationService, Message, MessageService} from "primeng/api";
+import {FileRemoveEvent, FileSelectEvent, FileUpload} from "primeng/fileupload";
 import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
@@ -13,20 +13,26 @@ import {PostStatusEnum} from "../../../../enums/PostStatusEnum";
 @Component({
   selector: 'app-post',
   templateUrl: './post-form.component.html',
-  styleUrls: ['./post-form.component.css']
+  styleUrls: ['./post-form.component.css'],
+  providers: [ConfirmationService, MessageService]
 })
 export class PostFormComponent {
 
   constructor(
     private postService: PostService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
   }
-
+  isEdit?: boolean = false;
+  postId?: string = "";
   messages?: Message[];
   form!: FormGroup;
   post: PostDTO = new PostDTO();
+  retrievedPost: PostDTO = new PostDTO();
   models: DocumentSaveDTO[] = [];
   images: DocumentSaveDTO[] = [];
   subjects: SubjectEnum[] = SubjectEnum.values();
@@ -43,6 +49,32 @@ export class PostFormComponent {
       status: [{value: this.currentStatus.label, disabled: true}],
       tags: ['']
     });
+    this.loadDataToEdit();
+  }
+
+  private loadDataToEdit() {
+    this.route.params.subscribe((params: Params) => {
+      if (params['id']!) {
+        this.isEdit = true;
+        this.postId = params["id"];
+        this.postService.get(this.postId!).subscribe((value: PostDTO) => {
+          this.retrievedPost = value;
+          this.form.controls['title'].setValue(value.title);
+          this.form.controls['description'].setValue(value.description);
+          this.form.controls['status'].setValue(PostStatusEnum.getByValue(value.status));
+          this.form.controls['externalReference'].setValue(value.externalReference);
+          this.form.patchValue({subject: SubjectEnum.getByValue(value.subject!)})
+          this.form.controls['tags'].setValue(value.tags);
+          this.loadPostImages();
+          let files = value.images?.map((image:DocumentSaveDTO) => {
+            const blob = this.dataURItoBlob(image.base64!);
+            return new File([blob], image.title!, {type: 'image/*'});
+          })
+
+          console.log(this.retrievedPost);
+        })
+      }
+    });
   }
 
   publish(): void {
@@ -50,13 +82,17 @@ export class PostFormComponent {
     this.post.models = this.models;
     this.post.images = this.images;
     this.post.status = this.currentStatus.value; //necessario por conta do disabled: true
-    console.log(this.post);
-
+    this.post.subject = this.form.controls['subject'].value.value;
+    if(this.isEdit) {
+      this.post.id = this.postId;
+    }
+    console.log(this.post)
     this.postService.savePost(this.post).subscribe(response => {
       //TODO redirect to home?
       this.router.navigate(['/home']);
     }),
       (error: any) => {
+      console.log(error)
         if (error.status === 401) {
           //TODO erro
         }
@@ -109,6 +145,55 @@ export class PostFormComponent {
     let splitedName = file.name.split(".");
     document.extension = splitedName[splitedName.length - 1];
     return document;
+  }
+
+  loadPostImages() {
+    this.postService.loadImages(this.postId).subscribe(
+      resp => {
+        this.retrievedPost.images = resp;
+      },
+      error => {
+        console.log("Erro ao carregar imagens")
+      }
+    );
+  }
+
+  private dataURItoBlob(dataURI: string) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([int8Array], {type: 'image/png'});
+  }
+
+  deleteImage(id: string | undefined) {
+    console.log("delete "+ id);
+    this.postService.deleteDocument(id).subscribe(value => {
+      window.location.reload();
+    })
+  }
+
+  confirmImageDeletion(event: any, id:string ) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Tem certeza que deseja apagar essa imagem?',
+      header: 'Apagar imagem',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon:"none",
+      rejectIcon:"none",
+      rejectButtonStyleClass:"p-button-text",
+      acceptLabel: "Sim",
+      rejectLabel: "Não",
+      accept: () => {
+        this.deleteImage(id);
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+      }
+    });
   }
 }
 

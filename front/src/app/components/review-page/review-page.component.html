@@ -1,0 +1,52 @@
+<div><br><br>
+
+  <div class="grid col-12">
+    <div class="col-10 col-offset-1">
+      <div class="surface-card p-4 shadow-2 border-round" style="text-align: center">
+        <h2>Revisões pendentes</h2>
+      </div>
+    </div>
+  </div>
+
+  <span style="margin: 0 2px" *ngFor="let post of postList">
+    <div class="grid col-12">
+      <div class="col-10 col-offset-1">
+        <div class="surface-card p-4 shadow-2 border-round">
+          <div class="text-3xl font-medium text-900 mb-3">{{ post.title }}</div>
+          <hr>
+          <div class="font-medium text-500 mb-3" [innerHtml]="post.description"></div>
+           <div class="col-8 col-offset-2 mt-5 mb-5">
+             <div *ngIf="post.images === undefined">
+               <div class="col-2 col-offset-5" style=" margin: 150px 0;">
+                 <p-image src="assets/images/KSYA.gif" alt="Image" width="100%"></p-image>
+               </div>
+             </div>
+             <p-galleria [value]="post.images" [showItemNavigators]="true" [circular]="true"
+                         [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '100%' }"
+                         [numVisible]="5">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="'data:image/png;base64,' + item.base64" style="width: 100%;"/>
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="'data:image/png;base64,' + item.base64" style="width: 90px"/>
+                    </div>
+                </ng-template>
+             </p-galleria>
+           </div>
+           <div class="flex justify-content-between flex-wrap">
+             <div class="shadow-3 p-2 border-round bg-primary-50">
+               <p class="flex align-items-center justify-content-center font-bold text-color-secondary">
+               {{ PostStatusEnum.getByValue(post.status).label }}
+             </p>
+             </div>
+             <div class="flex align-items-center justify-content-center">
+                <p-button [routerLink]="['/post/detail/', post.id]">Detalhes</p-button>
+             </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </span>
+
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="1719711205836-1" author="belat">
+        <createTable tableName="post_review">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_post_review"/>
+            </column>
+            <column name="review_note" type="VARCHAR2"/>
+            <column name="solved" type="BOOLEAN"/>
+            <column name="post_id" type="UUID"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="post_review" constraintName="FK_POST_REVIEW_ON_POST" referencedColumnNames="id" referencedTableName="post"/>
+    </changeSet>
+</databaseChangeLog>

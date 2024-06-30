@@ -16,7 +16,8 @@ export class TopbarComponent implements OnInit {
   wasLogged: boolean = false;
   userName: string | null = "";
 
-  constructor(private loginComponent: LoginComponent) {}
+  constructor(private loginComponent: LoginComponent) {
+  }
 
   ngOnInit(): void {
     this.items = [
@@ -25,46 +26,36 @@ export class TopbarComponent implements OnInit {
         routerLink: '/home',
         icon: 'pi pi-fw pi-home'
       },
-      {
-        label: 'Nova Postagem',
-        routerLink: '/postagens/nova',
-        icon: 'pi pi-fw pi-plus'
-      },
-      {
-        label: 'Usuários',
-        routerLink: '/user',
-        icon: 'pi pi-fw pi-users'
-      },
-      {
-        label: 'Events',
-        icon: 'pi pi-fw pi-calendar',
-        items: [
-          {
-            label: 'Edit',
-            icon: 'pi pi-fw pi-pencil',
-            items: [
-              {
-                label: 'Save',
-                icon: 'pi pi-fw pi-calendar-plus'
-              },
-              {
-                label: 'Delete',
-                icon: 'pi pi-fw pi-calendar-minus'
-              }
-            ]
-          },
-          {
-            label: 'Archieve',
-            icon: 'pi pi-fw pi-calendar-times',
-            items: [
-              {
-                label: 'Remove',
-                icon: 'pi pi-fw pi-calendar-minus'
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   label: 'Events',
+      //   icon: 'pi pi-fw pi-calendar',
+      //   items: [
+      //     {
+      //       label: 'Edit',
+      //       icon: 'pi pi-fw pi-pencil',
+      //       items: [
+      //         {
+      //           label: 'Save',
+      //           icon: 'pi pi-fw pi-calendar-plus'
+      //         },
+      //         {
+      //           label: 'Delete',
+      //           icon: 'pi pi-fw pi-calendar-minus'
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       label: 'Archieve',
+      //       icon: 'pi pi-fw pi-calendar-times',
+      //       items: [
+      //         {
+      //           label: 'Remove',
+      //           icon: 'pi pi-fw pi-calendar-minus'
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         label: 'Requisitar uso do Laboratório',
         routerLink: '/requisitar-uso-laboratorio',
@@ -80,11 +71,29 @@ export class TopbarComponent implements OnInit {
     this.userName = name ? name : "Visitante";
 
     if (this.wasLogged) {
-      this.items?.push({
-        label: 'Logout',
-        icon: 'pi pi-fw pi-power-off',
-        command: () => this.logout()
-      })
+      this.items?.push(
+        {
+          label: 'Revisões',
+          routerLink: '/revisoes',
+          icon: 'pi pi-fw pi-pencil',
+          id: 'reviews',
+          badge: '8'
+        },
+        {
+          label: 'Nova Postagem',
+          routerLink: '/postagens/nova',
+          icon: 'pi pi-fw pi-plus'
+        },
+        {
+          label: 'Usuários',
+          routerLink: '/user',
+          icon: 'pi pi-fw pi-users'
+        },
+        {
+          label: 'Logout',
+          icon: 'pi pi-fw pi-power-off',
+          command: () => this.logout()
+        })
     }
   }
 

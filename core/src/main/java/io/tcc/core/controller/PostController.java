@@ -2,6 +2,7 @@ package io.tcc.core.controller;
 
 import io.tcc.core.service.dto.PostDTO;
 import io.tcc.core.service.dto.PostListDTO;
+import io.tcc.core.service.dto.PostReviewDTO;
 import io.tcc.core.service.dto.PostUserDTO;
 import io.tcc.core.service.interfaces.PostService;
 import io.tcc.core.util.AuthenticationUtil;
@@ -9,15 +10,7 @@ import io.tcc.documentcommons.model.DocumentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,12 +47,11 @@ public class PostController {
         return ResponseEntity.ok(service.getByUserId(page, size));
     }
 
-    @GetMapping("/internal/waiting-review")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<PostListDTO>> getAllWaitingReview(@RequestParam("page") Integer page,
-                                                                 @RequestParam("size") Integer size) {
+    @GetMapping("/internal/list/review")
+    public ResponseEntity<List<PostListDTO>> listReview(@RequestParam("page") Integer page,
+                                                        @RequestParam("size") Integer size) {
 
-        return ResponseEntity.ok(service.getAllWaitingReview(page, size));
+        return ResponseEntity.ok(service.listReview(page, size));
     }
 
     @PatchMapping("/internal/status/{id}/{status}")
@@ -78,4 +70,22 @@ public class PostController {
     public ResponseEntity<PostDTO> update(PostDTO postDTO){
         return ResponseEntity.ok(service.save(postDTO));
     }
+
+    @PatchMapping("/internal/approve/{id}")
+    public ResponseEntity<PostDTO> approve(@PathVariable("id") final String id) {
+        return ResponseEntity.ok(service.approve(id));
+    }
+
+    @PostMapping("/internal/review/{id}")
+    public ResponseEntity<PostDTO> review(@PathVariable("id") final String id,
+                                          @RequestBody final PostReviewDTO postReviewDTO) {
+        return ResponseEntity.ok(service.review(id, postReviewDTO));
+    }
+
+    @DeleteMapping("/internal/document/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
+        service.deleteDocument(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
