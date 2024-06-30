@@ -43,6 +43,7 @@ import {DialogModule} from "primeng/dialog";
 import {SpeedDialModule} from "primeng/speeddial";
 import {AccordionModule} from "primeng/accordion";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {BadgeModule} from "primeng/badge";
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     DialogModule,
     SpeedDialModule,
     AccordionModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    BadgeModule
   ],
   providers: [
     UserService,
