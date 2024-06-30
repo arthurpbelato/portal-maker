@@ -90,7 +90,6 @@ export class RequestLabComponent {
     this.requestLabData.files = this.files;
 
     this.service.send(this.requestLabData).subscribe(response => {
-      console.log(response)
       this.showSuccess();
       this.form.reset();
       this.blockedDocument = false;

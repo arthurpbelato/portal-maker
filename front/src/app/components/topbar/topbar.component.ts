@@ -76,8 +76,6 @@ export class TopbarComponent implements OnInit {
           label: 'Revisões',
           routerLink: '/revisoes',
           icon: 'pi pi-fw pi-pencil',
-          id: 'reviews',
-          badge: '8'
         },
         {
           label: 'Nova Postagem',

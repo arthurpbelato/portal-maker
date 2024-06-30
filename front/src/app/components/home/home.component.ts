@@ -2,21 +2,24 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../service/user.service";
 import {PostService} from "../../../service/post.service";
 import {PostListDTO} from "../../../model/PostListDTO";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  providers: [MessageService]
 })
 export class HomeComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private postService: PostService
+    private postService: PostService,
+    private messageService: MessageService
   ) {}
 
   responsiveOptions: any[] | undefined;
-
+  pendingReviews: number = 0;
   postList : PostListDTO[] = [];
 
   ngOnInit(): void {
@@ -45,6 +48,11 @@ export class HomeComponent implements OnInit {
         console.log("Erro ao listar posts")
       },
     );
+
+    this.postService.getReviewCount().subscribe(value => {
+      console.log(value)
+      this.pendingReviews = value;
+    })
   }
 
   loadPostImages() {
@@ -60,4 +68,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  showReviewToast(): void {
+    this.messageService.add({ key: 'bc', severity: 'info', summary: 'Revisões pendentes', detail: 'Você possui revisões pendentes. Acesse a aba "Revisões" para ver mais detalhes' });
+  }
 }

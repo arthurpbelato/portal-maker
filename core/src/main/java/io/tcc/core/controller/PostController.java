@@ -88,4 +88,8 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/internal/list/review/count")
+    public ResponseEntity<Integer> getReviewCount() {
+        return ResponseEntity.ok(service.getReviewCount());
+    }
 }

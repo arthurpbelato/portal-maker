@@ -55,4 +55,8 @@ export class PostService {
   deleteDocument(id: string | undefined) {
     return this.httpClient.delete(`api/post/internal/document/${id}`);
   }
+
+  getReviewCount(): Observable<number> {
+    return this.httpClient.get<number>(`api/post/internal/list/review/count`);
+  }
 }
