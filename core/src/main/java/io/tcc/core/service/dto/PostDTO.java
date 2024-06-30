@@ -25,4 +25,5 @@ public class PostDTO {
     private String subject;
     private Integer status;
     private List<String> tags = new ArrayList<>();
+    private List<PostReviewDTO> reviews = new ArrayList<>();
 }

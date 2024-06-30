@@ -4,7 +4,14 @@
     <div class="col-10 col-offset-1">
       <div class="surface-card p-4 shadow-2 border-round">
         <div class="col-12 flex">
-          <div class="col-6 text-3xl font-medium mb-6">Nova Postagem</div>
+          <div *ngIf="this.isEdit; then editTitle else newTitle">
+          </div>
+          <ng-template #editTitle>
+            <div class="col-8 text-3xl font-medium mb-6">Editar Postagem</div>
+          </ng-template>
+          <ng-template #newTitle>
+            <div class="col-6 text-3xl font-medium mb-6" >Nova Postagem</div>
+          </ng-template>
         </div>
         <div class="col-12">
           <form [formGroup]="form">
@@ -34,7 +41,7 @@
                   <div class="col-12 inline-block" style="padding: 0 !important;">
                     <label for="subjects" class="block font-medium mb-2">Matéria</label>
                     <p-dropdown id="subjects" [options]="subjects" formControlName="subject" optionLabel="name"
-                                [showClear]="true" optionLabel="label" optionValue="value"
+                                [showClear]="true" optionLabel="label" dataKey="value"
                                 placeholder="Selecione uma matéria" autoWidth="false" [style]="{'width':'100%'}"/>
                   </div>
                   <div class="col-12 inline-block mt-3" style="padding: 0 !important;">
@@ -58,7 +65,7 @@
               </div>
               <div class="col-6 inline-block">
                 <label for="modelUploader" class="block font-medium mb-2">Adicionar imagens</label>
-                <p-fileUpload [auto]="true" id="modelUploader" [multiple]="true" chooseLabel="Carregar Modelo"
+                <p-fileUpload [auto]="true" id="imageUploader" [multiple]="true" chooseLabel="Carregar imagem"
                               (onSelect)="onSelectImages($event)" (onRemove)="onImageRemove($event)">
                   <ng-template pTemplate="toolbar">
                     <div class="py-3">Adicione imagens para facilitiar a pré-visualização do seu projeto.</div>

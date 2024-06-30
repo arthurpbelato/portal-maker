@@ -1,0 +1,7 @@
+.status{
+  border-radius: 5px;
+  display: inline-flex;
+  vertical-align: bottom;
+  align-items: center;
+  background: #0b655b;
+}

@@ -1,14 +1,19 @@
 package io.tcc.core.service;
 
+import io.tcc.core.model.Post;
+import io.tcc.core.model.PostReview;
 import io.tcc.core.model.enums.PostStatusEnum;
 import io.tcc.core.repository.PostPageRepository;
 import io.tcc.core.repository.PostRepository;
+import io.tcc.core.repository.PostReviewRepository;
 import io.tcc.core.service.dto.PostDTO;
 import io.tcc.core.service.dto.PostListDTO;
+import io.tcc.core.service.dto.PostReviewDTO;
 import io.tcc.core.service.interfaces.DocumentService;
 import io.tcc.core.service.interfaces.PostService;
 import io.tcc.core.service.mapper.PostListMapper;
 import io.tcc.core.service.mapper.PostMapper;
+import io.tcc.core.service.mapper.PostReviewMapper;
 import io.tcc.core.util.AuthenticationUtil;
 import io.tcc.documentcommons.model.DocumentDTO;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static io.tcc.core.model.enums.PostStatusEnum.*;
+import static io.tcc.core.model.enums.RoleEnum.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +45,8 @@ public class PostServiceImpl implements PostService {
     private final PostPageRepository pageRepository;
     private final PostMapper mapper;
     private final PostListMapper listMapper;
+    private final PostReviewMapper postReviewMapper;
+    private final PostReviewRepository postReviewRepository;
 
     @Override
     public PostDTO save(final PostDTO dto) {
@@ -70,8 +80,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostListDTO> getAllWaitingReview(Integer page, Integer size) {
-        return listMapper.toDto(pageRepository.findAllByStatus(PostStatusEnum.WAITING_REVIEW,
+    public List<PostListDTO> listReview(final Integer page, final Integer size) {
+        if (AuthenticationUtil.getLoggedUser()
+                .getAuthorities()
+                .stream()
+                .anyMatch(role -> role.toString().equals(ROLE_ADMIN.getRole().getName()))) {
+            return listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,
+                    PageRequest.of(page, size, Sort.by("postDate").ascending())));
+        }
+        return listMapper.toDto(pageRepository.findAllByUserAndStatusIn(AuthenticationUtil.getLoggedUser().getUser(),
+                List.of(WAITING_EDIT, WAITING_REVIEW),
                 PageRequest.of(page, size, Sort.by("postDate").ascending())));
     }
 
@@ -85,6 +103,31 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO getById(UUID id) {
         var post = repository.findById(id).orElseThrow(RuntimeException::new);
+        return mapper.toDto(post);
+    }
+
+    @Override
+    public PostDTO approve(final String id) {
+        final var post = repository.findById(UUID.fromString(id)).orElseThrow(RuntimeException::new);
+        post.setStatus(APPROVED);
+        final var result = repository.save(post);
+        return mapper.toDto(result);
+    }
+
+    @Override
+    public PostDTO review(final String id, final PostReviewDTO postReviewDTO) {
+        final var postReview = new PostReview();
+        final var postId = UUID.fromString(id);
+        final var post = repository.findById(postId).orElse(null);
+        if (post == null) {
+            throw new RuntimeException("Post not found");
+        }
+        post.setStatus(WAITING_EDIT);
+        postReview.setPost(post)
+                .setReviewNote(postReviewDTO.getReviewNote())
+                .setSolved(false);
+        repository.save(post);
+        postReviewRepository.save(postReview);
         return mapper.toDto(post);
     }
 
@@ -102,7 +145,7 @@ public class PostServiceImpl implements PostService {
 
     private PostDTO saveDto(PostDTO dto) {
         var post = mapper.toEntity(dto);
-        post.setStatus(PostStatusEnum.WAITING_REVIEW);
+        post.setStatus(WAITING_REVIEW);
         return mapper.toDto(repository.save(post));
     }
 }

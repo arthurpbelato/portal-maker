@@ -2,6 +2,7 @@ package io.tcc.core.controller;
 
 import io.tcc.core.service.dto.PostDTO;
 import io.tcc.core.service.dto.PostListDTO;
+import io.tcc.core.service.dto.PostReviewDTO;
 import io.tcc.core.service.dto.PostUserDTO;
 import io.tcc.core.service.interfaces.PostService;
 import io.tcc.core.util.AuthenticationUtil;
@@ -54,12 +55,11 @@ public class PostController {
         return ResponseEntity.ok(service.getByUserId(page, size));
     }
 
-    @GetMapping("/internal/waiting-review")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<PostListDTO>> getAllWaitingReview(@RequestParam("page") Integer page,
-                                                                 @RequestParam("size") Integer size) {
+    @GetMapping("/internal/list/review")
+    public ResponseEntity<List<PostListDTO>> listReview(@RequestParam("page") Integer page,
+                                                        @RequestParam("size") Integer size) {
 
-        return ResponseEntity.ok(service.getAllWaitingReview(page, size));
+        return ResponseEntity.ok(service.listReview(page, size));
     }
 
     @PatchMapping("/internal/status/{id}/{status}")
@@ -78,4 +78,16 @@ public class PostController {
     public ResponseEntity<PostDTO> update(PostDTO postDTO){
         return ResponseEntity.ok(service.save(postDTO));
     }
+
+    @PatchMapping("/internal/approve/{id}")
+    public ResponseEntity<PostDTO> approve(@PathVariable("id") final String id) {
+        return ResponseEntity.ok(service.approve(id));
+    }
+
+    @PostMapping("/internal/review/{id}")
+    public ResponseEntity<PostDTO> review(@PathVariable("id") final String id,
+                                          @RequestBody final PostReviewDTO postReviewDTO) {
+        return ResponseEntity.ok(service.review(id, postReviewDTO));
+    }
+
 }

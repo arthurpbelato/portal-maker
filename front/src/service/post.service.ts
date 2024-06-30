@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpParams} from "@angular/common/http";
 import {PostDTO} from "../model/PostDTO";
 import {PostListDTO} from "../model/PostListDTO";
+import {PageDTO} from "../model/PageDTO";
+import {PostReviewDTO} from "../model/PostReviewDTO";
 
 const ResponseType = 'json';
 
@@ -35,4 +37,18 @@ export class PostService {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/images/${postId}`, {responseType: ResponseType});
   }
 
+  listReview(page: PageDTO): Observable<PostListDTO[]> {
+    const params = new HttpParams({
+      fromObject: {...page}
+    });
+    return this.httpClient.get<PostListDTO[]>(`api/post/internal/list/review`,  {responseType: ResponseType, params});
+  }
+
+  approve(id: string) {
+    return this.httpClient.patch(`api/post/internal/approve/${id}`, {responseType: ResponseType});
+  }
+
+  askReview(id: string, postReview: PostReviewDTO) {
+    return this.httpClient.post(`api/post/internal/review/${id}`, postReview, {responseType: ResponseType});
+  }
 }

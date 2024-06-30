@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, ViewChild} from '@angular/core';
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../../../../service/post.service";
 import {PostDTO} from "../../../../model/PostDTO";
 import {Message} from "primeng/api";
-import {FileRemoveEvent, FileSelectEvent, FileSendEvent} from "primeng/fileupload";
+import {FileRemoveEvent, FileSelectEvent, FileSendEvent, FileUpload} from "primeng/fileupload";
 import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
@@ -20,13 +20,17 @@ export class PostFormComponent {
   constructor(
     private postService: PostService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {
   }
-
+  @ViewChild('imageUploader') imageUploader?: FileUpload;
+  isEdit?: boolean = false;
+  postId?: string = "";
   messages?: Message[];
   form!: FormGroup;
   post: PostDTO = new PostDTO();
+  retrievedPost: PostDTO = new PostDTO();
   models: DocumentSaveDTO[] = [];
   images: DocumentSaveDTO[] = [];
   subjects: SubjectEnum[] = SubjectEnum.values();
@@ -42,6 +46,33 @@ export class PostFormComponent {
       subject: ['', Validators.required],
       status: [{value: this.currentStatus.label, disabled: true}],
       tags: ['']
+    });
+    this.loadDataToEdit();
+  }
+
+  private loadDataToEdit() {
+    this.route.params.subscribe((params: Params) => {
+      if (params['id']!) {
+        this.isEdit = true;
+        this.postId = params["id"];
+        this.postService.get(this.postId!).subscribe((value: PostDTO) => {
+          this.retrievedPost = value;
+          this.form.controls['title'].setValue(value.title);
+          this.form.controls['description'].setValue(value.description);
+          this.form.controls['status'].setValue(value.status);
+          this.form.controls['externalReference'].setValue(value.externalReference);
+          this.form.patchValue({subject: SubjectEnum.getByValue(value.subject!)})
+          this.form.controls['tags'].setValue(value.tags);
+          this.form.controls['externalReference'].setValue(value.externalReference);
+          this.loadPostImages();
+          let files = value.images?.map((image:DocumentSaveDTO) => {
+            const blob = this.dataURItoBlob(image.base64!);
+            return new File([blob], image.title!, {type: 'image/*'});
+          })
+
+          console.log(this.retrievedPost);
+        })
+      }
     });
   }
 
@@ -109,6 +140,28 @@ export class PostFormComponent {
     let splitedName = file.name.split(".");
     document.extension = splitedName[splitedName.length - 1];
     return document;
+  }
+
+  loadPostImages() {
+    this.postService.loadImages(this.postId).subscribe(
+      resp => {
+        this.retrievedPost.images = resp;
+      },
+      error => {
+        console.log("Erro ao carregar imagens")
+      }
+    );
+  }
+
+  private dataURItoBlob(dataURI: string) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/png' });
+    return blob;
   }
 }
 

@@ -38,6 +38,9 @@ import {ToastModule} from "primeng/toast";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import { PostDetailComponent } from './components/post/detail/post-detail.component';
 import { TabViewModule } from 'primeng/tabview';
+import { ReviewPageComponent } from './components/review-page/review-page.component';
+import {DialogModule} from "primeng/dialog";
+import {SpeedDialModule} from "primeng/speeddial";
 
 @NgModule({
   declarations: [
@@ -50,6 +53,7 @@ import { TabViewModule } from 'primeng/tabview';
     PostFormComponent,
     RequestLabComponent,
     PostDetailComponent,
+    ReviewPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +83,9 @@ import { TabViewModule } from 'primeng/tabview';
     PanelModule,
     ToastModule,
     ProgressSpinnerModule,
-    TabViewModule
+    TabViewModule,
+    DialogModule,
+    SpeedDialModule
   ],
   providers: [
     UserService,

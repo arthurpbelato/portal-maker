@@ -1,21 +1,34 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PostService} from "../../../../service/post.service";
 import {PostDTO} from "../../../../model/PostDTO";
+import {MessageService} from "primeng/api";
+import {SubjectEnum} from "../../../../enums/SubjectEnum";
+import {PostReviewDTO} from "../../../../model/PostReviewDTO";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.css']
+  styleUrls: ['./post-detail.component.css'],
+  providers: [MessageService]
 })
 export class PostDetailComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private service: PostService) {}
+  constructor(private activatedRoute: ActivatedRoute,
+              private service: PostService,
+              private messageService: MessageService,
+              private router: Router,
+              private fb: FormBuilder) {}
 
   id: string | undefined;
   name: string | undefined;
   post: PostDTO = new PostDTO();
   responsiveOptions: any[] | undefined;
+  form!: FormGroup;
+  postReview: PostReviewDTO = new PostReviewDTO();
+  protected readonly SubjectEnum = SubjectEnum;
+
 
   //FIXME mover para date utils ---------------------------------------------
   options = {
@@ -29,6 +42,9 @@ export class PostDetailComponent implements OnInit {
   // @ts-ignore
   brDateTime = new Intl.DateTimeFormat("pt-BR", this.options).format;
   // ------------------------------------------------------------------------
+
+  writeReviewNoteDialogVisible: boolean = false;
+  showReviewNoteDialogVisible: boolean = false;
 
   ngOnInit(): void {
 
@@ -55,6 +71,9 @@ export class PostDetailComponent implements OnInit {
       this.getPost(this.id);
     }
 
+    this.form = this.fb.group({
+      reviewNote: ['', [Validators.required]],
+    });
   }
 
   getPost(id: string) {
@@ -64,6 +83,7 @@ export class PostDetailComponent implements OnInit {
         this.loadPostImages();
         this.name = this.post.user?.name;
         this.post.postDate = this.brDateTime(new Date(this.post.postDate));
+        console.log(this.post)
       },
       error => {
         console.log("Erro ao listar posts")
@@ -82,4 +102,32 @@ export class PostDetailComponent implements OnInit {
     );
   }
 
+  approve(): void {
+    this.service.approve(this.id!).subscribe(
+      value =>  {
+        this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Postagem aprovada! Agora ela será exibida para todos' });
+        this.router.navigate(['/'])
+      }
+    )
+  }
+
+
+  showWriteReviewNoteDialog(): void {
+    this.writeReviewNoteDialogVisible = true;
+  }
+
+  askReview(): void {
+    this.postReview = this.form.value as PostReviewDTO
+    this.service.askReview(this.id!, this.postReview).subscribe(value => {
+      this.router.navigate(['/home']);
+    });
+  }
+
+  showReviewNotes(): void {
+    this.showReviewNoteDialogVisible = true;
+  }
+
+  edit(): void {
+    this.router.navigate([`/postagens/editar/${this.id!}`]);
+  }
 }

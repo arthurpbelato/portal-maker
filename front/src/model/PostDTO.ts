@@ -1,5 +1,6 @@
 import {DocumentSaveDTO} from "./DocumentSaveDTO";
 import {PostUserDTO} from "./PostUserDTO";
+import {PostReviewDTO} from "./PostReviewDTO";
 
 export class PostDTO {
 
@@ -11,7 +12,7 @@ export class PostDTO {
 
   status?: number;
 
-  subjec?: number;
+  subject?: number;
 
   models?: DocumentSaveDTO[];
 
@@ -23,5 +24,7 @@ export class PostDTO {
 
   // @ts-ignore
   postDate: string;
+
+  reviews?: PostReviewDTO[] ;
 
 }
