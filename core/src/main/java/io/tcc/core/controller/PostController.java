@@ -80,15 +80,22 @@ public class PostController {
     }
 
     @PostMapping("/internal/review/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER')")
     public ResponseEntity<PostDTO> review(@PathVariable("id") final String id,
                                           @RequestBody final PostReviewDTO postReviewDTO) {
         return ResponseEntity.ok(service.review(id, postReviewDTO));
     }
 
     @DeleteMapping("/internal/document/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
         service.deleteDocument(id);
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/internal/list/review/count")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
+    public ResponseEntity<Integer> getReviewCount() {
+        return ResponseEntity.ok(service.getReviewCount());
+    }
 }

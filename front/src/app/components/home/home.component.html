@@ -43,5 +43,13 @@
       </div>
     </div>
   </span>
-
+  <div *ngIf="pendingReviews > 0" >
+    <p-button icon="pi pi-exclamation-triangle" label="Revisões" class="shadow-3"
+              styleClass="p-button-warning" badge="{{pendingReviews}}" badgeClass="p-badge-danger p-overlay-badge"
+              [raised] = "true"
+              [style]="{position: 'fixed',bottom: '40px',right: '40px'}"
+              [rounded]="true"
+              (onClick)="showReviewToast()"/>
+  </div>
+  <p-toast position="bottom-center" key="bc"></p-toast>
 </div>

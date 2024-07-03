@@ -49,6 +49,7 @@ public class PostServiceImpl implements PostService {
     private final PostListMapper listMapper;
     private final PostReviewRepository postReviewRepository;
     private final DocumentRepository documentRepository;
+    private final PostRepository postRepository;
 
     @Override
     public PostDTO save(final PostDTO dto) {
@@ -83,10 +84,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListDTO> listReview(final Integer page, final Integer size) {
-        if (AuthenticationUtil.getLoggedUser()
-                .getAuthorities()
-                .stream()
-                .anyMatch(role -> role.toString().equals(ROLE_ADMIN.getRole().getName()))) {
+        if (AuthenticationUtil.isAdmin()) {
             return listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,
                     PageRequest.of(page, size, Sort.by("postDate").ascending())));
         }
@@ -136,6 +134,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteDocument(final String id) {
         documentRepository.delete(new Document().setId(id));
+    }
+
+    @Override
+    public Integer getReviewCount() {
+        if (AuthenticationUtil.isAdmin()){
+            return postRepository.countByStatusInAndUser(List.of(WAITING_REVIEW), AuthenticationUtil.getLoggedUser().getUser());
+        }
+        return postRepository.countByStatusInAndUser(List.of(WAITING_EDIT), AuthenticationUtil.getLoggedUser().getUser());
     }
 
     private void setDocumentId(final List<DocumentDTO> documentDTOList, final PostDTO savedDto, final DocumentTypeEnum type) {
