@@ -1,7 +1,7 @@
 <div class="grid grid-nogutter top-bar test">
   <p-menubar *ngIf="isVisible" class="col-12 test" [model]="items">
     <ng-template pTemplate="start">
-      <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
+      <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2"  alt="logo"/>
     </ng-template>
     <ng-template pTemplate="end">
       <div *ngIf="!wasLogged">
@@ -12,4 +12,5 @@
       </div>
     </ng-template>
   </p-menubar>
+  <p-toast/>
 </div>
