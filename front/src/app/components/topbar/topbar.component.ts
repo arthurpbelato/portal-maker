@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {LoginComponent} from "../login/login.component";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-topbar',
@@ -14,9 +15,22 @@ export class TopbarComponent implements OnInit {
 
   items: MenuItem[] | undefined;
   wasLogged: boolean = false;
+  isAdmin: boolean = false;
+  isVisible: boolean = true;
   userName: string | null = "";
 
-  constructor(private loginComponent: LoginComponent) {
+  constructor(private loginComponent: LoginComponent, private userService: UserService) {
+    this.userService.userRoles().subscribe(
+      resp => {
+        if (resp !== undefined) {
+          this.items = []
+          this.isAdmin = resp.some((role) => role === 'ROLE_ADMIN')
+        }
+      },
+      error => {
+      },
+    );
+    this.isVisible = true
   }
 
   ngOnInit(): void {
@@ -26,36 +40,6 @@ export class TopbarComponent implements OnInit {
         routerLink: '/home',
         icon: 'pi pi-fw pi-home'
       },
-      // {
-      //   label: 'Events',
-      //   icon: 'pi pi-fw pi-calendar',
-      //   items: [
-      //     {
-      //       label: 'Edit',
-      //       icon: 'pi pi-fw pi-pencil',
-      //       items: [
-      //         {
-      //           label: 'Save',
-      //           icon: 'pi pi-fw pi-calendar-plus'
-      //         },
-      //         {
-      //           label: 'Delete',
-      //           icon: 'pi pi-fw pi-calendar-minus'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       label: 'Archieve',
-      //       icon: 'pi pi-fw pi-calendar-times',
-      //       items: [
-      //         {
-      //           label: 'Remove',
-      //           icon: 'pi pi-fw pi-calendar-minus'
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
         label: 'Requisitar uso do Laboratório',
         routerLink: '/requisitar-uso-laboratorio',
@@ -77,17 +61,17 @@ export class TopbarComponent implements OnInit {
           routerLink: '/revisoes',
           icon: 'pi pi-fw pi-pencil',
           id: 'reviews',
-          badge: '8'
+        },
+        {
+          label: 'Usuários',
+          routerLink: '/user',
+          icon: 'pi pi-fw pi-users',
+          visible: this.isAdmin
         },
         {
           label: 'Nova Postagem',
           routerLink: '/postagens/nova',
           icon: 'pi pi-fw pi-plus'
-        },
-        {
-          label: 'Usuários',
-          routerLink: '/user',
-          icon: 'pi pi-fw pi-users'
         },
         {
           label: 'Logout',

@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/internal/profile")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_REVIEWER', 'ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<UserProfileDTO> getProfileData() throws Exception {
         UserProfileDTO userProfileDTO = service.getProfile(AuthenticationUtil.getId());
         return ResponseEntity.ok(userProfileDTO);
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @GetMapping("/internal/validate/token")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<String> validateToken() {
         return ResponseEntity.ok("Valid");
     }

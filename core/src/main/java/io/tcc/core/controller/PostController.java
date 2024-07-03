@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @PostMapping("/internal/save")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<PostDTO> save(@RequestBody PostDTO dto) {
         final var user = new PostUserDTO().setId(AuthenticationUtil.getUuid());
         dto.setUser(user);
@@ -42,12 +42,14 @@ public class PostController {
     }
 
     @GetMapping("/internal/user")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<List<PostListDTO>> getByUserId(@RequestParam("page") Integer page,
                                                          @RequestParam("size") Integer size) {
         return ResponseEntity.ok(service.getByUserId(page, size));
     }
 
     @GetMapping("/internal/list/review")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<List<PostListDTO>> listReview(@RequestParam("page") Integer page,
                                                         @RequestParam("size") Integer size) {
 
@@ -55,7 +57,7 @@ public class PostController {
     }
 
     @PatchMapping("/internal/status/{id}/{status}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<PostDTO> updatePostStatus(@PathVariable("id") String id, @PathVariable("status") Integer status) {
         return ResponseEntity.ok(service.updatedStatus(UUID.fromString(id), status));
     }
@@ -66,12 +68,13 @@ public class PostController {
     }
 
     @PutMapping("/internal")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<PostDTO> update(PostDTO postDTO){
         return ResponseEntity.ok(service.save(postDTO));
     }
 
     @PatchMapping("/internal/approve/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER')")
     public ResponseEntity<PostDTO> approve(@PathVariable("id") final String id) {
         return ResponseEntity.ok(service.approve(id));
     }

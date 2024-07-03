@@ -1,5 +1,5 @@
 <div class="grid grid-nogutter top-bar test">
-  <p-menubar class="col-12 test" [model]="items">
+  <p-menubar *ngIf="isVisible" class="col-12 test" [model]="items">
     <ng-template pTemplate="start">
       <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
     </ng-template>
