@@ -10,17 +10,18 @@ import {RequestLabComponent} from "./components/request-lab/request-lab.componen
 import {PostDetailComponent} from "./components/post/detail/post-detail.component";
 import {ReviewPageComponent} from "./components/review-page/review-page.component";
 
+const allRoles: String[] = ["ROLE_USER", "ROLE_ADMIN", "ROLE_REVIEWER"];
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]}},
-  { path: 'user/form', component: UserFormComponent },
-  { path: 'postagens/nova', component: PostFormComponent, title: "Portal Maker - Nova Postagem" },
-  { path: 'postagens/editar/:id', component: PostFormComponent, title: "Portal Maker - Editar Postagem" },
+  { path: 'user/form', component: UserFormComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]} },
+  { path: 'postagens/nova', component: PostFormComponent, title: "Portal Maker - Nova Postagem", canActivate: [authGuard], data: {roles: allRoles} },
+  { path: 'postagens/editar/:id', component: PostFormComponent, title: "Portal Maker - Editar Postagem", canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'requisitar-uso-laboratorio', component: RequestLabComponent, title: "Requisitar Uso do Laboratório" },
-  { path: 'revisoes', component: ReviewPageComponent, title: "Revisões" },
+  { path: 'revisoes', component: ReviewPageComponent, title: "Revisões",  canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'post/detail/:id', component: PostDetailComponent },
   { path: '**', redirectTo: 'home' },
 ];

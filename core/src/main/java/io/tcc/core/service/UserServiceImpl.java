@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         final var password = passwordService.getPassword();
         final var emailBody = """
                 Seu email foi registrado no Portal Maker do IFES Campus Colatina! Você pode acessar nosso portal com
-                 seu email e sua nova senha: ?
+                 seu email e sua nova senha: %s
                 """;
         emailService.send(userRegisterDTO.getEmail(), emailBody.formatted(password), "Portal Maker - Seu email foi registrado!");
         user.setPassword(new BCryptPasswordEncoder().encode(password));
