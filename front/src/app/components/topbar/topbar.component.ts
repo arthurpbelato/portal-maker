@@ -1,11 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MenuItem} from "primeng/api";
+import {MenuItem, MessageService} from "primeng/api";
 import {LoginComponent} from "../login/login.component";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  providers: [LoginComponent],
+  providers: [LoginComponent, MessageService],
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent implements OnInit {
@@ -14,61 +15,58 @@ export class TopbarComponent implements OnInit {
 
   items: MenuItem[] | undefined;
   wasLogged: boolean = false;
+  isAdmin: boolean = false;
+  isVisible: boolean = true;
   userName: string | null = "";
 
-  constructor(private loginComponent: LoginComponent) {
+  constructor(private loginComponent: LoginComponent,
+              private userService: UserService,
+              private messageService: MessageService) {
+    this.userService.userRoles().subscribe({
+      next: (resp: String[]) => {
+        if (resp !== undefined) {
+          this.items = [];
+          this.isAdmin = resp.some((role) => role === 'ROLE_ADMIN');
+          this.fillMenuItemsList();
+        }
+      },
+      error: _ => {
+        this.showError();
+      },
+      complete: () => {
+        this.isVisible = true;
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.loggedUserLoad();
+  }
+
+  loggedUserLoad(): void {
+    this.wasLogged = localStorage.getItem('token') !== null;
+    const name = localStorage.getItem('userName');
+    this.userName = name ? name : "Visitante";
+  }
+
+  logout(): void {
+    this.loginComponent.logout();
+    this.ngOnInit();
+  }
+
+  private fillMenuItemsList() {
     this.items = [
       {
         label: 'Home',
         routerLink: '/home',
         icon: 'pi pi-fw pi-home'
       },
-      // {
-      //   label: 'Events',
-      //   icon: 'pi pi-fw pi-calendar',
-      //   items: [
-      //     {
-      //       label: 'Edit',
-      //       icon: 'pi pi-fw pi-pencil',
-      //       items: [
-      //         {
-      //           label: 'Save',
-      //           icon: 'pi pi-fw pi-calendar-plus'
-      //         },
-      //         {
-      //           label: 'Delete',
-      //           icon: 'pi pi-fw pi-calendar-minus'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       label: 'Archieve',
-      //       icon: 'pi pi-fw pi-calendar-times',
-      //       items: [
-      //         {
-      //           label: 'Remove',
-      //           icon: 'pi pi-fw pi-calendar-minus'
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
         label: 'Requisitar uso do Laboratório',
         routerLink: '/requisitar-uso-laboratorio',
         icon: 'pi pi-fw pi-pencil'
       }
     ];
-    this.loggedUserLoad();
-  }
-
-  loggedUserLoad() {
-    this.wasLogged = localStorage.getItem('token') !== null;
-    let name = localStorage.getItem('userName');
-    this.userName = name ? name : "Visitante";
 
     if (this.wasLogged) {
       this.items?.push(
@@ -76,6 +74,13 @@ export class TopbarComponent implements OnInit {
           label: 'Revisões',
           routerLink: '/revisoes',
           icon: 'pi pi-fw pi-pencil',
+          id: 'reviews',
+        },
+        {
+          label: 'Usuários',
+          routerLink: '/user',
+          icon: 'pi pi-fw pi-users',
+          visible: this.isAdmin
         },
         {
           label: 'Nova Postagem',
@@ -83,21 +88,15 @@ export class TopbarComponent implements OnInit {
           icon: 'pi pi-fw pi-plus'
         },
         {
-          label: 'Usuários',
-          routerLink: '/user',
-          icon: 'pi pi-fw pi-users'
-        },
-        {
           label: 'Logout',
           icon: 'pi pi-fw pi-power-off',
           command: () => this.logout()
-        })
+        });
     }
   }
 
-  logout() {
-    this.loginComponent.logout();
-    this.ngOnInit();
+  showError(): void {
+    this.messageService.add({ severity: 'error', summary: 'Um erro inesperado ocorreu!', detail: 'Erro ao carregar as informações do usuário logado' });
   }
 
 }

@@ -1,0 +1,24 @@
+/request-lab
+    /send -- aberta
+
+/user
+    /login -- aberta
+    /register -- admin
+    /profile -- reviewer, admin, user
+    /list -- admin
+    /validate/token -- ROLE_REVIEWER, admin, user
+    /logged/role -- ROLE_REVIEWER, admin, user
+    /role -- admin
+
+/post
+    /list -- aberta
+    /imagens/{postId} -- aberta
+    /save -- user, reviewer, admin
+    /user -- user, reviewer, admin
+    /list/review -- user, reviewer, admin
+    /status/{id}/{status} -- user, reviewer, admin
+    /{id} -- aberta
+    /*update* -- admin, reviewer, user
+    /approve/{id} -- admin, reviewer
+    /review/{id} -- admin, reviewer
+    /document/{id} -- admin, reviewer, user

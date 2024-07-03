@@ -11,6 +11,8 @@ export const authGuard: CanActivateFn =  async (route, state) => {
   acceptedRoles.forEach(role => {
     if (userRoles && userRoles.some((userRole) => userRole === role)) {
       hasRole = true
+    } else {
+      //FIXME toast de acesso negado
     }
   });
 
