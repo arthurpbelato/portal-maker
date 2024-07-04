@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background-color: #3B82F6;
+  background-color: #c6f1c7;
 }
 
 .p-menubar {
@@ -16,4 +16,24 @@ body {
 
 .p-galleria-thumbnail-item {
   flex: auto!important;
+}
+
+.p-button {
+  background-color: green;
+  border-color: darkgreen;
+}
+
+.p-button:hover {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+.p-button-warning {
+  background-color: orange;
+  border-color: darkorange;
+}
+
+.p-button-warning:hover {
+  background-color: darkorange;
+  border-color: darkorange;
 }

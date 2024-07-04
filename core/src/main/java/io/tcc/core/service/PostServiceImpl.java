@@ -33,7 +33,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static io.tcc.core.model.enums.PostStatusEnum.APPROVED;
 import static io.tcc.core.model.enums.PostStatusEnum.WAITING_EDIT;
 import static io.tcc.core.model.enums.PostStatusEnum.WAITING_REVIEW;
-import static io.tcc.core.model.enums.RoleEnum.ROLE_ADMIN;
 
 @Service
 @RequiredArgsConstructor
@@ -142,6 +141,11 @@ public class PostServiceImpl implements PostService {
             return postRepository.countByStatusInAndUser(List.of(WAITING_REVIEW), AuthenticationUtil.getLoggedUser().getUser());
         }
         return postRepository.countByStatusInAndUser(List.of(WAITING_EDIT), AuthenticationUtil.getLoggedUser().getUser());
+    }
+
+    @Override
+    public List<PostListDTO> listBySubject(final String subjectId) {
+        return listMapper.toDto(repository.findBySubject(subjectId));
     }
 
     private void setDocumentId(final List<DocumentDTO> documentDTOList, final PostDTO savedDto, final DocumentTypeEnum type) {

@@ -98,4 +98,9 @@ public class PostController {
     public ResponseEntity<Integer> getReviewCount() {
         return ResponseEntity.ok(service.getReviewCount());
     }
+
+    @GetMapping("/public/list/subject/{subjectId}")
+    public ResponseEntity<List<PostListDTO>> listBySubject(@PathVariable("subjectId") final String subjectId) {
+        return ResponseEntity.ok(service.listBySubject(subjectId));
+    }
 }

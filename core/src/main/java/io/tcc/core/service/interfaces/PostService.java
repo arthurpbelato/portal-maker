@@ -6,7 +6,6 @@ import io.tcc.core.service.dto.PostReviewDTO;
 import io.tcc.documentcommons.model.DocumentDTO;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface PostService {
@@ -31,4 +30,6 @@ public interface PostService {
     void deleteDocument(final String id);
 
     Integer getReviewCount();
+
+    List<PostListDTO> listBySubject(final String subjectId);
 }
