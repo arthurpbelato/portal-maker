@@ -12,4 +12,5 @@ import java.util.UUID;
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
     Integer countByStatusInAndUser(List<PostStatusEnum> status, User user);
+    List<Post> findBySubject (final String subjectId);
 }

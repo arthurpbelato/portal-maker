@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
-import {HttpClient, HttpEvent, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {PostDTO} from "../model/PostDTO";
 import {PostListDTO} from "../model/PostListDTO";
 import {PageDTO} from "../model/PageDTO";
@@ -22,7 +22,6 @@ export class PostService {
     return this.httpClient.post<String>(`api/post/internal/save`, postDTO, {responseType: ResponseType});
   }
 
-  // @ts-ignore
   list(): Observable<PostListDTO[]> {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/list`, {responseType: ResponseType});
   }
@@ -58,5 +57,9 @@ export class PostService {
 
   getReviewCount(): Observable<number> {
     return this.httpClient.get<number>(`api/post/internal/list/review/count`);
+  }
+
+  listBySubject(id: number): Observable<PostListDTO[]> {
+    return this.httpClient.get<PostListDTO[]>(`api/post/public/list/subject/${id}`, {responseType: ResponseType});
   }
 }

@@ -44,6 +44,8 @@ import {SpeedDialModule} from "primeng/speeddial";
 import {AccordionModule} from "primeng/accordion";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {BadgeModule} from "primeng/badge";
+import { SubjectFilterButtonComponent } from './components/util/subject-filter-button/subject-filter-button.component';
+import {SplitButtonModule} from "primeng/splitbutton";
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import {BadgeModule} from "primeng/badge";
     RequestLabComponent,
     PostDetailComponent,
     ReviewPageComponent,
+    SubjectFilterButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +94,8 @@ import {BadgeModule} from "primeng/badge";
     SpeedDialModule,
     AccordionModule,
     ConfirmDialogModule,
-    BadgeModule
+    BadgeModule,
+    SplitButtonModule
   ],
   providers: [
     UserService,

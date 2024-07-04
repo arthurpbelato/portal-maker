@@ -39,20 +39,20 @@ export class HomeComponent implements OnInit {
       }
     ];
 
-    this.postService.list().subscribe(
-      resp => {
+    this.postService.list().subscribe({
+      next: (resp: PostListDTO[]) => {
         this.postList = resp
         this.loadPostImages();
       },
-      error => {
-        console.log("Erro ao listar posts")
-      },
-    );
+      error: _ => {
+        this.showListErrorDialog();
+      }
+    })
+
 
     this.postService.getReviewCount().subscribe(value => {
-      console.log(value)
       this.pendingReviews = value;
-    })
+    });
   }
 
   loadPostImages() {
@@ -70,5 +70,26 @@ export class HomeComponent implements OnInit {
 
   showReviewToast(): void {
     this.messageService.add({ key: 'bc', severity: 'info', summary: 'Revisões pendentes', detail: 'Você possui revisões pendentes. Acesse a aba "Revisões" para ver mais detalhes' });
+  }
+
+  filterSubject(subject: number) {
+    this.postService.listBySubject(subject).subscribe({
+      next: (resp: PostListDTO[]) => {
+        this.postList = resp;
+        this.loadPostImages();
+      },
+      error: _ => {
+        this.showListErrorDialog();
+      }
+    });
+  }
+
+  private showListErrorDialog(): void {
+    this.messageService.add({
+      key: 'tl',
+      severity: 'error',
+      summary: 'Erro!',
+      detail: 'Erro ao listar as postagens, tente novamente.'
+    });
   }
 }
