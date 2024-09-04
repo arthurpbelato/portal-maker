@@ -48,9 +48,11 @@
           </p-tabPanel>
           <p-tabPanel header="Arquivos">
             <div class="col-10 col-offset-1">
-              <p>
-                Disponibilizar arquivos 3d pra download
-              </p>
+              <div *ngFor="let model of post.models">
+                {{ model.title }}
+                <p-button (onClick)="download(model)">Download</p-button>
+
+              </div>
             </div>
           </p-tabPanel>
           <p-tabPanel header="Comentários">

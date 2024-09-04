@@ -32,6 +32,11 @@ public class PostController {
         return ResponseEntity.ok(service.loadImages(postId));
     }
 
+    @GetMapping("/public/models/{postId}")
+    public ResponseEntity<List<DocumentDTO>> loadModels(@PathVariable UUID postId) {
+        return ResponseEntity.ok(service.loadModels(postId));
+    }
+
     @PostMapping("/internal/save")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     public ResponseEntity<PostDTO> save(@RequestBody PostDTO dto) {

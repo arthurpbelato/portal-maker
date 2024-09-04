@@ -62,4 +62,9 @@ export class PostService {
   listBySubject(id: number): Observable<PostListDTO[]> {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/list/subject/${id}`, {responseType: ResponseType});
   }
+
+    loadModels(postId: string): Observable<PostListDTO[]>  {
+      return this.httpClient.get<PostListDTO[]>(`api/post/public/models/${postId}`, {responseType: ResponseType});
+    }
+
 }

@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -49,15 +48,15 @@ public class Post implements Serializable {
     private String externalReference;
 
     @Column
-    private Long score;
+    private Long score = 0L;
 
     @Column
     private PostStatusEnum status;
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Document> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Document> models = new ArrayList<>();
 
     @ManyToOne(optional = false)

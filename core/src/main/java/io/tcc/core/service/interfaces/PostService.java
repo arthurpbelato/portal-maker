@@ -32,4 +32,6 @@ public interface PostService {
     Integer getReviewCount();
 
     List<PostListDTO> listBySubject(final String subjectId);
+
+    List<DocumentDTO> loadModels(final UUID postId);
 }

@@ -6,6 +6,7 @@ import {MessageService} from "primeng/api";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
 import {PostReviewDTO} from "../../../../model/PostReviewDTO";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-post-detail',
@@ -81,13 +82,10 @@ export class PostDetailComponent implements OnInit {
       resp => {
         this.post = resp;
         this.loadPostImages();
+        this.loadPostModels();
         this.name = this.post.user?.name;
         this.post.postDate = this.brDateTime(new Date(this.post.postDate));
-        console.log(this.post)
-      },
-      error => {
-        console.log("Erro ao listar posts")
-      },
+      }
     );
   }
 
@@ -100,6 +98,12 @@ export class PostDetailComponent implements OnInit {
         console.log("Erro ao carregar imagens")
       }
     );
+  }
+
+  loadPostModels() {
+    this.service.loadModels(this.id!).subscribe(resp => {
+      this.post.models = resp;
+    })
   }
 
   approve(): void {
@@ -129,5 +133,10 @@ export class PostDetailComponent implements OnInit {
 
   edit(): void {
     this.router.navigate([`/postagens/editar/${this.id!}`]);
+  }
+
+  download(model: any) {
+    const blob = new Blob([model.base64]);
+    saveAs(blob, model.title);
   }
 }
