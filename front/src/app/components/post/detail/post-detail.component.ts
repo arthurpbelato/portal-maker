@@ -136,7 +136,20 @@ export class PostDetailComponent implements OnInit {
   }
 
   download(model: any) {
-    const blob = new Blob([model.base64]);
+    const blob = this.base64ToBlob(model.base64, model.extension);
     saveAs(blob, model.title);
   }
+
+  base64ToBlob(base64String: string, contentType = '') {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArrays.push(byteCharacters.charCodeAt(i));
+    }
+
+    const byteArray = new Uint8Array(byteArrays);
+    return new Blob([byteArray], {type: contentType});
+  }
+
 }

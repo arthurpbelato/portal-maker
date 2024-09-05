@@ -143,7 +143,8 @@ export class PostFormComponent {
     document.size = file.size;
     document.title = file.name;
     let splitedName = file.name.split(".");
-    document.extension = splitedName[splitedName.length - 1];
+    // document.extension = splitedName[splitedName.length - 1]; TODO rever a necessidade
+    document.extension = file.type;
     return document;
   }
 
