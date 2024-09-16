@@ -7,6 +7,7 @@ import {SubjectEnum} from "../../../../enums/SubjectEnum";
 import {PostReviewDTO} from "../../../../model/PostReviewDTO";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {saveAs} from "file-saver";
+import {style} from "@angular/animations";
 
 @Component({
   selector: 'app-post-detail',
@@ -85,6 +86,7 @@ export class PostDetailComponent implements OnInit {
         this.loadPostModels();
         this.name = this.post.user?.name;
         this.post.postDate = this.brDateTime(new Date(this.post.postDate));
+
       }
     );
   }
@@ -101,7 +103,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   loadPostModels() {
-    this.service.loadModels(this.id!).subscribe(resp => {
+    this.service.lazyLoadModels(this.id!).subscribe(resp => {
       this.post.models = resp;
     })
   }
@@ -135,9 +137,12 @@ export class PostDetailComponent implements OnInit {
     this.router.navigate([`/postagens/editar/${this.id!}`]);
   }
 
-  download(model: any) {
-    const blob = this.base64ToBlob(model.base64, model.extension);
-    saveAs(blob, model.title);
+  download(lazyModel: any) {
+    this.service.downloadModel(lazyModel.id).subscribe(model => {
+      const blob = this.base64ToBlob(model.base64!, model.extension);
+      saveAs(blob, model.title);
+    })
+
   }
 
   base64ToBlob(base64String: string, contentType = '') {
@@ -152,4 +157,5 @@ export class PostDetailComponent implements OnInit {
     return new Blob([byteArray], {type: contentType});
   }
 
+  protected readonly style = style;
 }

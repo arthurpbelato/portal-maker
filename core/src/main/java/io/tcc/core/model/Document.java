@@ -8,7 +8,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -16,6 +18,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "document")
 @Accessors(chain = true)
@@ -44,5 +48,10 @@ public class Document implements Serializable {
 
     @Column
     private DocumentTypeEnum type;
+
+    public Document (String id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 
 }

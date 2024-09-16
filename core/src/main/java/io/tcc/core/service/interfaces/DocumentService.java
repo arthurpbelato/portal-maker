@@ -1,6 +1,7 @@
 package io.tcc.core.service.interfaces;
 
 import io.tcc.documentcommons.model.DocumentDTO;
+import io.tcc.documentcommons.model.LazyDocumentDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,9 @@ public interface DocumentService {
 
     List<String> saveAll(List<DocumentDTO> dtoList);
 
-    List<DocumentDTO> getByIds(List<String> ids);
+    List<DocumentDTO> getModelsByPostId(UUID postId);
 
-    List<DocumentDTO> getByPostId(UUID postId);
+    List<LazyDocumentDTO> getLazyModelsByPostId(UUID postId);
+
+    List<DocumentDTO> getImagesByPostId(UUID postId);
 }

@@ -7,6 +7,7 @@ import io.tcc.core.service.dto.PostUserDTO;
 import io.tcc.core.service.interfaces.PostService;
 import io.tcc.core.util.AuthenticationUtil;
 import io.tcc.documentcommons.model.DocumentDTO;
+import io.tcc.documentcommons.model.LazyDocumentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +36,11 @@ public class PostController {
     @GetMapping("/public/models/{postId}")
     public ResponseEntity<List<DocumentDTO>> loadModels(@PathVariable UUID postId) {
         return ResponseEntity.ok(service.loadModels(postId));
+    }
+
+    @GetMapping("/public/models/lazy/{postId}")
+    public ResponseEntity<List<LazyDocumentDTO>> lazyLoadModels(@PathVariable UUID postId) {
+        return ResponseEntity.ok(service.lazyLoadModels(postId));
     }
 
     @PostMapping("/internal/save")
@@ -107,5 +113,10 @@ public class PostController {
     @GetMapping("/public/list/subject/{subjectId}")
     public ResponseEntity<List<PostListDTO>> listBySubject(@PathVariable("subjectId") final String subjectId) {
         return ResponseEntity.ok(service.listBySubject(subjectId));
+    }
+
+    @GetMapping("/public/models/download/{id}")
+    public ResponseEntity<DocumentDTO> downloadModel(@PathVariable("id") final String id) {
+        return ResponseEntity.ok(service.downloadModel(id));
     }
 }

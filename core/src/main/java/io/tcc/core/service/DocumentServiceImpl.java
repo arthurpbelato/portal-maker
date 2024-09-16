@@ -5,7 +5,9 @@ import io.tcc.core.model.Document;
 import io.tcc.core.repository.DocumentRepository;
 import io.tcc.core.service.interfaces.DocumentService;
 import io.tcc.core.service.mapper.DocumentMapper;
+import io.tcc.core.service.mapper.LazyDocumentMapper;
 import io.tcc.documentcommons.model.DocumentDTO;
+import io.tcc.documentcommons.model.LazyDocumentDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.UUID;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentMapper mapper;
+    private final LazyDocumentMapper lazyMapper;
     private final DocumentClient client;
     private final DocumentRepository repository;
 
@@ -38,13 +41,13 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DocumentDTO getDocument(String uuid) {
+    public DocumentDTO getDocument(String id) {
         DocumentDTO response;
         try {
-            response = client.getDocument(uuid);
+            response = client.getDocument(id);
         } catch (Exception e){
             log.error(e.getMessage());
-            response = mapper.toDto(repository.findById(UUID.fromString(uuid)).orElseGet(Document::new));
+            response = mapper.toDto(repository.findById(id).orElseGet(Document::new));
         }
         return response;
     }
@@ -61,25 +64,18 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<DocumentDTO> getByIds(List<String> ids) {
-        return null;
+    public List<DocumentDTO> getModelsByPostId(final UUID postId) {
+        return mapper.toDto(repository.findAllModelsByPostId(postId));
     }
 
     @Override
-    public List<DocumentDTO> getByPostId(UUID postId) {
-        return mapper.toDto(repository.findAllByPostId(postId));
+    public List<LazyDocumentDTO> getLazyModelsByPostId(UUID postId) {
+        return lazyMapper.toDto(repository.findAllLazyModelsByPostId(postId));
     }
 
-    public List<DocumentDTO> getById(String postId) {
-//        List<DocumentDTO> response;
-//        try {
-//            response = client.getDocument()
-//        } catch (Exception e){
-//            log.error(e.getMessage());
-//            response = mapper.toDto(repository.findById(UUID.fromString(uuid)).orElseGet(Document::new));
-//        }
-//        return response;
-        return null;
+    @Override
+    public List<DocumentDTO> getImagesByPostId(final UUID postId) {
+        return mapper.toDto(repository.findAllImagesByPostId(postId));
     }
 
     private DocumentDTO saveDto(DocumentDTO documentDTO) {
