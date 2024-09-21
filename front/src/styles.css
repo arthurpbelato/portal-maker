@@ -42,3 +42,15 @@ body {
   background-color: transparent!important;
   color: darkgreen;
 }
+
+.p-button-pencil {
+  background-color: transparent!important;
+  color: darkgreen;
+  border: none;
+  padding: 10px;
+  height: 3px;
+}
+
+.p-tag {
+  background-color: darkgreen;
+}

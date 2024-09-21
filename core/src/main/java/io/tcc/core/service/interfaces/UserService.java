@@ -4,7 +4,6 @@ import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.EnumDTO;
 import io.tcc.core.service.dto.LoggedUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
-import io.tcc.core.service.dto.UserRegisterDTO;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface UserService {
 
     LoggedUserDTO login(BasicUserDTO basicUserDTO);
 
-    UserProfileDTO register(UserRegisterDTO basicUserDTO);
+    UserProfileDTO save(UserProfileDTO basicUserDTO) throws Exception;
 
     UserProfileDTO getProfile(String id) throws Exception;
 

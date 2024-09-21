@@ -16,6 +16,7 @@ export class TopbarComponent implements OnInit {
   items: MenuItem[] | undefined;
   wasLogged: boolean = false;
   isAdmin: boolean = false;
+  canReview: boolean = false;
   isVisible: boolean = true;
   userName: string | null = "";
 
@@ -27,6 +28,7 @@ export class TopbarComponent implements OnInit {
         if (resp !== undefined) {
           this.items = [];
           this.isAdmin = resp.some((role) => role === 'ROLE_ADMIN');
+          this.canReview = resp.some((role) => role === 'ROLE_REVIEWER');
           this.fillMenuItemsList();
         }
       },
@@ -75,6 +77,7 @@ export class TopbarComponent implements OnInit {
           routerLink: '/revisoes',
           icon: 'pi pi-fw pi-pencil',
           id: 'reviews',
+          visible: (this.isAdmin || this.canReview)
         },
         {
           label: 'Usuários',

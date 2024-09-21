@@ -2,7 +2,7 @@ spring:
   jpa:
     show-sql: true
   datasource:
-    username: postgres
+    username: tcc
     password: tcc
     url: jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified
   liquibase:

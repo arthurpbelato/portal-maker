@@ -9,13 +9,11 @@ import io.tcc.core.service.dto.BasicUserDTO;
 import io.tcc.core.service.dto.EnumDTO;
 import io.tcc.core.service.dto.LoggedUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
-import io.tcc.core.service.dto.UserRegisterDTO;
 import io.tcc.core.service.interfaces.EmailService;
 import io.tcc.core.service.interfaces.PasswordService;
 import io.tcc.core.service.interfaces.UserService;
 import io.tcc.core.service.mapper.RoleMapper;
 import io.tcc.core.service.mapper.UserProfileMapper;
-import io.tcc.core.service.mapper.UserRegisterMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final RoleRepository roleRepository;
     private final UserProfileMapper userProfileMapper;
-    private final UserRegisterMapper userRegisterMapper;
     private final AuthenticationManager authenticationManager;
     private final PasswordService passwordService;
     private final EmailService emailService;
@@ -58,20 +55,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileDTO register(UserRegisterDTO userRegisterDTO) {
-        User user = userRegisterMapper.toEntity(userRegisterDTO);
-        final var password = passwordService.getPassword();
-        final var emailBody = """
-                Seu email foi registrado no Portal Maker do IFES Campus Colatina! Você pode acessar nosso portal com
-                 seu email e sua nova senha: %s
-                """;
-        emailService.send(userRegisterDTO.getEmail(), emailBody.formatted(password), "Portal Maker - Seu email foi registrado!");
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
+    public UserProfileDTO save(UserProfileDTO userProfileDTO) throws Exception {
+        User user = userProfileMapper.toEntity(userProfileDTO);
+
+        if (user.getId() == null) { //FIXME ??? devemos enviar uma nova senha caso o admin altere o email??
+            user.setPassword(generatePasswordAndSendByEmail(user));
+        } else {
+            var userFromDb = repository.findById(userProfileDTO.getId()).orElseThrow(Exception::new);
+            user.setPassword(userFromDb.getPassword());
+        }
+
         return userProfileMapper.toDto(repository.save(user));
     }
 
     @Override
-    public UserProfileDTO getProfile(String id) throws Exception{
+    public UserProfileDTO getProfile(String id) throws Exception {
         return repository.findById(UUID.fromString(id)).map(userProfileMapper::toDto).orElseThrow(Exception::new);
     }
 
@@ -90,4 +88,15 @@ public class UserServiceImpl implements UserService {
     public List<EnumDTO> listRoles() {
         return roleMapper.toDto(roleRepository.findAll());
     }
+
+    private String generatePasswordAndSendByEmail(User user) {
+        final var password = passwordService.getPassword();
+        final var emailBody = """
+                Seu email foi registrado no Portal Maker do IFES Campus Colatina! Você pode acessar nosso portal com
+                 seu email e sua nova senha: %s
+                """;
+        emailService.send(user.getEmail(), emailBody.formatted(password), "Portal Maker - Seu email foi registrado!");
+       return new BCryptPasswordEncoder().encode(password);
+    }
+
 }

@@ -46,8 +46,12 @@ export class UserService {
     return this.httpClient.get<RoleDTO[]>(`api/user/internal/role`, options);
   }
 
-  save(user: UserRegisterDTO): Observable<UserProfileDTO> {
-    return this.httpClient.post<UserRegisterDTO>(`api/user/internal/register`, user, options)
+  save(user: UserProfileDTO): Observable<UserProfileDTO> {
+    return this.httpClient.post<UserRegisterDTO>(`api/user/internal/save`, user, options)
+  }
+
+  get(id: string): Observable<UserProfileDTO> {
+    return this.httpClient.get<UserProfileDTO>(`api/user/internal/${id}`, options);
   }
 
 }

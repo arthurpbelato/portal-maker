@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]}},
   { path: 'user/form', component: UserFormComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]} },
+  { path: 'usuario/editar/:id', component: UserFormComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]} },
   { path: 'postagens/nova', component: PostFormComponent, title: "Portal Maker - Nova Postagem", canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'postagens/editar/:id', component: PostFormComponent, title: "Portal Maker - Editar Postagem", canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'requisitar-uso-laboratorio', component: RequestLabComponent, title: "Requisitar Uso do Laboratório" },

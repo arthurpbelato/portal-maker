@@ -5,12 +5,16 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
 import java.util.UUID;
 
 import static io.tcc.core.model.enums.RoleEnum.ROLE_ADMIN;
+import static io.tcc.core.model.enums.RoleEnum.ROLE_REVIEWER;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthenticationUtil {
+
+    private static final List<String> REVIEWER_ROLES = List.of(ROLE_ADMIN.getRole().getName(), ROLE_REVIEWER.getRole().getName());
 
     public static SecurityUser getLoggedUser() {
         return (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -28,11 +32,11 @@ public class AuthenticationUtil {
         return UUID.fromString(getLoggedUser().getUserId());
     }
 
-    public static Boolean isAdmin() {
+    public static Boolean isReviewer() {
         return AuthenticationUtil.getLoggedUser()
                 .getAuthorities()
                 .stream()
-                .anyMatch(role -> role.toString().equals(ROLE_ADMIN.getRole().getName()));
+                .anyMatch(role -> REVIEWER_ROLES.contains(role.toString()));
     }
 
 }
