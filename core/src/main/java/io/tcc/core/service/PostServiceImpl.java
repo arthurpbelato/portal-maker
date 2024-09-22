@@ -84,6 +84,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostListDTO> getByUserId() {
+        return listMapper.toDto(pageRepository.findAllByUserId(AuthenticationUtil.getUuid()));
+    }
+
+    @Override
     public List<PostListDTO> listReview(final Integer page, final Integer size) {
         if (AuthenticationUtil.isReviewer()) {
             return listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,

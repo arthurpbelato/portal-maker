@@ -1,9 +1,12 @@
 package io.tcc.core.controller;
 
+import io.tcc.core.model.Mensagem;
 import io.tcc.core.service.dto.BasicUserDTO;
+import io.tcc.core.service.dto.ChangePasswordDTO;
 import io.tcc.core.service.dto.EnumDTO;
 import io.tcc.core.service.dto.LoggedUserDTO;
 import io.tcc.core.service.dto.UserProfileDTO;
+import io.tcc.core.service.dto.UserProfileDetailsDTO;
 import io.tcc.core.service.interfaces.UserService;
 import io.tcc.core.util.AuthenticationUtil;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +59,12 @@ public class UserController {
         return ResponseEntity.ok(userProfileDTO);
     }
 
+    @GetMapping("/internal/profile/details")
+    @PreAuthorize("hasAnyRole('ROLE_REVIEWER', 'ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<UserProfileDetailsDTO> getProfileDetails() throws Exception {
+        return ResponseEntity.ok(service.getProfileDetails());
+    }
+
     @GetMapping("/internal/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<UserProfileDTO>> getProfiles() {
@@ -79,6 +88,19 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<EnumDTO>> listRoles() {
         return ResponseEntity.ok(service.listRoles());
+    }
+
+    @PostMapping("internal/password/update")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
+    public ResponseEntity<Mensagem> update(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        var message = new Mensagem();
+        try {
+            message.setMessage(service.updatePassword(changePasswordDTO));
+            return ResponseEntity.ok(message);
+        } catch (Exception e) {
+            message.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(message);
+        }
     }
 
 }

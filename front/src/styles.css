@@ -51,6 +51,19 @@ body {
   height: 3px;
 }
 
+.p-button-user {
+  background-color: transparent!important;
+  color: grey;
+  border: none;
+  padding: 8px;
+  height: 3px;
+}
+
+.p-button-secondary {
+  background-color: grey;
+  border-color: grey;
+}
+
 .p-tag {
   background-color: darkgreen;
 }
