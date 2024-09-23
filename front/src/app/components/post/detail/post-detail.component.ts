@@ -6,6 +6,8 @@ import {MessageService} from "primeng/api";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
 import {PostReviewDTO} from "../../../../model/PostReviewDTO";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {saveAs} from "file-saver";
+import {style} from "@angular/animations";
 
 @Component({
   selector: 'app-post-detail',
@@ -81,13 +83,11 @@ export class PostDetailComponent implements OnInit {
       resp => {
         this.post = resp;
         this.loadPostImages();
+        this.loadPostModels();
         this.name = this.post.user?.name;
         this.post.postDate = this.brDateTime(new Date(this.post.postDate));
-        console.log(this.post)
-      },
-      error => {
-        console.log("Erro ao listar posts")
-      },
+
+      }
     );
   }
 
@@ -100,6 +100,12 @@ export class PostDetailComponent implements OnInit {
         console.log("Erro ao carregar imagens")
       }
     );
+  }
+
+  loadPostModels() {
+    this.service.lazyLoadModels(this.id!).subscribe(resp => {
+      this.post.models = resp;
+    })
   }
 
   approve(): void {
@@ -130,4 +136,26 @@ export class PostDetailComponent implements OnInit {
   edit(): void {
     this.router.navigate([`/postagens/editar/${this.id!}`]);
   }
+
+  download(lazyModel: any) {
+    this.service.downloadModel(lazyModel.id).subscribe(model => {
+      const blob = this.base64ToBlob(model.base64!, model.extension);
+      saveAs(blob, model.title);
+    })
+
+  }
+
+  base64ToBlob(base64String: string, contentType = '') {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArrays.push(byteCharacters.charCodeAt(i));
+    }
+
+    const byteArray = new Uint8Array(byteArrays);
+    return new Blob([byteArray], {type: contentType});
+  }
+
+  protected readonly style = style;
 }

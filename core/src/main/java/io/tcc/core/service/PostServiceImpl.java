@@ -17,6 +17,7 @@ import io.tcc.core.service.mapper.PostListMapper;
 import io.tcc.core.service.mapper.PostMapper;
 import io.tcc.core.util.AuthenticationUtil;
 import io.tcc.documentcommons.model.DocumentDTO;
+import io.tcc.documentcommons.model.LazyDocumentDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -72,8 +73,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<DocumentDTO> loadImages(UUID postId) {
-        return documentService.getByPostId(postId);
+    public List<DocumentDTO> loadImages(final UUID postId) {
+        final var documents = documentService.getImagesByPostId(postId);
+        return filterDocumentList(documents, DocumentTypeEnum.IMAGE);
     }
 
     @Override
@@ -148,6 +150,22 @@ public class PostServiceImpl implements PostService {
         return listMapper.toDto(repository.findBySubject(subjectId));
     }
 
+    @Override
+    public List<DocumentDTO> loadModels(final UUID postId) {
+        final var documents = documentService.getModelsByPostId(postId);
+        return filterDocumentList(documents, DocumentTypeEnum.MODEL);
+    }
+
+    @Override
+    public List<LazyDocumentDTO> lazyLoadModels(final UUID postId) {
+        return documentService.getLazyModelsByPostId(postId);
+    }
+
+    @Override
+    public DocumentDTO downloadModel(String id) {
+        return documentService.getDocument(id);
+    }
+
     private void setDocumentId(final List<DocumentDTO> documentDTOList, final PostDTO savedDto, final DocumentTypeEnum type) {
         var counter = new AtomicInteger(getStartId(type, savedDto.getId()));
         documentDTOList.forEach(dto -> {
@@ -177,5 +195,12 @@ public class PostServiceImpl implements PostService {
         var post = mapper.toEntity(dto);
         post.setStatus(WAITING_REVIEW);
         return mapper.toDto(repository.save(post));
+    }
+
+    private List<DocumentDTO> filterDocumentList(final List<DocumentDTO> documents, final DocumentTypeEnum documentTypeEnum) {
+        return documents.stream().filter(doc -> {
+            final var type = doc.getId().split("::")[1];
+            return type.contains(documentTypeEnum.getDescription());
+        }).toList();
     }
 }

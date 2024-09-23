@@ -4,6 +4,7 @@ import io.tcc.core.service.dto.PostDTO;
 import io.tcc.core.service.dto.PostListDTO;
 import io.tcc.core.service.dto.PostReviewDTO;
 import io.tcc.documentcommons.model.DocumentDTO;
+import io.tcc.documentcommons.model.LazyDocumentDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,4 +33,10 @@ public interface PostService {
     Integer getReviewCount();
 
     List<PostListDTO> listBySubject(final String subjectId);
+
+    List<DocumentDTO> loadModels(final UUID postId);
+
+    List<LazyDocumentDTO> lazyLoadModels(UUID postId);
+
+    DocumentDTO downloadModel(String id);
 }

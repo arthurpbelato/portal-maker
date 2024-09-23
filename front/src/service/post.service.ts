@@ -6,6 +6,7 @@ import {PostDTO} from "../model/PostDTO";
 import {PostListDTO} from "../model/PostListDTO";
 import {PageDTO} from "../model/PageDTO";
 import {PostReviewDTO} from "../model/PostReviewDTO";
+import {DocumentSaveDTO} from "../model/DocumentSaveDTO";
 
 const ResponseType = 'json';
 
@@ -61,5 +62,13 @@ export class PostService {
 
   listBySubject(id: number): Observable<PostListDTO[]> {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/list/subject/${id}`, {responseType: ResponseType});
+  }
+
+  lazyLoadModels(postId: string): Observable<PostListDTO[]>  {
+    return this.httpClient.get<PostListDTO[]>(`api/post/public/models/lazy/${postId}`, {responseType: ResponseType});
+  }
+
+  downloadModel(modelId: string): Observable<DocumentSaveDTO>  {
+    return this.httpClient.get<DocumentSaveDTO>(`api/post/public/models/download/${modelId}`);
   }
 }

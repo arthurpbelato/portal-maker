@@ -47,10 +47,13 @@
             </div>
           </p-tabPanel>
           <p-tabPanel header="Arquivos">
-            <div class="col-10 col-offset-1">
-              <p>
-                Disponibilizar arquivos 3d pra download
-              </p>
+            <div class="col-10">
+              <div *ngFor="let model of post.models" class="flex align-items-center mb-2">
+                <p-button icon="pi pi-download" styleClass="p-button-download" [rounded]="true" [outlined]="true" (onClick)="download(model)"></p-button>
+                <div class="ml-3">
+                  {{ model.title }}
+                </div>
+              </div>
             </div>
           </p-tabPanel>
           <p-tabPanel header="Comentários">
@@ -122,6 +125,6 @@
         </div>
       </div>
     </div>
-
+  </div>
 
 </div>
