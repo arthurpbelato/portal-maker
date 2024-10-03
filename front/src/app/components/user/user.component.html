@@ -16,6 +16,7 @@
               <th pSortableColumn="email" style="width:25%">Email <p-sortIcon></p-sortIcon></th>
               <th pSortableColumn="cpf" style="width:15%">CPF <p-sortIcon></p-sortIcon></th>
               <th pSortableColumn="roles" style="width:30%">Permissões <p-sortIcon></p-sortIcon></th>
+              <th style="width:10%"></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-user>
@@ -25,8 +26,11 @@
               <td>{{user.cpf}}</td>
               <td>
                 <span style="margin: 0 2px" *ngFor="let role of user.roles">
-                  <p-tag value="{{role.name}}"></p-tag>
+                  <p-tag styleClass="p-tag" value="{{role.name}}"></p-tag>
                 </span>
+              </td>
+              <td>
+                <p-button icon="pi pi-pencil" styleClass="p-button-pencil" [routerLink]="['/usuario/editar/', user.id]"></p-button>
               </td>
             </tr>
           </ng-template>

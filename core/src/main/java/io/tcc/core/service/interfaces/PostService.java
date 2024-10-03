@@ -18,6 +18,8 @@ public interface PostService {
 
     List<PostListDTO> getByUserId(Integer page, Integer size);
 
+    List<PostListDTO> getByUserId();
+
     List<PostListDTO> listReview(Integer page, Integer size);
 
     PostDTO updatedStatus(UUID id, Integer newStatus);

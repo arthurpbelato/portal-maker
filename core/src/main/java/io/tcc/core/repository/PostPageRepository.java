@@ -16,4 +16,6 @@ public interface PostPageRepository extends PagingAndSortingRepository<Post, UUI
 
     List<Post> findAllByUserId(UUID id, PageRequest page);
 
+    List<Post> findAllByUserId(UUID id);
+
 }

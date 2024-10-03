@@ -9,6 +9,8 @@ import {authGuard} from "./components/authGuard/auth.guard";
 import {RequestLabComponent} from "./components/request-lab/request-lab.component";
 import {PostDetailComponent} from "./components/post/detail/post-detail.component";
 import {ReviewPageComponent} from "./components/review-page/review-page.component";
+import {ProfileComponent} from "./components/user/profile/profile.component";
+import {ChangePasswordComponent} from "./components/user/change-password/change-password.component";
 
 const allRoles: String[] = ["ROLE_USER", "ROLE_ADMIN", "ROLE_REVIEWER"];
 
@@ -18,6 +20,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]}},
   { path: 'user/form', component: UserFormComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]} },
+  { path: 'usuario/editar/:id', component: UserFormComponent, canActivate: [authGuard], data: {roles: ["ROLE_ADMIN"]} },
+  { path: 'usuario/perfil', component: ProfileComponent, canActivate: [authGuard], data: {roles: allRoles} },
+  { path: 'usuario/change-password', component: ChangePasswordComponent, canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'postagens/nova', component: PostFormComponent, title: "Portal Maker - Nova Postagem", canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'postagens/editar/:id', component: PostFormComponent, title: "Portal Maker - Editar Postagem", canActivate: [authGuard], data: {roles: allRoles} },
   { path: 'requisitar-uso-laboratorio', component: RequestLabComponent, title: "Requisitar Uso do Laboratório" },

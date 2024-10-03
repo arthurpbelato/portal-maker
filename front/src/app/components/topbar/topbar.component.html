@@ -9,6 +9,7 @@
       </div>
       <div *ngIf="wasLogged">
         Olá {{userName}}!
+        <p-button icon="pi pi-user" styleClass="p-button-user" [routerLink]="['/usuario/perfil/']"></p-button>
       </div>
     </ng-template>
   </p-menubar>

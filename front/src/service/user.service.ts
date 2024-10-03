@@ -6,7 +6,8 @@ import {UserProfileDTO} from "../model/UserProfileDTO";
 import {BasicUserDTO} from "../model/BasicUserDTO";
 import {LoggedUserDTO} from "../model/LoggedUserDTO";
 import {RoleDTO} from "../model/RoleDTO";
-import {UserRegisterDTO} from "../model/UserRegisterDTO";
+import {UserProfileDetailsDTO} from "../model/UserProfileDetailsDTO";
+import {ChangePasswordDTO} from "../model/ChangePasswordDTO";
 
 const responseType = 'json';
 const options : object = { responseType: responseType };
@@ -46,8 +47,20 @@ export class UserService {
     return this.httpClient.get<RoleDTO[]>(`api/user/internal/role`, options);
   }
 
-  save(user: UserRegisterDTO): Observable<UserProfileDTO> {
-    return this.httpClient.post<UserRegisterDTO>(`api/user/internal/register`, user, options)
+  save(user: UserProfileDTO): Observable<UserProfileDTO> {
+    return this.httpClient.post<UserProfileDTO>(`api/user/internal/save`, user, options)
+  }
+
+  get(id: string): Observable<UserProfileDTO> {
+    return this.httpClient.get<UserProfileDTO>(`api/user/internal/${id}`, options);
+  }
+
+  getUserDetails(): Observable<UserProfileDetailsDTO> {
+    return this.httpClient.get<UserProfileDetailsDTO>(`api/user/internal/profile/details`, options);
+  }
+
+  changePassword(passwordDTO: ChangePasswordDTO): Observable<string> {
+    return this.httpClient.post<string>(`api/user/internal/password/update`, passwordDTO, options)
   }
 
 }

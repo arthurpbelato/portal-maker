@@ -46,6 +46,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {BadgeModule} from "primeng/badge";
 import { SubjectFilterButtonComponent } from './components/util/subject-filter-button/subject-filter-button.component';
 import {SplitButtonModule} from "primeng/splitbutton";
+import { ProfileComponent } from './components/user/profile/profile.component';
+import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import {SplitButtonModule} from "primeng/splitbutton";
     PostDetailComponent,
     ReviewPageComponent,
     SubjectFilterButtonComponent,
+    ProfileComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

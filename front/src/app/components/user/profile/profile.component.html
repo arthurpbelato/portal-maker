@@ -1,0 +1,63 @@
+<div class="mt-6">
+  <div class="grid col-12">
+    <div class="col-6 col-offset-3">
+      <div class="surface-card p-4 shadow-2 border-round">
+        <div class="col-12 flex">
+          <div class="col-12 text-3xl font-medium mb-5">Perfil de {{user.name}}</div>
+        </div>
+        <div class="col-8 inline-block">
+            <div class="col-12 mb-2">
+              <label class="profile-label">Informações</label>
+            </div>
+
+            <div class="col-12 block mb-2 ml-4">
+              <i class="pi pi-user"></i>
+              <label class="profile-label">{{user.name}}</label>
+            </div>
+
+            <div class="col-12 block mb-2 ml-4">
+              <i class="pi pi-envelope"></i>
+              <label class="profile-label">{{user.email}}</label>
+            </div>
+
+            <div class="col-12 block mb-2 ml-4">
+              <i class="pi pi-id-card"></i>
+              <label class="profile-label">{{user.cpf}}</label>
+            </div>
+        </div>
+        <div class="col-4 inline-block">
+          <div class="col-12">
+            <label class="profile-label mb-2">Contagem de posts</label>
+          </div>
+
+          <div class="col-6 inline-block" data-text="Enter text here">
+            <i class="pi pi-check-circle ml-4 tooltip"><span class="tooltiptext">Posts Aprovados</span></i>
+            <label class="ml-3"> {{user.postApprovedCount}} </label>
+          </div>
+
+          <div class="col-6 inline-block">
+            <i class="pi pi-times-circle ml-4 tooltip"><span class="tooltiptext">Posts Negados</span></i>
+            <label class="ml-3"> {{user.postDeniedCount}} </label>
+          </div>
+
+          <div class="col-6 inline-block">
+            <i class="pi pi-eye ml-4 tooltip"><span class="tooltiptext">Aguardando revisão</span></i>
+            <label class="ml-3"> {{user.postToReviewCount}} </label>
+          </div>
+
+          <div class="col-6 inline-block">
+            <i class="pi pi-file-edit ml-4 tooltip"><span class="tooltiptext">Aguardando edisão</span></i>
+            <label class="ml-3"> {{user.postToEditCount}} </label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="inline-block col-4 mt-5">
+            <button [routerLink]="['/usuario/change-password/']" pButton label="Change Password" icon="pi pi-pencil" class="w-full p-button-secondary"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

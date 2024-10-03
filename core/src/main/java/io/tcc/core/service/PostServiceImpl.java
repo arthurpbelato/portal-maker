@@ -69,7 +69,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListDTO> list() {
-        return listMapper.toDto(repository.findAll());
+        return listMapper.toDto(repository.findByStatus(APPROVED));
     }
 
     @Override
@@ -84,8 +84,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostListDTO> getByUserId() {
+        return listMapper.toDto(pageRepository.findAllByUserId(AuthenticationUtil.getUuid()));
+    }
+
+    @Override
     public List<PostListDTO> listReview(final Integer page, final Integer size) {
-        if (AuthenticationUtil.isAdmin()) {
+        if (AuthenticationUtil.isReviewer()) {
             return listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,
                     PageRequest.of(page, size, Sort.by("postDate").ascending())));
         }
@@ -139,7 +144,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Integer getReviewCount() {
-        if (AuthenticationUtil.isAdmin()){
+        if (AuthenticationUtil.isReviewer()){
             return postRepository.countByStatusInAndUser(List.of(WAITING_REVIEW), AuthenticationUtil.getLoggedUser().getUser());
         }
         return postRepository.countByStatusInAndUser(List.of(WAITING_EDIT), AuthenticationUtil.getLoggedUser().getUser());
