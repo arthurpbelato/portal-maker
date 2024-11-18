@@ -42,6 +42,8 @@ import static io.tcc.core.model.enums.PostStatusEnum.WAITING_REVIEW;
 //TODO logs
 public class PostServiceImpl implements PostService {
 
+    private static final String ALL_SUBJECTS = "-1";
+
     private final DocumentService documentService;
     private final PostRepository repository;
     private final PostPageRepository pageRepository;
@@ -152,7 +154,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListDTO> listBySubject(final String subjectId) {
-        return listMapper.toDto(repository.findBySubject(subjectId));
+        if (ALL_SUBJECTS.equals(subjectId)) {
+            return listMapper.toDto(repository.findByStatus(APPROVED));
+        }
+        return listMapper.toDto(repository.findBySubjectAndStatus(subjectId, APPROVED));
     }
 
     @Override

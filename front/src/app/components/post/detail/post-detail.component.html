@@ -71,8 +71,12 @@
     <div class=" grid col-12">
       <div class="col-8 col-offset-2">
         <div class="surface-card p-4 shadow-2 border-round">
-          <p-button (onClick)="approve()">Aprovar</p-button>
-          <p-button  (onClick)="showWriteReviewNoteDialog()">Pedir edição</p-button>
+          <div class="inline-block col-2 left-side-button">
+           <p-button (onClick)="approve()">Aprovar</p-button>
+          </div>
+          <div class="inline-block col-offset-8 col-2 right-side-button">
+            <p-button severity="warning" (onClick)="showWriteReviewNoteDialog()">Pedir edição</p-button>
+          </div>
         </div>
       </div>
     </div>
@@ -87,7 +91,7 @@
         <p-editor id="reviewNote" formControlName="reviewNote" [style]="{ height: '320px'}" class=" mb-3"></p-editor>
       </div>
       <div class="flex justify-content-end gap-2">
-        <p-button class="p-button-secondary" label="Cancelar" severity="secondary" (click)="writeReviewNoteDialogVisible = false" />
+        <p-button label="Cancelar" severity="secondary" (click)="writeReviewNoteDialogVisible = false" />
         <p-button label="Enviar" (click)="askReview()" />
       </div>
     </form>

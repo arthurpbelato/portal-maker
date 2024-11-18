@@ -49,10 +49,12 @@ export class HomeComponent implements OnInit {
       }
     })
 
+    if (localStorage.getItem('token') !== null) {
+      this.postService.getReviewCount().subscribe(value => {
+        this.pendingReviews = value;
+      });
+    }
 
-    this.postService.getReviewCount().subscribe(value => {
-      this.pendingReviews = value;
-    });
   }
 
   loadPostImages() {
