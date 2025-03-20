@@ -48,6 +48,7 @@ import { SubjectFilterButtonComponent } from './components/util/subject-filter-b
 import {SplitButtonModule} from "primeng/splitbutton";
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { ChangePasswordComponent } from './components/user/change-password/chang
   ],
   providers: [
     UserService,
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

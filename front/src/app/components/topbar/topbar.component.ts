@@ -22,25 +22,15 @@ export class TopbarComponent implements OnInit {
   constructor(private loginComponent: LoginComponent,
               private userService: UserService,
               private messageService: MessageService) {
-    this.userService.userRoles().subscribe({
-      next: (resp: String[]) => {
-        if (resp !== undefined) {
-          this.items = [];
-          this.isAdmin = resp.some((role) => role === 'ROLE_ADMIN');
-          this.fillMenuItemsList();
-        }
-      },
-      error: _ => {
-        this.showError();
-      },
-      complete: () => {
-        this.isVisible = true;
-      }
-    });
   }
 
   ngOnInit(): void {
     this.loggedUserLoad();
+    if (this.wasLogged) {
+      this.getCredentialsAndFillMenu();
+    } else {
+      this.fillMenuItemsList();
+    }
   }
 
   loggedUserLoad(): void {
@@ -52,6 +42,25 @@ export class TopbarComponent implements OnInit {
   logout(): void {
     this.loginComponent.logout();
     this.ngOnInit();
+  }
+
+  getCredentialsAndFillMenu() {
+    this.userService.userRoles().subscribe({
+      next: (resp: String[]) => {
+        if (resp !== undefined) {
+          this.items = [];
+          this.isAdmin = resp.some((role) => role === 'ROLE_ADMIN');
+
+        }
+      },
+      error: _ => {
+        this.showError();
+      },
+      complete: () => {
+        this.fillMenuItemsList();
+        this.isVisible = true;
+      }
+    });
   }
 
   private fillMenuItemsList() {

@@ -22,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final SecurityFilter securityFilter;
+    private final BasicAuthenticationEntryPoint authenticationEntryPoint = new BasicAuthenticationEntryPoint();
+    private final CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
 
     @Bean
     @SneakyThrows
@@ -35,6 +37,10 @@ public class WebSecurityConfig {
                         .requestMatchers("api/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/internal/**").authenticated()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults()).csrf().disable()

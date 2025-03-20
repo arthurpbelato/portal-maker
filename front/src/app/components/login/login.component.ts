@@ -4,6 +4,7 @@ import {BasicUserDTO} from "../../../model/BasicUserDTO";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Message} from "primeng/api";
+import {ToastEmitterService} from "../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastService: ToastEmitterService
   ) {
   }
 
@@ -48,6 +50,8 @@ export class LoginComponent implements OnInit {
           this.form.setErrors({'incorrect': true});
           this.form.controls['name'].setErrors({'incorrect': true});
           this.form.controls['password'].setErrors({'incorrect': true});
+        } else {
+          this.toastService.showError("Erro inesperado", "Um erro inesperado ocorreu, contate algum administrador")
         }
       }
     );

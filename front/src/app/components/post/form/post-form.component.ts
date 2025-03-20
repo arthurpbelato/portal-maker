@@ -9,6 +9,7 @@ import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
 import {PostStatusEnum} from "../../../../enums/PostStatusEnum";
+import {ToastEmitterService} from "../../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-post',
@@ -24,7 +25,7 @@ export class PostFormComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private toastService: ToastEmitterService
   ) {
   }
   isEdit?: boolean = false;
@@ -86,17 +87,16 @@ export class PostFormComponent {
     if(this.isEdit) {
       this.post.id = this.postId;
     }
-    console.log(this.post)
-    this.postService.savePost(this.post).subscribe(response => {
-      //TODO redirect to home?
-      this.router.navigate(['/home']);
-    }),
-      (error: any) => {
-      console.log(error)
-        if (error.status === 401) {
-          //TODO erro
-        }
+
+    this.postService.savePost(this.post).subscribe({
+      next: (resp: PostDTO)=> {
+        this.toastService.showSuccess("Salvo!", "O Post foi salvo com sucesso e enviado para análise");
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.toastService.showError("Erro!", "Algo deu errado a salvar o post: " + err.error.message);
       }
+    })
   }
 
   onSelectModels(event: FileSelectEvent): void {
@@ -189,10 +189,10 @@ export class PostFormComponent {
       rejectLabel: "Não",
       accept: () => {
         this.deleteImage(id);
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.toastService.showInfo('Confirmado!', 'Você confirmou a exclusão da imagem');
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.toastService.showInfo('Rejeitado!', 'Você rejeitou a exclusão da imagem');
       }
     });
   }

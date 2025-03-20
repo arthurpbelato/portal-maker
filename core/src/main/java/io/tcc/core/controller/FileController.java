@@ -20,13 +20,13 @@ public class FileController {
     private final DocumentService client;
 
     @PostMapping("/internal/save")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     ResponseEntity<String> save(@RequestBody DocumentDTO dto){
         return  ResponseEntity.ok(client.save(dto));
     }
 
     @GetMapping("/internal/id/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REVIEWER', 'ROLE_USER')")
     ResponseEntity<DocumentDTO> get(@PathVariable("id") String dto){
         return  ResponseEntity.ok(client.getDocument(dto));
     }

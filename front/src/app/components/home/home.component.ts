@@ -2,20 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../service/user.service";
 import {PostService} from "../../../service/post.service";
 import {PostListDTO} from "../../../model/PostListDTO";
-import {MessageService} from "primeng/api";
+import {ToastEmitterService} from "../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
   constructor(
     private userService: UserService,
     private postService: PostService,
-    private messageService: MessageService
+    private toastService: ToastEmitterService
   ) {}
 
   responsiveOptions: any[] | undefined;
@@ -49,10 +48,12 @@ export class HomeComponent implements OnInit {
       }
     })
 
+    if (localStorage.getItem('token') !== null) {
+      this.postService.getReviewCount().subscribe(value => {
+        this.pendingReviews = value;
+      });
+    }
 
-    this.postService.getReviewCount().subscribe(value => {
-      this.pendingReviews = value;
-    });
   }
 
   loadPostImages() {
@@ -62,20 +63,23 @@ export class HomeComponent implements OnInit {
           post.images = resp;
         },
         error => {
-          console.log("Erro ao carregar imagens")
+          this.toastService.showError('Erro!','Erro carregar as imagens dos posts, tente novamente.');
         }
       );
     })
   }
 
   showReviewToast(): void {
-    this.messageService.add({ key: 'bc', severity: 'info', summary: 'Revisões pendentes', detail: 'Você possui revisões pendentes. Acesse a aba "Revisões" para ver mais detalhes' });
+    this.toastService.showInfoBc('Revisões pendentes','Você possui revisões pendentes. Acesse a aba "Revisões" para ver mais detalhes' );
   }
 
   filterSubject(subject: number) {
     this.postService.listBySubject(subject).subscribe({
       next: (resp: PostListDTO[]) => {
         this.postList = resp;
+        if (this.postList.length === 0) {
+         this.toastService.showInfo("Posts não encontrados", "Nenhum post foi encontrado com o filtro especificado, por favor tente outro.");
+        }
         this.loadPostImages();
       },
       error: _ => {
@@ -85,11 +89,6 @@ export class HomeComponent implements OnInit {
   }
 
   private showListErrorDialog(): void {
-    this.messageService.add({
-      key: 'tl',
-      severity: 'error',
-      summary: 'Erro!',
-      detail: 'Erro ao listar as postagens, tente novamente.'
-    });
+    this.toastService.showError('Erro!','Erro ao listar as postagens, tente novamente.');
   }
 }

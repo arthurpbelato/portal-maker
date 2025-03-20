@@ -38,7 +38,6 @@ import java.util.UUID;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-//TODO: LOGS
 public class UserServiceImpl implements UserService {
 
     private final RoleMapper roleMapper;
@@ -66,11 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDTO save(UserProfileDTO userProfileDTO) throws Exception {
         User user = userProfileMapper.toEntity(userProfileDTO);
+        var userFromDb = repository.findById(userProfileDTO.getId()).orElse(null);
 
-        if (user.getId() == null) { //FIXME ??? devemos enviar uma nova senha caso o admin altere o email??
+        if (user.getId() == null || (userFromDb != null && !user.getEmail().equals(userFromDb.getEmail()))) {
             user.setPassword(generatePasswordAndSendByEmail(user));
-        } else {
-            var userFromDb = repository.findById(userProfileDTO.getId()).orElseThrow(Exception::new);
+        } else if (userFromDb != null) {
             user.setPassword(userFromDb.getPassword());
         }
 

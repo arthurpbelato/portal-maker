@@ -14,9 +14,10 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
+    private final Algorithm algorithm = Algorithm.HMAC256(System.getenv("JWT_SECRET"));
+
     public String generateToken(SecurityUser user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret-dificil-pra-caralho-de-ser-quebrada, confia");
             return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getUsername())
@@ -29,7 +30,6 @@ public class TokenService {
 
     public String validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret-dificil-pra-caralho-de-ser-quebrada, confia");
             return JWT.require(algorithm)
                     .withIssuer("auth-api")
                     .build()
