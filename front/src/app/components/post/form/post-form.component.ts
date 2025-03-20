@@ -87,14 +87,16 @@ export class PostFormComponent {
     if(this.isEdit) {
       this.post.id = this.postId;
     }
-    console.log(this.post)
-    this.postService.savePost(this.post).subscribe(response => {
-      this.toastService.showSuccess("Salvo!", "O Post foi salvo com sucesso e enviado para análise");
-      this.router.navigate(['/home']);
-    }),
-      (error: any) => {
-        this.toastService.showError("Erro!", "Algo deu errado a salvar o post");
+
+    this.postService.savePost(this.post).subscribe({
+      next: (resp: PostDTO)=> {
+        this.toastService.showSuccess("Salvo!", "O Post foi salvo com sucesso e enviado para análise");
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.toastService.showError("Erro!", "Algo deu errado a salvar o post: " + err.error.message);
       }
+    })
   }
 
   onSelectModels(event: FileSelectEvent): void {

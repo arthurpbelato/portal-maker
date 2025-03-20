@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +40,6 @@ import static io.tcc.core.model.enums.PostStatusEnum.WAITING_REVIEW;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-//TODO logs
 public class PostServiceImpl implements PostService {
 
     private static final String ALL_SUBJECTS = "-1";
@@ -93,8 +93,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostListDTO> listReview(final Integer page, final Integer size) {
         if (AuthenticationUtil.isReviewer()) {
-            return listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,
-                    PageRequest.of(page, size, Sort.by("postDate").ascending())));
+            var list = new ArrayList<PostListDTO>();
+            list.addAll(listMapper.toDto(pageRepository.findAllByStatus(WAITING_REVIEW,
+                    PageRequest.of(page, size, Sort.by("postDate").ascending()))));
+            list.addAll(listMapper.toDto(pageRepository.findAllByUserAndStatusIn(AuthenticationUtil.getLoggedUser().getUser(),
+                    List.of(WAITING_EDIT),
+                    PageRequest.of(page, size, Sort.by("postDate").ascending()))));
+            return list;
         }
         return listMapper.toDto(pageRepository.findAllByUserAndStatusIn(AuthenticationUtil.getLoggedUser().getUser(),
                 List.of(WAITING_EDIT, WAITING_REVIEW),

@@ -20,7 +20,6 @@ import java.util.UUID;
 @Transactional
 @Slf4j
 @RequiredArgsConstructor
-//TODO: fix logs
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentMapper mapper;
