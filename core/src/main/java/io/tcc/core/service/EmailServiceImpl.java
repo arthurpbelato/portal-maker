@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tccportalmake@gmail.com");
         message.setTo(to);
-        message.setSubject("subject");
+        message.setSubject(subject);
         message.setText(body);
         sender.send(message);
     }

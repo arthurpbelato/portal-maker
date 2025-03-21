@@ -6,6 +6,7 @@ export class RequestLabDTO {
   cpf?: string;
   email?: string;
   phone?: string;
+  relation?: string;
   title?: string;
   resources?: string;
   files?: DocumentSaveDTO[];

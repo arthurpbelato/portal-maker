@@ -17,5 +17,6 @@ public class RequestLabDTO {
     private String title;
     private String description;
     private String resources;
+    private String relation;
     private List<DocumentDTO> files = new ArrayList<>();
 }

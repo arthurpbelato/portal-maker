@@ -7,6 +7,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
+#    drop-first: true
   mail:
     host: smtp.gmail.com
     port: 587
@@ -14,6 +15,7 @@ spring:
     password: sgixornounszexke
     properties:
       mail:
+        debug: false
         smtp:
           auth: true
           starttls:
@@ -21,11 +23,13 @@ spring:
 
 server:
   port: 8080
-#    drop-first: true
 
 #only for dev purposes
 logging:
   level:
     io:
       tcc: DEBUG
+    org:
+      springframework:
+        mail: OFF
 

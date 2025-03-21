@@ -29,6 +29,12 @@
             <input id="phone" formControlName="phone" class="w-full mb-3" type="text"
                    pInputText/>
           </div>
+          <div class="inline-block align-multiselect col-6">
+            <label for="relation" class="block font-medium mb-2">Relação com a Instituição</label>
+            <p-dropdown id="relation" [options]="relation" formControlName="relation" optionLabel="name"
+                        [showClear]="true" optionLabel="label" dataKey="value"
+                        placeholder="Selecione seu perfil" autoWidth="false" [style]="{'width':'100%'}"/>
+          </div>
         </div>
       </div>
       <div class="col-10 col-offset-1">

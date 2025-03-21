@@ -127,8 +127,8 @@ export class PostDetailComponent implements OnInit {
   approve(): void {
     this.service.approve(this.id!).subscribe(
       value =>  {
-        this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Postagem aprovada! Agora ela será exibida para todos' });
-        this.router.navigate(['/'])
+        this.toastService.showSuccess("Salvo!", "Postagem aprovada! Agora ela será exibida para todos");
+        this.router.navigate(['/home']);
       }
     )
   }
@@ -141,6 +141,7 @@ export class PostDetailComponent implements OnInit {
   askReview(): void {
     this.postReview = this.form.value as PostReviewDTO
     this.service.askReview(this.id!, this.postReview).subscribe(value => {
+      this.toastService.showSuccess("Enviado!", "Postagem enviada para edição!");
       this.router.navigate(['/home']);
     });
   }

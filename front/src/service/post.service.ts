@@ -64,8 +64,12 @@ export class PostService {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/list/subject/${id}`, {responseType: ResponseType});
   }
 
-  lazyLoadModels(postId: string): Observable<PostListDTO[]>  {
+  lazyLoadModels(postId: string | undefined): Observable<PostListDTO[]>  {
     return this.httpClient.get<PostListDTO[]>(`api/post/public/models/lazy/${postId}`, {responseType: ResponseType});
+  }
+
+ loadModels(postId: string | undefined): Observable<PostListDTO[]>  {
+    return this.httpClient.get<PostListDTO[]>(`api/post/public/models/${postId}`, {responseType: ResponseType});
   }
 
   downloadModel(modelId: string): Observable<DocumentSaveDTO>  {

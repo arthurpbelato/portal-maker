@@ -65,12 +65,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfileDTO save(UserProfileDTO userProfileDTO) throws Exception {
         User user = userProfileMapper.toEntity(userProfileDTO);
-        var userFromDb = repository.findById(userProfileDTO.getId()).orElse(null);
 
-        if (user.getId() == null || (userFromDb != null && !user.getEmail().equals(userFromDb.getEmail()))) {
+        if (user.getId() == null) {
             user.setPassword(generatePasswordAndSendByEmail(user));
-        } else if (userFromDb != null) {
-            user.setPassword(userFromDb.getPassword());
+        } else {
+            var userFromDb = repository.findById(userProfileDTO.getId()).orElseThrow(Exception::new);
+            if (!user.getEmail().equals(userFromDb.getEmail())) {
+                user.setPassword(generatePasswordAndSendByEmail(user));
+            } else {
+                user.setPassword(userFromDb.getPassword());
+            }
         }
 
         return userProfileMapper.toDto(repository.save(user));
