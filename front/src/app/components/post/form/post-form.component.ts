@@ -9,6 +9,7 @@ import {DocumentSaveDTO} from "../../../../model/DocumentSaveDTO";
 import {Observable, ReplaySubject} from "rxjs";
 import {SubjectEnum} from "../../../../enums/SubjectEnum";
 import {PostStatusEnum} from "../../../../enums/PostStatusEnum";
+import {ToastEmitterService} from "../../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-post',
@@ -24,7 +25,7 @@ export class PostFormComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private toastService: ToastEmitterService
   ) {
   }
   isEdit?: boolean = false;
@@ -37,6 +38,7 @@ export class PostFormComponent {
   images: DocumentSaveDTO[] = [];
   subjects: SubjectEnum[] = SubjectEnum.values();
   selectedSubject?: SubjectEnum;
+  blockedDocument: boolean = false;
   //TODO: verificar comportamento para edicao de post
   currentStatus: PostStatusEnum = PostStatusEnum.WAITING_REVIEW;
 
@@ -66,18 +68,19 @@ export class PostFormComponent {
           this.form.patchValue({subject: SubjectEnum.getByValue(value.subject!)})
           this.form.controls['tags'].setValue(value.tags);
           this.loadPostImages();
+          this.loadPostModel();
           let files = value.images?.map((image:DocumentSaveDTO) => {
             const blob = this.dataURItoBlob(image.base64!);
             return new File([blob], image.title!, {type: 'image/*'});
           })
 
-          console.log(this.retrievedPost);
         })
       }
     });
   }
 
   publish(): void {
+    this.blockedDocument = true;
     this.post = this.form.value as PostDTO
     this.post.models = this.models;
     this.post.images = this.images;
@@ -86,17 +89,18 @@ export class PostFormComponent {
     if(this.isEdit) {
       this.post.id = this.postId;
     }
-    console.log(this.post)
-    this.postService.savePost(this.post).subscribe(response => {
-      //TODO redirect to home?
-      this.router.navigate(['/home']);
-    }),
-      (error: any) => {
-      console.log(error)
-        if (error.status === 401) {
-          //TODO erro
-        }
+
+    this.postService.savePost(this.post).subscribe({
+      next: (resp: PostDTO)=> {
+        this.blockedDocument = false;
+        this.toastService.showSuccess("Salvo!", "O Post foi salvo com sucesso e enviado para análise");
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.blockedDocument = false;
+        this.toastService.showError("Erro!", "Algo deu errado a salvar o post: " + err.error.message);
       }
+    })
   }
 
   onSelectModels(event: FileSelectEvent): void {
@@ -159,6 +163,16 @@ export class PostFormComponent {
     );
   }
 
+  loadPostModel() {
+    this.postService.loadModels(this.postId).subscribe({
+      next: resp => {
+        this.retrievedPost.models = resp
+      } , error: (err)=> {
+        this.toastService.showError("Erro!", "Algo deu errado ao carregar os modelos: " + err.error.message);
+      }
+    });
+  }
+
   private dataURItoBlob(dataURI: string) {
     const byteString = window.atob(dataURI);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -179,8 +193,8 @@ export class PostFormComponent {
   confirmImageDeletion(event: any, id:string ) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Tem certeza que deseja apagar essa imagem?',
-      header: 'Apagar imagem',
+      message: 'Tem certeza que deseja apagar esse arquivo?',
+      header: 'Apagar arquivo',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon:"none",
       rejectIcon:"none",
@@ -189,10 +203,10 @@ export class PostFormComponent {
       rejectLabel: "Não",
       accept: () => {
         this.deleteImage(id);
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.toastService.showInfo('Confirmado!', 'Você confirmou a exclusão do arquivo');
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.toastService.showInfo('Rejeitado!', 'Você rejeitou a exclusão do arquivo');
       }
     });
   }

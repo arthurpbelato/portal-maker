@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PostService} from "../../../service/post.service";
-import {Router} from "@angular/router";
 import {DocumentSaveDTO} from "../../../model/DocumentSaveDTO";
 import {FileRemoveEvent, FileSelectEvent} from "primeng/fileupload";
 import {Observable, ReplaySubject} from "rxjs";
-import {PostDTO} from "../../../model/PostDTO";
 import {RequestLabDTO} from "../../../model/RequestLabDTO";
 import {RequestLabService} from "../../../service/request-lab.service";
 import {MessageService} from "primeng/api";
+import {RelationsEnum} from "../../../enums/RelationsEnum";
 
 @Component({
   selector: 'app-request-lab',
@@ -21,6 +19,7 @@ export class RequestLabComponent {
   files: DocumentSaveDTO[] = [];
   requestLabData?: RequestLabDTO;
   blockedDocument: boolean = false;
+  relation: RelationsEnum[] = RelationsEnum.values();
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +42,7 @@ export class RequestLabComponent {
       phone: ['', [Validators.required]],
       email: ['', [Validators.required]],
       cpf: ['', [Validators.required]],
+      relation: ['',  [Validators.required]],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       resources: ['', [Validators.required]],
@@ -88,10 +88,12 @@ export class RequestLabComponent {
     this.blockedDocument = true;
     this.requestLabData = this.form.value as RequestLabDTO;
     this.requestLabData.files = this.files;
+    this.requestLabData.relation = this.form.controls['relation'].value.label
 
     this.service.send(this.requestLabData).subscribe(response => {
       this.showSuccess();
       this.form.reset();
+      this.files = [];
       this.blockedDocument = false;
     }),
       (error: any) => {

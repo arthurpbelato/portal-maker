@@ -2,18 +2,20 @@ spring:
   jpa:
     show-sql: true
   datasource:
-    username: tcc
-    password: tcc
-    url: jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/postgres?stringtype=unspecified}
+    username: ${DATABASE_USERNAME:tcc}
+    password: ${DATABASE_PASSWORD:tcc}
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
+#    drop-first: true
   mail:
     host: smtp.gmail.com
     port: 587
-    username: tccportalmaker@gmail.com
-    password: sgixornounszexke
+    username: ${MAIL_SENDER_EMAIL}
+    password: ${MAIL_SENDER_PASSWORD}
     properties:
       mail:
+        debug: false
         smtp:
           auth: true
           starttls:
@@ -21,11 +23,12 @@ spring:
 
 server:
   port: 8080
-#    drop-first: true
 
 #only for dev purposes
 logging:
   level:
     io:
       tcc: DEBUG
-
+    org:
+      springframework:
+        mail: OFF

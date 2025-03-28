@@ -8,6 +8,8 @@ import {PostReviewDTO} from "../../../../model/PostReviewDTO";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {saveAs} from "file-saver";
 import {style} from "@angular/animations";
+import {UserService} from "../../../../service/user.service";
+import {ToastEmitterService} from "../../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-post-detail',
@@ -19,9 +21,11 @@ export class PostDetailComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private service: PostService,
+              private userService: UserService,
               private messageService: MessageService,
               private router: Router,
-              private fb: FormBuilder) {}
+              private fb: FormBuilder,
+              private toastService: ToastEmitterService) {}
 
   id: string | undefined;
   name: string | undefined;
@@ -29,6 +33,7 @@ export class PostDetailComponent implements OnInit {
   responsiveOptions: any[] | undefined;
   form!: FormGroup;
   postReview: PostReviewDTO = new PostReviewDTO();
+  isReviewer: boolean = false;
   protected readonly SubjectEnum = SubjectEnum;
 
 
@@ -64,6 +69,17 @@ export class PostDetailComponent implements OnInit {
         numVisible: 1
       }
     ];
+
+    this.userService.userRoles().subscribe({
+      next: (resp: String[]) => {
+        if (resp !== undefined) {
+          this.isReviewer = resp.some((role) => role === 'ROLE_ADMIN' || role == "ROLE_REVIEWER");
+        }
+      },
+      error: _ => {
+        this.messageService.add({ severity: 'error', summary: 'Um erro inesperado ocorreu!', detail: 'Erro ao carregar as informações do usuário logado' });
+      }
+    });
 
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -111,8 +127,8 @@ export class PostDetailComponent implements OnInit {
   approve(): void {
     this.service.approve(this.id!).subscribe(
       value =>  {
-        this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Postagem aprovada! Agora ela será exibida para todos' });
-        this.router.navigate(['/'])
+        this.toastService.showSuccess("Salvo!", "Postagem aprovada! Agora ela será exibida para todos");
+        this.router.navigate(['/home']);
       }
     )
   }
@@ -125,6 +141,7 @@ export class PostDetailComponent implements OnInit {
   askReview(): void {
     this.postReview = this.form.value as PostReviewDTO
     this.service.askReview(this.id!, this.postReview).subscribe(value => {
+      this.toastService.showSuccess("Enviado!", "Postagem enviada para edição!");
       this.router.navigate(['/home']);
     });
   }
@@ -143,6 +160,11 @@ export class PostDetailComponent implements OnInit {
       saveAs(blob, model.title);
     })
 
+  }
+
+  showReviewBar() {
+    const name = localStorage.getItem('userName');
+    return this.post.status === 0 && this.isReviewer && this.post.user?.name !== name;
   }
 
   base64ToBlob(base64String: string, contentType = '') {

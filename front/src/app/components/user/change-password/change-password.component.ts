@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {Message} from "primeng/api";
 import {ChangePasswordDTO} from "../../../../model/ChangePasswordDTO";
+import {ToastEmitterService} from "../../../../service/toast-emitter.service";
 
 @Component({
   selector: 'app-change-password',
@@ -15,7 +16,8 @@ export class ChangePasswordComponent implements OnInit{
   constructor(
     private userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastService: ToastEmitterService
   ) {
   }
 
@@ -45,6 +47,7 @@ export class ChangePasswordComponent implements OnInit{
       let changePasswordDTO = this.form.value as ChangePasswordDTO;
       this.userService.changePassword(changePasswordDTO).subscribe(
         resp => {
+          this.toastService.showSuccess("Sucesso!", "Senha editada com sucesso!");
           this.router.navigate(['/usuario/perfil'])
         },
         error => {

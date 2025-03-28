@@ -11,7 +11,9 @@ public class BasicAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        System.out.println("DEBUG: Authentication error - " + authException.getMessage()); // <--- Adicione isso
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("{\"error\": \"Acesso não autorizado\"}");
     }
-
 }

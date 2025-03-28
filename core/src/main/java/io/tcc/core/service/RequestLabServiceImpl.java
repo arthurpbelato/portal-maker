@@ -22,6 +22,8 @@ public class RequestLabServiceImpl implements RequestLabService {
             <br>
             <strong>Telefone:</strong> %s
             <br>
+            <strong>Relação com a Instituição:</strong> %s
+            <br>
             <strong>Título do projeto:</strong> %s
             <br>
             <strong>Descrição do projeto:</strong> %s
@@ -35,6 +37,7 @@ public class RequestLabServiceImpl implements RequestLabService {
                 dto.getCpf(),
                 dto.getEmail(),
                 dto.getPhone(),
+                dto.getRelation(),
                 dto.getTitle(),
                 dto.getDescription(),
                 dto.getResources());

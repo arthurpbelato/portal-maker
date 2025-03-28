@@ -20,6 +20,11 @@ export class SubjectFilterButtonComponent {
         command: () => this.subjectIdEmmiter.emit(subject.value)
       }
     });
+
+    this.items.unshift(  {
+      label: "Todas as Matérias",
+      command: () => this.subjectIdEmmiter.emit(-1)
+    });
   }
 
 }

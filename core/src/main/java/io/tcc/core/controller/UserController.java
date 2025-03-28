@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @GetMapping("/internal/logged/role")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_REVIEWER', 'ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<String>> getLoggedUserRoles() {
         return ResponseEntity.ok(service.getLoggedUserRoles());
     }

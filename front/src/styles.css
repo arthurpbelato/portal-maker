@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background-color: #c6f1c7;
+  background-color: #b9e1cb;
 }
 
 .p-menubar {
@@ -13,14 +13,24 @@ body {
   border-radius: unset;
 }
 
-
 .p-galleria-thumbnail-item {
   flex: auto!important;
 }
 
 .p-button {
-  background-color: green;
-  border-color: darkgreen;
+  background-color: #2f9e41;
+  border-color: #2f9e41;
+}
+
+.p-splitbutton .p-button {
+  background-color: white!important;
+  border-color: white!important;
+  color: black;
+}
+
+.p-splitbutton .p-button:hover {
+  background-color: darkgreen!important;
+  border-color: darkgreen!important;
 }
 
 .p-button:hover {
@@ -40,12 +50,12 @@ body {
 
 .p-button-download {
   background-color: transparent!important;
-  color: darkgreen;
+  color: #2f9e41;
 }
 
 .p-button-pencil {
   background-color: transparent!important;
-  color: darkgreen;
+  color: #2f9e41;
   border: none;
   padding: 10px;
   height: 3px;
@@ -65,5 +75,13 @@ body {
 }
 
 .p-tag {
-  background-color: darkgreen;
+  background-color: #2f9e41;
+}
+
+.left-side-button .p-button {
+  float: left;
+}
+
+.right-side-button .p-button {
+  float: right;
 }

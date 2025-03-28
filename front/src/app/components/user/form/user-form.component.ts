@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../../service/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
 import {RoleDTO} from "../../../../model/RoleDTO";
 import {UserProfileDTO} from "../../../../model/UserProfileDTO";
 import {ActivatedRoute, Params, Route, Router} from "@angular/router";
+import {ToastEmitterService} from "../../../../service/toast-emitter.service";
+import {CPFValidator} from "../../../../validators/CPFValidator";
 
 @Component({
   selector: 'app-user-from',
@@ -17,7 +18,9 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastService: ToastEmitterService,
+    private cpfValidator: CPFValidator
   ) {}
 
   form! : FormGroup;
@@ -36,7 +39,7 @@ export class UserFormComponent implements OnInit {
       id: [''],
       name: ['',[Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      cpf: ['', [Validators.required, Validators.minLength(11)]],
+      cpf: ['', [Validators.required, this.cpfValidator.validate()]],
       roles: ['', [Validators.required]]
     });
 
@@ -49,7 +52,7 @@ export class UserFormComponent implements OnInit {
             this.fillForm(response);
           },
           (error: any) => {
-              //TODO error
+            this.toastService.showError("Algo deu errado!", "Erro ao carregar informações do usuário!");
           }
         );
       }
@@ -70,7 +73,7 @@ export class UserFormComponent implements OnInit {
         this.roles = resp;
       },
       error => {
-        //TODO create error toggle alerts
+        this.toastService.showError("Algo deu errado!", "Erro ao listar as permissões!");
       }
     )
   }
@@ -79,15 +82,15 @@ export class UserFormComponent implements OnInit {
     if (this.form.valid) {
       this.userService.save(this.form.value).subscribe(
         resp => {
-          console.log("resp")
+          this.toastService.showSuccess("Sucesso!", "Usuário criado com sucesso!");
           this.router.navigate(['/user']);
         },
         error => {
-          //TODO create error toggle alerts
+          this.toastService.showError("Algo deu errado!", "Erro ao cadastrar usuário!");
         }
       );
     } else {
-      //TODO create error toggle alerts
+      this.toastService.showError("Dados inválidos!", "Por favor preencha todos os campos corretamente!");
     }
   }
 
