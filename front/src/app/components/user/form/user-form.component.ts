@@ -5,6 +5,7 @@ import {RoleDTO} from "../../../../model/RoleDTO";
 import {UserProfileDTO} from "../../../../model/UserProfileDTO";
 import {ActivatedRoute, Params, Route, Router} from "@angular/router";
 import {ToastEmitterService} from "../../../../service/toast-emitter.service";
+import {CPFValidator} from "../../../../validators/CPFValidator";
 
 @Component({
   selector: 'app-user-from',
@@ -18,7 +19,8 @@ export class UserFormComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private toastService: ToastEmitterService
+    private toastService: ToastEmitterService,
+    private cpfValidator: CPFValidator
   ) {}
 
   form! : FormGroup;
@@ -37,7 +39,7 @@ export class UserFormComponent implements OnInit {
       id: [''],
       name: ['',[Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      cpf: ['', [Validators.required, Validators.minLength(11)]],
+      cpf: ['', [Validators.required, this.cpfValidator.validate()]],
       roles: ['', [Validators.required]]
     });
 
