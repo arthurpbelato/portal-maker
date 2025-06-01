@@ -21,8 +21,9 @@
           </div>
           <div class="col-6 inline-block">
             <label for="cpf" class="block font-medium mb-2">CPF:</label>
-            <input id="cpf" formControlName="cpf" class="w-full mb-3" type="text"
-                   pInputText/>
+            <p-inputMask [style]="{'width':'100%'}" id="cpf" mask="999.999.999-99" formControlName="cpf" type="text"
+                         [unmask]=true placeholder="999.999.999-99">
+            </p-inputMask>
           </div>
           <div class="col-6 inline-block">
             <label for="phone" class="block font-medium mb-2">Telefone:</label>
