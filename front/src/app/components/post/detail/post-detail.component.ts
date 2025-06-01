@@ -70,16 +70,7 @@ export class PostDetailComponent implements OnInit {
       }
     ];
 
-    this.userService.userRoles().subscribe({
-      next: (resp: String[]) => {
-        if (resp !== undefined) {
-          this.isReviewer = resp.some((role) => role === 'ROLE_ADMIN' || role == "ROLE_REVIEWER");
-        }
-      },
-      error: _ => {
-        this.messageService.add({ severity: 'error', summary: 'Um erro inesperado ocorreu!', detail: 'Erro ao carregar as informações do usuário logado' });
-      }
-    });
+    this.verifyUser()
 
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
@@ -92,6 +83,21 @@ export class PostDetailComponent implements OnInit {
     this.form = this.fb.group({
       reviewNote: ['', [Validators.required]],
     });
+  }
+
+  verifyUser() {
+    if(localStorage.getItem('token') !== null) {
+      this.userService.userRoles().subscribe({
+        next: (resp: String[]) => {
+          if (resp !== undefined) {
+            this.isReviewer = resp.some((role) => role === 'ROLE_ADMIN' || role == "ROLE_REVIEWER");
+          }
+        },
+        error: _ => {
+          this.messageService.add({ severity: 'error', summary: 'Um erro inesperado ocorreu!', detail: 'Erro ao carregar as informações do usuário logado' });
+        }
+      });
+    }
   }
 
   getPost(id: string) {
