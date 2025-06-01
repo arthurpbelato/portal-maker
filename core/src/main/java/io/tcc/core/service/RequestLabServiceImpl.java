@@ -7,6 +7,8 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
+
 @Service
 @RequiredArgsConstructor
 public class RequestLabServiceImpl implements RequestLabService {
@@ -40,7 +42,7 @@ public class RequestLabServiceImpl implements RequestLabService {
                 dto.getRelation(),
                 dto.getTitle(),
                 dto.getDescription(),
-                dto.getResources());
+                isNotBlank(dto.getResources()) ? dto.getResources() : "Recurssos não informados");
         emailService.sendWithAttachment("tccportalmaker@gmail.com",
                 body,
                 "Requisição para uso do laboratório - %s".formatted(dto.getTitle()) ,

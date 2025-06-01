@@ -7,6 +7,7 @@ import {RequestLabDTO} from "../../../model/RequestLabDTO";
 import {RequestLabService} from "../../../service/request-lab.service";
 import {MessageService} from "primeng/api";
 import {RelationsEnum} from "../../../enums/RelationsEnum";
+import {CPFValidator} from "../../../validators/CPFValidator";
 
 @Component({
   selector: 'app-request-lab',
@@ -24,7 +25,8 @@ export class RequestLabComponent {
   constructor(
     private fb: FormBuilder,
     private service: RequestLabService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private cpfValidator: CPFValidator
   ) {
   }
 
@@ -41,7 +43,7 @@ export class RequestLabComponent {
       name: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      cpf: ['', [Validators.required]],
+      cpf: ['', [Validators.required, this.cpfValidator.validate()]],
       relation: ['',  [Validators.required]],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
