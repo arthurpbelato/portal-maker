@@ -7,6 +7,7 @@ export class SubjectEnum {
   static QUIMICA = new SubjectEnum(4, "Química");
   static FISICA = new SubjectEnum(5, "Física");
   static GEOGRAFIA = new SubjectEnum(6, "Geografia");
+  static ROBOTICA = new SubjectEnum(7, "Robótica");
 
   constructor(
     public value: number,
@@ -24,7 +25,8 @@ export class SubjectEnum {
       this.BIOLOGIA,
       this.QUIMICA,
       this.FISICA,
-      this.GEOGRAFIA
+      this.GEOGRAFIA,
+      this.ROBOTICA
     ];
   }
 

@@ -95,7 +95,7 @@ export class UserFormComponent implements OnInit {
   }
 
   resetForm() {
-
+    this.router.navigate(['/user']);
   }
 
 }

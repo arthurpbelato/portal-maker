@@ -9,15 +9,15 @@ spring:
     change-log: classpath:/config/liquibase/master.xml
 #    drop-first: true
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: ${MAIL_SENDER_HOST:localhost} # smtp.gmail.com
+    port: ${MAIL_SENDER_PORT:1025} # 587
     username: ${MAIL_SENDER_EMAIL}
     password: ${MAIL_SENDER_PASSWORD}
     properties:
       mail:
-        debug: false
+        debug: true
         smtp:
-          auth: true
+          auth: ${MAIL_SENDER_AUTH:false}
           starttls:
             enable: true
 
@@ -29,6 +29,3 @@ logging:
   level:
     io:
       tcc: DEBUG
-    org:
-      springframework:
-        mail: OFF

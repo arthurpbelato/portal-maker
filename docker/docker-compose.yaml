@@ -6,6 +6,12 @@ services:
       service: tcc-postgresql
     container_name: tcc-postgres
 
+  tcc-mail-hog:
+    extends:
+      file: mailhog.yaml
+      service: tcc-mail-hog
+    container_name: tcc-mail-hog
+
   tcc-document-minio:
     extends:
       file: minio.yaml
