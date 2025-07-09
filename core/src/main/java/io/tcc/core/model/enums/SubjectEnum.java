@@ -15,7 +15,8 @@ public enum SubjectEnum {
     BIOLOGIA(3, "Biologia"),
     QUIMICA(4, "Química"),
     FISICA(5, "Física"),
-    GEOGRAFIA(6, "Geografia");
+    GEOGRAFIA(6, "Geografia"),
+    ROBOTICA(7, "Robótica");
 
     private final Integer id;
     private final String name;

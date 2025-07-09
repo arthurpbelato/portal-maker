@@ -22,6 +22,16 @@ body {
   border-color: #2f9e41;
 }
 
+.p-button-danger {
+  background-color: #f45353 !important;
+  border-color: #f45353!important;
+}
+
+.p-button-danger:hover {
+  background-color: #e30c0c!important;
+  border-color: #ef0420!important;
+}
+
 .p-splitbutton .p-button {
   background-color: white!important;
   border-color: white!important;

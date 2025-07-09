@@ -8,6 +8,7 @@ import {RequestLabService} from "../../../service/request-lab.service";
 import {MessageService} from "primeng/api";
 import {RelationsEnum} from "../../../enums/RelationsEnum";
 import {CPFValidator} from "../../../validators/CPFValidator";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-request-lab',
@@ -24,6 +25,7 @@ export class RequestLabComponent {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private service: RequestLabService,
     private messageService: MessageService,
     private cpfValidator: CPFValidator
@@ -97,6 +99,7 @@ export class RequestLabComponent {
       this.form.reset();
       this.files = [];
       this.blockedDocument = false;
+      this.router.navigate(['/home']);
     }),
       (error: any) => {
          this.showFailure()
