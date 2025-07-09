@@ -42,7 +42,7 @@ public class RequestLabServiceImpl implements RequestLabService {
                 dto.getRelation(),
                 dto.getTitle(),
                 dto.getDescription(),
-                isNotBlank(dto.getResources()) ? dto.getResources() : "Recurssos não informados");
+                isNotBlank(dto.getResources()) ? dto.getResources() : "Recursos não informados");
         emailService.sendWithAttachment("tccportalmaker@gmail.com",
                 body,
                 "Requisição para uso do laboratório - %s".formatted(dto.getTitle()) ,
